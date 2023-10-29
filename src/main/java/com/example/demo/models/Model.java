@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "models")
@@ -16,7 +17,7 @@ public class Model extends IdDateTimeUrlModel {
     private int startYear;
     private int endYear;
     private Brand brand;
-    private List<Offer> offers;
+    private Set<Offer> offers;
 
     public Model(String name, VehicleTypesEnum category, String imageUrl, int startYear, int endYear, Brand brand) {
         this.name = name;
@@ -78,11 +79,11 @@ public class Model extends IdDateTimeUrlModel {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "model")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    public List<Offer> getOffers() {
+    public Set<Offer> getOffers() {
         return offers;
     }
 
-    public void setOffers(List<Offer> offers) {
+    public void setOffers(Set<Offer> offers) {
         this.offers = offers;
     }
 

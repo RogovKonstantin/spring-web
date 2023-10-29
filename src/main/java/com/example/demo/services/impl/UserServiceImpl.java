@@ -6,6 +6,8 @@ import com.example.demo.services.DTOS.ActiveUsersRolesDto;
 import com.example.demo.services.DTOS.defaultDTOS.UserDto;
 import com.example.demo.services.UserService;
 import com.example.demo.util.ValidationUtil;
+import com.example.demo.web.views.UserModelView;
+import jakarta.validation.ConstraintViolation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,9 +57,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto createUser(UserDto user) {
-        User user_model = modelMapper.map(user, User.class);
-        return modelMapper.map(userRepository.save(user_model), UserDto.class);
+    public void createUser(UserDto userDto) {
+        if (!this.validationUtil.isValid(userDto)) {
+            this.validationUtil.violations(userDto).stream().map(ConstraintViolation::getMessage).forEach(System.out::println);
+        } else {
+            this.userRepository.saveAndFlush(this.modelMapper.map(userDto, User.class));
+        }
     }
 
     @Override
@@ -76,6 +81,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll()
                 .stream().map((user) -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
 
+    }
+
+    @Override
+    public List<UserModelView> getAllUsers() {
+        return this.getAll().stream().map((user) -> modelMapper.map(user, UserModelView.class)).collect(Collectors.toList());
     }
 
     @Autowired

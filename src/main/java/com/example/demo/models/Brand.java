@@ -6,13 +6,14 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "brands")
 public class Brand extends IdDateTimeModel {
 
     private String name;
-    private List<Model> models;
+    private Set<Model> models;
 
     public Brand(String name) {
         this.name = name;
@@ -31,11 +32,11 @@ public class Brand extends IdDateTimeModel {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "brand")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    public List<Model> getModels() {
+    public Set<Model> getModels() {
         return models;
     }
 
-    public void setModels(List<Model> models) {
+    public void setModels(Set<Model> models) {
         this.models = models;
     }
 

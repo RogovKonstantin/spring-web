@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -17,7 +18,7 @@ public class User extends IdDateTimeUrlModel {
     private String lastName;
     private Boolean isActive;
     private UserRole role;
-    private List<Offer> offers;
+    private Set<Offer> offers;
 
     public User(String username, String password, String firstName, String lastName, String imageUrl, Boolean isActive, UserRole role) {
         this.username = username;
@@ -88,11 +89,11 @@ public class User extends IdDateTimeUrlModel {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "seller")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    public List<Offer> getOffers() {
+    public Set<Offer> getOffers() {
         return offers;
     }
 
-    public void setOffers(List<Offer> offers) {
+    public void setOffers(Set<Offer> offers) {
         this.offers = offers;
     }
 

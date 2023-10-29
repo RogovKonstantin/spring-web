@@ -7,13 +7,14 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "roles")
 public class UserRole extends IdModel {
 
     private UserRoleTypesEnum role;
-    private List<User> users;
+    private Set<User> users;
 
     public UserRole(UserRoleTypesEnum role) {
         this.role = role;
@@ -22,11 +23,11 @@ public class UserRole extends IdModel {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "role", orphanRemoval = false)
     @Cascade({org.hibernate.annotations.CascadeType.PERSIST, org.hibernate.annotations.CascadeType.MERGE, org.hibernate.annotations.CascadeType.REFRESH})
-    public List<User> getUsers() {
+    public Set<User> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(Set<User> users) {
         this.users = users;
     }
 

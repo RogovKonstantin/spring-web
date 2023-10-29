@@ -7,6 +7,7 @@ import com.example.demo.services.BrandService;
 import com.example.demo.services.DTOS.defaultDTOS.BrandDto;
 import com.example.demo.services.DTOS.defaultDTOS.ModelDto;
 import com.example.demo.util.ValidationUtil;
+import com.example.demo.web.views.BrandModelView;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,6 +65,11 @@ public class BrandServiceImpl implements BrandService {
         Brand brand = brandRepository.getBrandByName(name);
         brandRepository.delete(brand);
         System.out.println("Brand " + name + " deleted");
+    }
+
+    @Override
+    public List<BrandModelView> getAllBrands() {
+        return this.getAll().stream().map((brand) -> modelMapper.map(brand, BrandModelView.class)).collect(Collectors.toList());
     }
 
     @Autowired

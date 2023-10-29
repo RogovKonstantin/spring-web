@@ -3,6 +3,9 @@ package com.example.demo.services.DTOS.defaultDTOS;
 
 import com.example.demo.constants.Enums.EngineTypesEnum;
 import com.example.demo.constants.Enums.TransmissionTypesEnum;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

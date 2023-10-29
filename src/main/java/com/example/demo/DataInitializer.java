@@ -54,7 +54,7 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Faker faker = new Faker();
+        /*Faker faker = new Faker();
         Random random = new Random();
 
         UserRole userRole = new UserRole(UserRoleTypesEnum.USER);
@@ -143,11 +143,11 @@ public class DataInitializer implements CommandLineRunner {
             offerService.createOffer(offerDto);
         }
 
-        /*System.out.println(offerService.getOffersDescYear(3000000, 100000));
+        *//*System.out.println(offerService.getOffersDescYear(3000000, 100000));
         System.out.println(userService.getAllActiveClients());
         System.out.println(offerService.getAllOffersByBrand("BMW", Vehicle-TypesEnum.CAR));
         Sys-tem.out.println(brandService.getAllBrandModelsInOrderByCategory("BMW"));
-        Sys-tem.out.println(offerService.getAllOffersAndModelsByUserState(true));*/
+        Sys-tem.out.println(offerService.getAllOffersAndModelsByUserState(true));*//*
 
         List<UserDto> userDtosList = userService.getAll();
         UUID userUuid = userDtosList.get(0).getId();
@@ -188,8 +188,9 @@ public class DataInitializer implements CommandLineRunner {
 
 
 
-    }
-}
+
+    }*/
+}}
 
 
 

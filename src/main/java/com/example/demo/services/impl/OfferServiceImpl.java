@@ -8,10 +8,12 @@ import com.example.demo.services.DTOS.OffersModelsByUserStateDto;
 import com.example.demo.services.DTOS.defaultDTOS.OfferDto;
 import com.example.demo.services.OfferService;
 import com.example.demo.util.ValidationUtil;
+import com.example.demo.web.views.OfferModelView;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -74,6 +76,29 @@ public class OfferServiceImpl implements OfferService {
         offerRepository.save(offer);
         System.out.println(oldPrice + " changed to " + newPrice);
     }
+
+    @Override
+    public List<OfferModelView> getAllOffers() {
+        List<OfferDto> offerDtoList = offerRepository.findAll()
+                .stream()
+                .map(offer -> modelMapper.map(offer, OfferDto.class))
+                .toList();
+
+        List<OfferModelView> allOffersDemoView = new ArrayList<>();
+
+        for (OfferDto offerDto : offerDtoList) {
+
+            OfferModelView offerModelView = modelMapper.map(offerDto, OfferModelView.class);
+
+            offerModelView.setModel(offerDto.getModel().getName());
+            offerModelView.setBrand(offerDto.getModel().getBrand().getName());
+            offerModelView.setSeller(offerDto.getSeller().getUsername());
+            allOffersDemoView.add(offerModelView);
+        }
+        return allOffersDemoView;
+    }
+
+
 
 
     @Override

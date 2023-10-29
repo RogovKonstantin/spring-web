@@ -5,6 +5,8 @@ import com.example.demo.services.DTOS.OffersModelsByUserStateDto;
 import com.example.demo.services.DTOS.defaultDTOS.OfferDto;
 import com.example.demo.constants.Enums.VehicleTypesEnum;
 import com.example.demo.models.Offer;
+import com.example.demo.web.views.OfferModelView;
+import com.example.demo.web.views.UserModelView;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,4 +30,5 @@ public interface OfferService {
 
     OfferDto createOffer(OfferDto offerDto);
     void updatePrice(OfferDto offerDto,Integer price);
+    List<OfferModelView> getAllOffers();
 }
