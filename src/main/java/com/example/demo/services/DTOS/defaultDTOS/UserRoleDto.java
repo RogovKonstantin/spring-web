@@ -1,7 +1,7 @@
 package com.example.demo.services.DTOS.defaultDTOS;
 
 
-import com.example.demo.models.Enums.UserRoleTypesEnum;
+import com.example.demo.constants.Enums.UserRoleTypesEnum;
 
 import java.util.UUID;
 

@@ -1,11 +1,12 @@
 package com.example.demo.services.impl;
 
-import com.example.demo.services.DTOS.defaultDTOS.UserRoleDto;
 import com.example.demo.models.User;
 import com.example.demo.models.UserRole;
 import com.example.demo.repos.UserRepository;
 import com.example.demo.repos.UserRoleRepository;
+import com.example.demo.services.DTOS.defaultDTOS.UserRoleDto;
 import com.example.demo.services.UserRoleService;
+import com.example.demo.util.ValidationUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,14 +16,16 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserRoleServiceImpl implements UserRoleService {
+    private final ValidationUtil validationUtil;
     private final ModelMapper modelMapper;
-    private final UserRepository userRepository;
-    private final UserRoleRepository userRoleRepository;
+    private UserRepository userRepository;
+    private UserRoleRepository userRoleRepository;
+
     @Autowired
-    UserRoleServiceImpl(ModelMapper modelMapper, UserRepository userRepository, UserRoleRepository userRoleRepository) {
+    UserRoleServiceImpl(ValidationUtil validationUtil, ModelMapper modelMapper) {
+        this.validationUtil = validationUtil;
         this.modelMapper = modelMapper;
-        this.userRepository = userRepository;
-        this.userRoleRepository = userRoleRepository;
+
     }
 
     @Override
@@ -54,5 +57,13 @@ public class UserRoleServiceImpl implements UserRoleService {
         return userRoleRepository.findAll().stream().map((userRole) -> modelMapper.map(userRole, UserRoleDto.class)).collect(Collectors.toList());
     }
 
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
+    @Autowired
+    public void setUserRoleRepository(UserRoleRepository userRoleRepository) {
+        this.userRoleRepository = userRoleRepository;
+    }
 }

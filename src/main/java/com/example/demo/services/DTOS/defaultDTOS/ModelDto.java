@@ -1,7 +1,7 @@
 package com.example.demo.services.DTOS.defaultDTOS;
 
 
-import com.example.demo.models.Enums.VehicleTypesEnum;
+import com.example.demo.constants.Enums.VehicleTypesEnum;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

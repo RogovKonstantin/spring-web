@@ -1,10 +1,11 @@
 package com.example.demo.services.impl;
 
-import com.example.demo.services.DTOS.ActiveUsersRolesDto;
-import com.example.demo.services.DTOS.defaultDTOS.UserDto;
 import com.example.demo.models.User;
 import com.example.demo.repos.UserRepository;
+import com.example.demo.services.DTOS.ActiveUsersRolesDto;
+import com.example.demo.services.DTOS.defaultDTOS.UserDto;
 import com.example.demo.services.UserService;
+import com.example.demo.util.ValidationUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,13 +16,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
-
+    private final ValidationUtil validationUtil;
     private final ModelMapper modelMapper;
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
+
     @Autowired
-    UserServiceImpl(ModelMapper modelMapper, UserRepository userRepository) {
-        this.modelMapper=modelMapper;
-        this.userRepository=userRepository;
+    UserServiceImpl(ValidationUtil validationUtil, ModelMapper modelMapper) {
+        this.validationUtil = validationUtil;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -40,7 +42,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     @Override
     public void deleteUser(UserDto userDto) {
         userRepository.deleteById(userDto.getId());
@@ -50,8 +51,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUserById(UUID id) {
         userRepository.deleteById(id);
-        System.out.println("User (id= "+id+") deleted ");
+        System.out.println("User (id= " + id + ") deleted ");
     }
+
     @Override
     public UserDto createUser(UserDto user) {
         User user_model = modelMapper.map(user, User.class);
@@ -60,14 +62,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUsername(UserDto userDto, String newUsername) {
-        User user = modelMapper.map(userDto,User.class);
-        String oldUserName= user.getUsername();
+        User user = modelMapper.map(userDto, User.class);
+        String oldUserName = user.getUsername();
         user.setUsername(newUsername);
         userRepository.save(user);
-        System.out.println(oldUserName+" changed to "+ newUsername);
+        System.out.println(oldUserName + " changed to " + newUsername);
 
     }
-
 
 
     @Override
@@ -77,5 +78,8 @@ public class UserServiceImpl implements UserService {
 
     }
 
-
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 }

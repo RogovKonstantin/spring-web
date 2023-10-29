@@ -1,9 +1,10 @@
 package com.example.demo.services.impl;
 
-import com.example.demo.services.DTOS.defaultDTOS.ModelDto;
 import com.example.demo.models.Model;
 import com.example.demo.repos.ModelRepository;
+import com.example.demo.services.DTOS.defaultDTOS.ModelDto;
 import com.example.demo.services.ModelService;
+import com.example.demo.util.ValidationUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,15 +15,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class ModelServiceImpl implements ModelService {
-
+    private final ValidationUtil validationUtil;
     private final ModelMapper modelMapper;
+    private ModelRepository modelRepository;
 
-
-    private final ModelRepository modelRepository;
     @Autowired
-    ModelServiceImpl(ModelMapper modelMapper, ModelRepository modelRepository) {
+    ModelServiceImpl(ValidationUtil validationUtil, ModelMapper modelMapper) {
+        this.validationUtil=validationUtil;
         this.modelMapper = modelMapper;
-        this.modelRepository = modelRepository;
     }
 
     @Override
@@ -64,4 +64,8 @@ public class ModelServiceImpl implements ModelService {
                 .stream().map((model) -> modelMapper.map(model, ModelDto.class)).collect(Collectors.toList());
     }
 
+    @Autowired
+    public void setModelRepository(ModelRepository modelRepository) {
+        this.modelRepository = modelRepository;
+    }
 }

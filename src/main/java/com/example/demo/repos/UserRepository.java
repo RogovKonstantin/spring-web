@@ -14,7 +14,7 @@ import java.util.UUID;
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
 
-    @Query(value="SELECT u FROM User u JOIN UserRole r ON u.role.id = r.id WHERE u.isActive=true")
+    @Query(value="SELECT u FROM User u JOIN UserRole r ON u.role.id = r.id WHERE u.active=true")
     List<User> getAllActiveClients();
 
 

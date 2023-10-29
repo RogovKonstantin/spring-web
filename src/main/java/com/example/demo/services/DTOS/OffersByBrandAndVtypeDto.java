@@ -2,8 +2,8 @@ package com.example.demo.services.DTOS;
 
 import com.example.demo.services.DTOS.defaultDTOS.BrandDto;
 import com.example.demo.services.DTOS.defaultDTOS.ModelDto;
-import com.example.demo.models.Enums.EngineTypesEnum;
-import com.example.demo.models.Enums.TransmissionTypesEnum;
+import com.example.demo.constants.Enums.EngineTypesEnum;
+import com.example.demo.constants.Enums.TransmissionTypesEnum;
 
 public class OffersByBrandAndVtypeDto {
     private String description;

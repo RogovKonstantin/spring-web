@@ -1,12 +1,13 @@
 package com.example.demo.services.impl;
 
+import com.example.demo.constants.Enums.VehicleTypesEnum;
+import com.example.demo.models.Offer;
+import com.example.demo.repos.OfferRepository;
 import com.example.demo.services.DTOS.OffersByBrandAndVtypeDto;
 import com.example.demo.services.DTOS.OffersModelsByUserStateDto;
 import com.example.demo.services.DTOS.defaultDTOS.OfferDto;
-import com.example.demo.models.Enums.VehicleTypesEnum;
-import com.example.demo.models.Offer;
-import com.example.demo.repos.OfferRepository;
 import com.example.demo.services.OfferService;
+import com.example.demo.util.ValidationUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,14 +18,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class OfferServiceImpl implements OfferService {
-
+    private final ValidationUtil validationUtil;
     private final ModelMapper modelMapper;
+    private OfferRepository offerRepository;
 
-    private final OfferRepository offerRepository;
     @Autowired
-    OfferServiceImpl(ModelMapper modelMapper, OfferRepository offerRepository) {
+    OfferServiceImpl(ValidationUtil validationUtil, ModelMapper modelMapper) {
+        this.validationUtil = validationUtil;
         this.modelMapper = modelMapper;
-        this.offerRepository = offerRepository;
     }
 
 
@@ -85,4 +86,10 @@ public class OfferServiceImpl implements OfferService {
     public void deleteOfferById(UUID id) {
         offerRepository.deleteById(id);
     }
+
+    @Autowired
+    public void setOfferRepository(OfferRepository offerRepository) {
+        this.offerRepository = offerRepository;
+    }
+
 }

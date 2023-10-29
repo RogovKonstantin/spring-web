@@ -24,7 +24,5 @@ public interface UserService {
 
     void updateUsername(UserDto userDto, String newUsername);
 
-
-
     List<UserDto> getAll();
 }

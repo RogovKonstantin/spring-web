@@ -1,6 +1,6 @@
 package com.example.demo.services.DTOS;
 
-import com.example.demo.models.Enums.VehicleTypesEnum;
+import com.example.demo.constants.Enums.VehicleTypesEnum;
 
 public class OffersModelsByUserStateDto {
     private String username;

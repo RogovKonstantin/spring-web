@@ -1,4 +1,4 @@
-package com.example.demo.models.Enums;
+package com.example.demo.constants.Enums;
 
 public enum VehicleTypesEnum {
     CAR(0),

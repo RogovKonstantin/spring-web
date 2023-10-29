@@ -1,42 +1,22 @@
 package com.example.demo.models;
 
 
+import com.example.demo.constants.Enums.EngineTypesEnum;
+import com.example.demo.constants.Enums.TransmissionTypesEnum;
 import com.example.demo.models.BaseModels.IdDateTimeUrlModel;
-import com.example.demo.models.Enums.EngineTypesEnum;
-import com.example.demo.models.Enums.TransmissionTypesEnum;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "offers")
 public class Offer extends IdDateTimeUrlModel {
 
-    @Column(name="description", columnDefinition = "TEXT")
     private String description;
-
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name="engine", nullable = false)
     private EngineTypesEnum engine;
-
-    @Column(name="mileage", nullable = false)
     private int mileage;
-
-    @Column(name="price", nullable = false)
     private int price;
-
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name = "transmission", nullable = false)
     private TransmissionTypesEnum transmission;
-
-    @Column(name="year", nullable = false)
     private int year;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name="seller_id", referencedColumnName = "id", nullable = false)
     private User seller;
-
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "model_id", referencedColumnName = "id", nullable = false)
     private Model model;
 
     public Offer(String description, EngineTypesEnum engine, int mileage, int price, String url, TransmissionTypesEnum transmission, int year, User seller, Model model) {
@@ -51,9 +31,9 @@ public class Offer extends IdDateTimeUrlModel {
         this.model = model;
     }
 
-    public Offer() {
-    }
+    public Offer() {}
 
+    @Column(name = "description", columnDefinition = "TEXT")
     public String getDescription() {
         return description;
     }
@@ -62,6 +42,8 @@ public class Offer extends IdDateTimeUrlModel {
         this.description = description;
     }
 
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "engine", nullable = false)
     public EngineTypesEnum getEngine() {
         return engine;
     }
@@ -70,6 +52,7 @@ public class Offer extends IdDateTimeUrlModel {
         this.engine = engine;
     }
 
+    @Column(name = "mileage", nullable = false)
     public int getMileage() {
         return mileage;
     }
@@ -78,6 +61,7 @@ public class Offer extends IdDateTimeUrlModel {
         this.mileage = mileage;
     }
 
+    @Column(name = "price", nullable = false)
     public int getPrice() {
         return price;
     }
@@ -86,6 +70,8 @@ public class Offer extends IdDateTimeUrlModel {
         this.price = price;
     }
 
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "transmission", nullable = false)
     public TransmissionTypesEnum getTransmission() {
         return transmission;
     }
@@ -94,6 +80,7 @@ public class Offer extends IdDateTimeUrlModel {
         this.transmission = transmission;
     }
 
+    @Column(name = "year", nullable = false)
     public int getYear() {
         return year;
     }
@@ -102,6 +89,8 @@ public class Offer extends IdDateTimeUrlModel {
         this.year = year;
     }
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "seller_id", referencedColumnName = "id", nullable = false)
     public User getSeller() {
         return seller;
     }
@@ -110,6 +99,8 @@ public class Offer extends IdDateTimeUrlModel {
         this.seller = seller;
     }
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "model_id", referencedColumnName = "id", nullable = false)
     public Model getModel() {
         return model;
     }
@@ -129,9 +120,10 @@ public class Offer extends IdDateTimeUrlModel {
                 ", year=" + year +
                 ", seller=" + seller +
                 ", model=" + model +
+                ", imageUrl='" + imageUrl + '\'' +
                 ", created=" + created +
                 ", modified=" + modified +
                 ", id=" + id +
-                "} " + super.toString();
+                '}';
     }
 }

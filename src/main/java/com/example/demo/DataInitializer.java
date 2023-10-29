@@ -1,11 +1,10 @@
 package com.example.demo;
 
-
+import com.example.demo.constants.Enums.EngineTypesEnum;
+import com.example.demo.constants.Enums.TransmissionTypesEnum;
+import com.example.demo.constants.Enums.UserRoleTypesEnum;
+import com.example.demo.constants.Enums.VehicleTypesEnum;
 import com.example.demo.models.Brand;
-import com.example.demo.models.Enums.EngineTypesEnum;
-import com.example.demo.models.Enums.TransmissionTypesEnum;
-import com.example.demo.models.Enums.UserRoleTypesEnum;
-import com.example.demo.models.Enums.VehicleTypesEnum;
 import com.example.demo.models.Model;
 import com.example.demo.models.User;
 import com.example.demo.models.UserRole;
@@ -22,7 +21,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
-
 
 @Component
 public class DataInitializer implements CommandLineRunner {
@@ -147,9 +145,9 @@ public class DataInitializer implements CommandLineRunner {
 
         /*System.out.println(offerService.getOffersDescYear(3000000, 100000));
         System.out.println(userService.getAllActiveClients());
-        System.out.println(offerService.getAllOffersByBrand("BMW", VehicleTypesEnum.CAR));
-        System.out.println(brandService.getAllBrandModelsInOrderByCategory("BMW"));
-        System.out.println(offerService.getAllOffersAndModelsByUserState(true));*/
+        System.out.println(offerService.getAllOffersByBrand("BMW", Vehicle-TypesEnum.CAR));
+        Sys-tem.out.println(brandService.getAllBrandModelsInOrderByCategory("BMW"));
+        Sys-tem.out.println(offerService.getAllOffersAndModelsByUserState(true));*/
 
         List<UserDto> userDtosList = userService.getAll();
         UUID userUuid = userDtosList.get(0).getId();
@@ -187,8 +185,11 @@ public class DataInitializer implements CommandLineRunner {
         userRoleService.updateUserRole(user,userRole);
         userRoleService.updateUserRole(user,adminRole);
         userRoleService.updateUserRole(user,adminRole);
-       /* userRoleRepository.deleteAll();*/
+
 
 
     }
 }
+
+
+

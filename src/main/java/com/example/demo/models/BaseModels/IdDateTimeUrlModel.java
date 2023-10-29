@@ -12,8 +12,6 @@ import java.util.UUID;
 @MappedSuperclass
 public abstract class IdDateTimeUrlModel extends IdDateTimeModel {
 
-
-    @Column(name="image_url",nullable = false)
     protected String imageUrl;
 
     public IdDateTimeUrlModel(UUID id, LocalDateTime created, LocalDateTime modified, String imageUrl) {
@@ -21,9 +19,8 @@ public abstract class IdDateTimeUrlModel extends IdDateTimeModel {
         this.imageUrl = imageUrl;
     }
 
-    protected IdDateTimeUrlModel() {
-    }
-
+    protected IdDateTimeUrlModel() {}
+    @Column(name="image_url",nullable = false)
     public String getImageUrl() {
         return imageUrl;
     }
@@ -31,6 +28,4 @@ public abstract class IdDateTimeUrlModel extends IdDateTimeModel {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-
-
 }

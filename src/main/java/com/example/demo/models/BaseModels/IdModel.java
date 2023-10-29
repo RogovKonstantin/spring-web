@@ -6,16 +6,18 @@ import java.util.UUID;
 
 @MappedSuperclass
 public abstract class IdModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name="id")
+
     protected UUID id;
 
     public IdModel(UUID id) {
         this.id = id;
     }
-    protected IdModel(){}
 
+    protected IdModel() {}
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id")
     public UUID getId() {
         return id;
     }

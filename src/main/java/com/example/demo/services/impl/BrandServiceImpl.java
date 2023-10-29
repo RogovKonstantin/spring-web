@@ -6,6 +6,7 @@ import com.example.demo.repos.BrandRepository;
 import com.example.demo.services.BrandService;
 import com.example.demo.services.DTOS.defaultDTOS.BrandDto;
 import com.example.demo.services.DTOS.defaultDTOS.ModelDto;
+import com.example.demo.util.ValidationUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,15 +17,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class BrandServiceImpl implements BrandService {
-
+    private final ValidationUtil validationUtil;
     private final ModelMapper modelMapper;
-
-    private final BrandRepository brandRepository;
+    private BrandRepository brandRepository;
 
     @Autowired
-    BrandServiceImpl(ModelMapper modelMapper, BrandRepository brandRepository) {
+    BrandServiceImpl(ValidationUtil validationUtil, ModelMapper modelMapper) {
+        this.validationUtil = validationUtil;
         this.modelMapper = modelMapper;
-        this.brandRepository = brandRepository;
     }
 
     @Override
@@ -66,5 +66,9 @@ public class BrandServiceImpl implements BrandService {
         System.out.println("Brand " + name + " deleted");
     }
 
+    @Autowired
+    public void setBrandRepository(BrandRepository brandRepository) {
+        this.brandRepository = brandRepository;
+    }
 
 }

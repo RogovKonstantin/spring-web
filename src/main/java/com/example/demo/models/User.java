@@ -11,29 +11,12 @@ import java.util.List;
 @Table(name = "users")
 public class User extends IdDateTimeUrlModel {
 
-    @Column(name="username", nullable = false)
     private String username;
-
-    @Column(name="password", nullable = false)
     private String password;
-
-    @Column(name="first_name", nullable = false)
     private String firstName;
-
-
-    @Column(name="last_name", nullable = false)
     private String lastName;
-
-    @Column(name = "is_active", nullable = false)
     private Boolean isActive;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "role_id", referencedColumnName = "id",nullable = false)
     private UserRole role;
-
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "seller")
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<Offer> offers;
 
     public User(String username, String password, String firstName, String lastName, String imageUrl, Boolean isActive, UserRole role) {
@@ -46,9 +29,9 @@ public class User extends IdDateTimeUrlModel {
         this.role = role;
     }
 
-    public User() {
-    }
+    public User() {}
 
+    @Column(name = "username", nullable = false)
     public String getUsername() {
         return username;
     }
@@ -57,6 +40,7 @@ public class User extends IdDateTimeUrlModel {
         this.username = username;
     }
 
+    @Column(name = "password", nullable = false)
     public String getPassword() {
         return password;
     }
@@ -65,6 +49,7 @@ public class User extends IdDateTimeUrlModel {
         this.password = password;
     }
 
+    @Column(name = "first_name", nullable = false)
     public String getFirstName() {
         return firstName;
     }
@@ -73,6 +58,7 @@ public class User extends IdDateTimeUrlModel {
         this.firstName = firstName;
     }
 
+    @Column(name = "last_name", nullable = false)
     public String getLastName() {
         return lastName;
     }
@@ -81,6 +67,7 @@ public class User extends IdDateTimeUrlModel {
         this.lastName = lastName;
     }
 
+    @Column(name = "is_active", nullable = false)
     public Boolean getActive() {
         return isActive;
     }
@@ -89,6 +76,8 @@ public class User extends IdDateTimeUrlModel {
         isActive = active;
     }
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
     public UserRole getRole() {
         return role;
     }
@@ -97,6 +86,8 @@ public class User extends IdDateTimeUrlModel {
         this.role = role;
     }
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "seller")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     public List<Offer> getOffers() {
         return offers;
     }
@@ -115,10 +106,11 @@ public class User extends IdDateTimeUrlModel {
                 ", lastName='" + lastName + '\'' +
                 ", isActive=" + isActive +
                 ", role=" + role +
+                ", offers=" + offers +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", created=" + created +
                 ", modified=" + modified +
                 ", id=" + id +
-                "} " + super.toString();
+                '}';
     }
 }

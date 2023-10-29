@@ -3,7 +3,7 @@ package com.example.demo.services;
 import com.example.demo.services.DTOS.OffersByBrandAndVtypeDto;
 import com.example.demo.services.DTOS.OffersModelsByUserStateDto;
 import com.example.demo.services.DTOS.defaultDTOS.OfferDto;
-import com.example.demo.models.Enums.VehicleTypesEnum;
+import com.example.demo.constants.Enums.VehicleTypesEnum;
 import com.example.demo.models.Offer;
 
 import java.util.List;

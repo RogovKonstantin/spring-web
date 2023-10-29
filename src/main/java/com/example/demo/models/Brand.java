@@ -8,22 +8,19 @@ import org.hibernate.annotations.Cascade;
 import java.util.List;
 
 @Entity
-@Table(name="brands")
+@Table(name = "brands")
 public class Brand extends IdDateTimeModel {
-    @Column(name="name", nullable = false, unique = true)
-    private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "brand")
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private String name;
     private List<Model> models;
 
     public Brand(String name) {
         this.name = name;
     }
 
-    public Brand() {
-    }
+    public Brand() {}
 
+    @Column(name = "name", nullable = false, unique = true)
     public String getName() {
         return name;
     }
@@ -32,11 +29,24 @@ public class Brand extends IdDateTimeModel {
         this.name = name;
     }
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "brand")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     public List<Model> getModels() {
         return models;
     }
 
     public void setModels(List<Model> models) {
         this.models = models;
+    }
+
+    @Override
+    public String toString() {
+        return "Brand{" +
+                "name='" + name + '\'' +
+                ", models=" + models +
+                ", created=" + created +
+                ", modified=" + modified +
+                ", id=" + id +
+                '}';
     }
 }

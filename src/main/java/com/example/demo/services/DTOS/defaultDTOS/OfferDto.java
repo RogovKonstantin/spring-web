@@ -1,8 +1,8 @@
 package com.example.demo.services.DTOS.defaultDTOS;
 
 
-import com.example.demo.models.Enums.EngineTypesEnum;
-import com.example.demo.models.Enums.TransmissionTypesEnum;
+import com.example.demo.constants.Enums.EngineTypesEnum;
+import com.example.demo.constants.Enums.TransmissionTypesEnum;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

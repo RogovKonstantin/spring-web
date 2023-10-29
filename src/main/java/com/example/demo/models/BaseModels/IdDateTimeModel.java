@@ -12,12 +12,8 @@ import java.util.UUID;
 
 @MappedSuperclass
 public abstract class IdDateTimeModel extends IdModel {
-    @CreationTimestamp
-    @Column(name="created", nullable = false)
-    protected LocalDateTime created;
 
-    @UpdateTimestamp
-    @Column(name="modified", nullable = false)
+    protected LocalDateTime created;
     protected LocalDateTime modified;
 
     public IdDateTimeModel(UUID id,LocalDateTime created,LocalDateTime modified) {
@@ -28,7 +24,8 @@ public abstract class IdDateTimeModel extends IdModel {
     }
     protected IdDateTimeModel(){}
 
-
+    @CreationTimestamp
+    @Column(name="created", nullable = false)
     public LocalDateTime getCreated() {
         return created;
     }
@@ -36,7 +33,8 @@ public abstract class IdDateTimeModel extends IdModel {
     public void setCreated(LocalDateTime created) {
         this.created = created;
     }
-
+    @UpdateTimestamp
+    @Column(name="modified", nullable = false)
     public LocalDateTime getModified() {
         return modified;
     }

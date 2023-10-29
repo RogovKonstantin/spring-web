@@ -1,8 +1,7 @@
 package com.example.demo.models;
 
-
+import com.example.demo.constants.Enums.VehicleTypesEnum;
 import com.example.demo.models.BaseModels.IdDateTimeUrlModel;
-import com.example.demo.models.Enums.VehicleTypesEnum;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
 
@@ -12,27 +11,11 @@ import java.util.List;
 @Table(name = "models")
 public class Model extends IdDateTimeUrlModel {
 
-    @Column(name = "name", nullable = false)
     private String name;
-
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name = "category", nullable = false)
     private VehicleTypesEnum category;
-
-
-
-    @Column(name="start_year", nullable = false)
     private int startYear;
-
-    @Column(name="end_year", nullable = false)
     private int endYear;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name="brand_id", referencedColumnName = "id", nullable = false)
     private Brand brand;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "model")
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<Offer> offers;
 
     public Model(String name, VehicleTypesEnum category, String imageUrl, int startYear, int endYear, Brand brand) {
@@ -44,10 +27,9 @@ public class Model extends IdDateTimeUrlModel {
         this.brand = brand;
     }
 
+    public Model() {}
 
-    public Model() {
-    }
-
+    @Column(name = "name", nullable = false)
     public String getName() {
         return name;
     }
@@ -56,6 +38,8 @@ public class Model extends IdDateTimeUrlModel {
         this.name = name;
     }
 
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "category", nullable = false)
     public VehicleTypesEnum getCategory() {
         return category;
     }
@@ -64,6 +48,7 @@ public class Model extends IdDateTimeUrlModel {
         this.category = category;
     }
 
+    @Column(name = "start_year", nullable = false)
     public int getStartYear() {
         return startYear;
     }
@@ -72,6 +57,7 @@ public class Model extends IdDateTimeUrlModel {
         this.startYear = startYear;
     }
 
+    @Column(name = "end_year", nullable = false)
     public int getEndYear() {
         return endYear;
     }
@@ -80,6 +66,8 @@ public class Model extends IdDateTimeUrlModel {
         this.endYear = endYear;
     }
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "brand_id", referencedColumnName = "id", nullable = false)
     public Brand getBrand() {
         return brand;
     }
@@ -88,6 +76,8 @@ public class Model extends IdDateTimeUrlModel {
         this.brand = brand;
     }
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "model")
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     public List<Offer> getOffers() {
         return offers;
     }
