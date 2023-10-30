@@ -1,12 +1,12 @@
 package com.example.demo.constants.Enums;
 
-public enum UserRoleTypesEnum {
+public enum Role {
     USER(0),
     ADMIN(1);
 
     private final int value;
 
-    UserRoleTypesEnum(int value) {
+    Role(int value) {
         this.value = value;
     }
 

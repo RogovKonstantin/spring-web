@@ -1,6 +1,6 @@
 package com.example.demo.web.views;
 
-import java.time.LocalDateTime;
+
 
 public class OfferModelView {
     private String description;
@@ -13,10 +13,12 @@ public class OfferModelView {
     private String model;
     private String brand;
     private String imageUrl;
-    private LocalDateTime dateCreated;
+
 
     public OfferModelView() {
     }
+
+
 
     public String getDescription() {
         return description;
@@ -110,8 +112,7 @@ public class OfferModelView {
                 ", seller='" + seller + '\'' +
                 ", model='" + model + '\'' +
                 ", brand='" + brand + '\'' +
-                ", image='" + imageUrl + '\'' +
-                ", Creation date=" + dateCreated.getYear() + " " + dateCreated.getMonth() + " " + dateCreated.getDayOfMonth() +
+                ", image='" + imageUrl +
                 '}';
     }
 }

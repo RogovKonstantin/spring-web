@@ -2,14 +2,12 @@ package com.example.demo.web.controllers;
 
 
 import com.example.demo.services.UserService;
+import com.example.demo.web.views.UserCreationMW;
 import com.example.demo.web.views.UserModelView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.xml.transform.Source;
 import java.util.List;
 
 @RestController
@@ -26,6 +24,17 @@ public class UsersController {
 
     }
 
+    @DeleteMapping("/{username}")
+    public String deleteUser(@PathVariable String username) {
+        userService.deleteUserByUserName(username);
+        return "all-users.html";
+    }
+
+    @PostMapping("")
+    public String createUser(UserCreationMW userCreationMW,@RequestParam String firstName,@RequestParam String lastName,@RequestParam String username,@RequestParam String password) {
+        userService.addUser(userCreationMW,firstName,lastName,username,password);
+        return "all-users.html";
+    }
 
 
     @Autowired

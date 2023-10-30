@@ -1,9 +1,10 @@
 package com.example.demo.services.impl;
 
+import com.example.demo.constants.Enums.Role;
 import com.example.demo.models.User;
 import com.example.demo.models.UserRole;
-import com.example.demo.repos.UserRepository;
 import com.example.demo.repos.UserRoleRepository;
+import com.example.demo.repos.UserRepository;
 import com.example.demo.services.DTOS.defaultDTOS.UserRoleDto;
 import com.example.demo.services.UserRoleService;
 import com.example.demo.util.ValidationUtil;
@@ -39,22 +40,27 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     @Override
-    public void updateUserRole(User user, UserRole role) {
+    public void updateUserRole(User user, UserRole userRole) {
 
-        if (user.getRole().getId().toString().equals(role.getId().toString())) {
-            System.out.println(user.getUsername() + " is already " + role);
+        if (user.getRole().getId().toString().equals(userRole.getId().toString())) {
+            System.out.println(user.getUsername() + " is already " + userRole);
         } else {
-            user.setRole(role);
+            user.setRole(userRole);
             userRepository.save(user);
-            userRoleRepository.save(role);
+            userRoleRepository.save(userRole);
             System.out.println(user.getUsername() + " is now " + user.getRole().toString());
         }
+    }
+
+    @Override
+    public UserRoleDto getByRole(Role role) {
+        return modelMapper.map(userRoleRepository.findByRole(role), UserRoleDto.class);
     }
 
 
     @Override
     public List<UserRoleDto> getAll() {
-        return userRoleRepository.findAll().stream().map((userRole) -> modelMapper.map(userRole, UserRoleDto.class)).collect(Collectors.toList());
+        return userRoleRepository.findAll().stream().map((userUserRole) -> modelMapper.map(userUserRole, UserRoleDto.class)).collect(Collectors.toList());
     }
 
     @Autowired

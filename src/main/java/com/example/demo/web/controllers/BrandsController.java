@@ -1,12 +1,11 @@
 package com.example.demo.web.controllers;
 
 import com.example.demo.services.BrandService;
+import com.example.demo.web.views.BrandCreationMW;
 import com.example.demo.web.views.BrandModelView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,6 +22,13 @@ public class BrandsController {
         brandList.forEach(System.out::println);
         return "all-brands.html";
     }
+
+    @PostMapping("")
+    public String addBrand(BrandCreationMW brandCreationMW, @RequestParam String name) {
+        brandService.addBrand(brandCreationMW,name);
+        return "all-brands.html";
+    }
+
 
     @Autowired
     public void setBrandService(BrandService brandService) {

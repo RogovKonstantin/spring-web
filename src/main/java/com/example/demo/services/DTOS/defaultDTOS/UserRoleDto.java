@@ -1,16 +1,16 @@
 package com.example.demo.services.DTOS.defaultDTOS;
 
 
-import com.example.demo.constants.Enums.UserRoleTypesEnum;
+import com.example.demo.constants.Enums.Role;
 
 import java.util.UUID;
 
 public class UserRoleDto {
     private UUID id;
-    private UserRoleTypesEnum role;
+    private Role role;
 
-    public UserRoleDto(UUID id, UserRoleTypesEnum role) {
-        this.id = id;
+    public UserRoleDto(Role role) {
+
         this.role = role;
     }
 
@@ -25,11 +25,11 @@ public class UserRoleDto {
         this.id = id;
     }
 
-    public UserRoleTypesEnum getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(UserRoleTypesEnum role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

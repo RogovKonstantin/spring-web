@@ -1,8 +1,8 @@
 package com.example.demo;
 
 import com.example.demo.constants.Enums.EngineTypesEnum;
+import com.example.demo.constants.Enums.Role;
 import com.example.demo.constants.Enums.TransmissionTypesEnum;
-import com.example.demo.constants.Enums.UserRoleTypesEnum;
 import com.example.demo.constants.Enums.VehicleTypesEnum;
 import com.example.demo.models.Brand;
 import com.example.demo.models.Model;
@@ -52,13 +52,14 @@ public class DataInitializer implements CommandLineRunner {
     private OfferService offerService;
 
 
+
     @Override
     public void run(String... args) throws Exception {
-        /*Faker faker = new Faker();
+        Faker faker = new Faker();
         Random random = new Random();
 
-        UserRole userRole = new UserRole(UserRoleTypesEnum.USER);
-        UserRole adminRole = new UserRole(UserRoleTypesEnum.ADMIN);
+        UserRole userRole = new UserRole(Role.USER);
+        UserRole adminRole = new UserRole(Role.ADMIN);
         userRoleRepository.save(userRole);
         userRoleRepository.save(adminRole);
 
@@ -143,11 +144,11 @@ public class DataInitializer implements CommandLineRunner {
             offerService.createOffer(offerDto);
         }
 
-        *//*System.out.println(offerService.getOffersDescYear(3000000, 100000));
+        System.out.println(offerService.getOffersByPriceAndMileageLessDescYear(3000000, 100000));
         System.out.println(userService.getAllActiveClients());
-        System.out.println(offerService.getAllOffersByBrand("BMW", Vehicle-TypesEnum.CAR));
-        Sys-tem.out.println(brandService.getAllBrandModelsInOrderByCategory("BMW"));
-        Sys-tem.out.println(offerService.getAllOffersAndModelsByUserState(true));*//*
+        System.out.println(offerService.getAllOffersByBrandAndVtype("BMW", VehicleTypesEnum.CAR));
+        System.out.println(brandService.getAllBrandModelsInOrderByCategory("BMW"));
+        System.out.println(offerService.getAllOffersAndModelsByUserState(true));
 
         List<UserDto> userDtosList = userService.getAll();
         UUID userUuid = userDtosList.get(0).getId();
@@ -170,9 +171,9 @@ public class DataInitializer implements CommandLineRunner {
         List<OfferDto> offerDtoList = offerService.getAll();
         OfferDto offerDto1 = offerDtoList.get(0);
         offerService.deleteOffer(offerDto1);
-        System.out.println(offerService.getAllOffersByBrand("Mercedes-Benz", VehicleTypesEnum.CAR));
+        System.out.println(offerService.getAllOffersByBrandAndVtype("Mercedes-Benz", VehicleTypesEnum.CAR));
         System.out.println(offerService.getAllOffersAndModelsByUserState(true));
-        System.out.println(offerService.getOffersDescYear(3000000, 100000));
+        System.out.println(offerService.getOffersByPriceAndMileageLessDescYear(3000000, 100000));
         OfferDto offerDto2 = offerDtoList.get(1);
         offerService.updatePrice(offerDto2, 400000);
         List<ModelDto> modelDtoList = modelService.getAll();
@@ -189,8 +190,8 @@ public class DataInitializer implements CommandLineRunner {
 
 
 
-    }*/
-}}
+    }
+}
 
 
 

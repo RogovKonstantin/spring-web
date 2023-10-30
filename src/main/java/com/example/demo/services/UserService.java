@@ -1,8 +1,9 @@
 package com.example.demo.services;
 
+import com.example.demo.models.User;
 import com.example.demo.services.DTOS.ActiveUsersRolesDto;
 import com.example.demo.services.DTOS.defaultDTOS.UserDto;
-import com.example.demo.models.User;
+import com.example.demo.web.views.UserCreationMW;
 import com.example.demo.web.views.UserModelView;
 
 import java.util.List;
@@ -14,11 +15,15 @@ public interface UserService {
 
     void saveUser(User user);
 
+    void addUser(UserDto userDto);
+
     List<ActiveUsersRolesDto> getAllActiveClients();
 
     void deleteUser(UserDto userDto);
 
     void deleteUserById(UUID id);
+
+    void deleteUserByUserName(String username);
 
     void createUser(UserDto userDto);
 
@@ -27,4 +32,7 @@ public interface UserService {
     List<UserDto> getAll();
 
     List<UserModelView> getAllUsers();
+    UserDto getByUsername(String username);
+
+    void addUser(UserCreationMW userCreationMW, String firstName, String lastName, String username, String password);
 }

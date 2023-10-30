@@ -7,6 +7,7 @@ import com.example.demo.services.BrandService;
 import com.example.demo.services.DTOS.defaultDTOS.BrandDto;
 import com.example.demo.services.DTOS.defaultDTOS.ModelDto;
 import com.example.demo.util.ValidationUtil;
+import com.example.demo.web.views.BrandCreationMW;
 import com.example.demo.web.views.BrandModelView;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,12 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public void saveBrand(Brand brand) {
         brandRepository.save(brand);
+    }
+
+    @Override
+    public void addBrand(BrandDto brandDto) {
+        Brand brand = modelMapper.map(brandDto, Brand.class);
+        brandRepository.saveAndFlush(brand);
     }
 
     @Override
@@ -70,6 +77,13 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public List<BrandModelView> getAllBrands() {
         return this.getAll().stream().map((brand) -> modelMapper.map(brand, BrandModelView.class)).collect(Collectors.toList());
+    }
+
+    @Override
+    public void addBrand(BrandCreationMW brandCreationMW, String name) {
+        BrandDto brandDto = modelMapper.map(brandCreationMW, BrandDto.class);
+        brandDto.setName(name);
+        this.addBrand(brandDto);
     }
 
     @Autowired

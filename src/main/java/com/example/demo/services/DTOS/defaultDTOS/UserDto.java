@@ -47,9 +47,7 @@ public class UserDto {
         return id;
     }
 
-    @NotNull
-    @NotEmpty
-    @Length(min = 6,max = 16,message = "Username must be between 6 and 16 characters!")
+
     public String getUsername() {
         return username;
     }
@@ -58,9 +56,7 @@ public class UserDto {
         this.username = username;
     }
 
-    @NotNull
-    @NotEmpty
-    @Length(min = 2,max=12, message = "Name must be between 2 and 10 characters!")
+
     public String getFirstName() {
         return firstName;
     }
@@ -69,9 +65,7 @@ public class UserDto {
         this.firstName = firstName;
     }
 
-    @NotNull
-    @NotEmpty
-    @Length(min = 2,max=12, message = "Surname must be between 2 and 12 characters!")
+
     public String getLastName() {
         return lastName;
     }
@@ -113,6 +107,7 @@ public class UserDto {
     }
 
 
+
     @Override
     public String toString() {
         return "UserDto{" +
@@ -125,4 +120,7 @@ public class UserDto {
                 ", role=" + role +
                 '}';
     }
+
+
+
 }

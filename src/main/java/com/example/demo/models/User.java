@@ -5,7 +5,6 @@ import com.example.demo.models.BaseModels.IdDateTimeUrlModel;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
 
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,17 +16,17 @@ public class User extends IdDateTimeUrlModel {
     private String firstName;
     private String lastName;
     private Boolean isActive;
-    private UserRole role;
+    private UserRole userRole;
     private Set<Offer> offers;
 
-    public User(String username, String password, String firstName, String lastName, String imageUrl, Boolean isActive, UserRole role) {
+    public User(String username, String password, String firstName, String lastName, String imageUrl, Boolean isActive, UserRole userRole) {
         this.username = username;
         this.password = password;
         this.setImageUrl(imageUrl);
         this.firstName = firstName;
         this.lastName = lastName;
         this.isActive = isActive;
-        this.role = role;
+        this.userRole = userRole;
     }
 
     public User() {}
@@ -80,11 +79,11 @@ public class User extends IdDateTimeUrlModel {
     @ManyToOne(optional = false)
     @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
     public UserRole getRole() {
-        return role;
+        return userRole;
     }
 
-    public void setRole(UserRole role) {
-        this.role = role;
+    public void setRole(UserRole userRole) {
+        this.userRole = userRole;
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "seller")
@@ -106,7 +105,7 @@ public class User extends IdDateTimeUrlModel {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", isActive=" + isActive +
-                ", role=" + role +
+                ", role=" + userRole +
                 ", offers=" + offers +
                 ", imageUrl='" + imageUrl + '\'' +
                 ", created=" + created +

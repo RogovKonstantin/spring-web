@@ -1,12 +1,13 @@
 package com.example.demo.services;
 
+import com.example.demo.constants.Enums.VehicleTypesEnum;
+import com.example.demo.models.Offer;
 import com.example.demo.services.DTOS.OffersByBrandAndVtypeDto;
 import com.example.demo.services.DTOS.OffersModelsByUserStateDto;
 import com.example.demo.services.DTOS.defaultDTOS.OfferDto;
-import com.example.demo.constants.Enums.VehicleTypesEnum;
-import com.example.demo.models.Offer;
+import com.example.demo.services.DTOS.defaultDTOS.UserDto;
+import com.example.demo.web.views.CreateOfferMW;
 import com.example.demo.web.views.OfferModelView;
-import com.example.demo.web.views.UserModelView;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,9 +19,9 @@ public interface OfferService {
 
     void saveOffer(Offer offer);
 
-    List<OffersByBrandAndVtypeDto> getAllOffersByBrand(String brandName, VehicleTypesEnum vehicleType);
+    List<OffersByBrandAndVtypeDto> getAllOffersByBrandAndVtype(String brandName, VehicleTypesEnum vehicleType);
 
-    List<OfferDto> getOffersDescYear(Integer price, Integer mileage);
+    List<OfferDto> getOffersByPriceAndMileageLessDescYear(Integer price, Integer mileage);
 
     List<OffersModelsByUserStateDto> getAllOffersAndModelsByUserState(Boolean bool);
 
@@ -29,6 +30,14 @@ public interface OfferService {
     void deleteOfferById(UUID id);
 
     OfferDto createOffer(OfferDto offerDto);
-    void updatePrice(OfferDto offerDto,Integer price);
-    List<OfferModelView> getAllOffers();
+
+    void updatePrice(OfferDto offerDto, Integer price);
+
+    List<OfferModelView> viewAllOffers();
+
+    List<OfferModelView> viewAllOffersByBrandAndVtype(String brandName, String vehicleType);
+    List<OfferModelView> viewOffersByPriceAndMileageLessDescYear(Integer price, Integer mileage);
+    List<OfferModelView> viewOffersByActiveUsers();
+    void createOffer(CreateOfferMW createOfferMW);
+
 }

@@ -18,4 +18,5 @@ public interface ModelService {
     void updateEndYear(ModelDto modelDto, Integer endYear);
 
     List<ModelDto> getAll();
+    ModelDto getModelDtoByName(String name);
 }

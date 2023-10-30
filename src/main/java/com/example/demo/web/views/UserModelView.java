@@ -1,7 +1,6 @@
 package com.example.demo.web.views;
 
 import com.example.demo.models.Offer;
-import com.example.demo.models.UserRole;
 
 import java.util.Set;
 

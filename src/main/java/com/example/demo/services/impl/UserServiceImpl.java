@@ -1,12 +1,16 @@
 package com.example.demo.services.impl;
 
+import com.example.demo.constants.Enums.Role;
 import com.example.demo.models.User;
 import com.example.demo.repos.UserRepository;
 import com.example.demo.services.DTOS.ActiveUsersRolesDto;
 import com.example.demo.services.DTOS.defaultDTOS.UserDto;
+import com.example.demo.services.UserRoleService;
 import com.example.demo.services.UserService;
 import com.example.demo.util.ValidationUtil;
+import com.example.demo.web.views.UserCreationMW;
 import com.example.demo.web.views.UserModelView;
+import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +25,7 @@ public class UserServiceImpl implements UserService {
     private final ValidationUtil validationUtil;
     private final ModelMapper modelMapper;
     private UserRepository userRepository;
+    private UserRoleService userRoleService;
 
     @Autowired
     UserServiceImpl(ValidationUtil validationUtil, ModelMapper modelMapper) {
@@ -36,6 +41,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(User user) {
         userRepository.save(user);
+    }
+
+    @Override
+    public void addUser(UserDto userDto) {
+        User user = modelMapper.map(userDto, User.class);
+        userRepository.saveAndFlush(user);
     }
 
     @Override
@@ -56,13 +67,16 @@ public class UserServiceImpl implements UserService {
         System.out.println("User (id= " + id + ") deleted ");
     }
 
+    @Transactional
+    @Override
+    public void deleteUserByUserName(String username) {
+        userRepository.deleteUserByUsername(username);
+    }
+
     @Override
     public void createUser(UserDto userDto) {
-        if (!this.validationUtil.isValid(userDto)) {
-            this.validationUtil.violations(userDto).stream().map(ConstraintViolation::getMessage).forEach(System.out::println);
-        } else {
             this.userRepository.saveAndFlush(this.modelMapper.map(userDto, User.class));
-        }
+
     }
 
     @Override
@@ -88,8 +102,33 @@ public class UserServiceImpl implements UserService {
         return this.getAll().stream().map((user) -> modelMapper.map(user, UserModelView.class)).collect(Collectors.toList());
     }
 
+    @Override
+    public UserDto getByUsername(String username) {
+        User user = userRepository.findByUsername(username);
+        return modelMapper.map(user,UserDto.class);
+    }
+
+    @Override
+    public void addUser(UserCreationMW userCreationMW, String firstName, String lastName, String username, String password) {
+        UserDto userDto = modelMapper.map(userCreationMW, UserDto.class);
+        userDto.setFirstName(firstName);
+        userDto.setLastName(lastName);
+        userDto.setUsername(username);
+        userDto.setPassword(password);
+        userDto.setRole(userRoleService.getByRole(Role.USER));
+        userDto.setActive(true);
+        userDto.setImageUrl("blank");
+        this.addUser(userDto);
+
+    }
+
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    @Autowired
+    public void setRoleService(UserRoleService userRoleService) {
+        this.userRoleService = userRoleService;
     }
 }

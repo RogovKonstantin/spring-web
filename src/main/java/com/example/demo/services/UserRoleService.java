@@ -1,9 +1,10 @@
 package com.example.demo.services;
 
 
-import com.example.demo.services.DTOS.defaultDTOS.UserRoleDto;
+import com.example.demo.constants.Enums.Role;
 import com.example.demo.models.User;
 import com.example.demo.models.UserRole;
+import com.example.demo.services.DTOS.defaultDTOS.UserRoleDto;
 
 import java.util.List;
 
@@ -16,5 +17,9 @@ public interface UserRoleService {
 
     List<UserRoleDto> getAll();
 
-    void updateUserRole(User user, UserRole role);
+    void updateUserRole(User user, UserRole userRole);
+
+
+
+    UserRoleDto getByRole(Role role);
 }

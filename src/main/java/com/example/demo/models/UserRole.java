@@ -1,27 +1,25 @@
 package com.example.demo.models;
 
 
-import com.example.demo.constants.Enums.UserRoleTypesEnum;
 import com.example.demo.models.BaseModels.IdModel;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
 
-import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "roles")
 public class UserRole extends IdModel {
 
-    private UserRoleTypesEnum role;
+    private com.example.demo.constants.Enums.Role role;
     private Set<User> users;
 
-    public UserRole(UserRoleTypesEnum role) {
+    public UserRole(com.example.demo.constants.Enums.Role role) {
         this.role = role;
     }
     public UserRole() {}
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "role", orphanRemoval = false)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
     @Cascade({org.hibernate.annotations.CascadeType.PERSIST, org.hibernate.annotations.CascadeType.MERGE, org.hibernate.annotations.CascadeType.REFRESH})
     public Set<User> getUsers() {
         return users;
@@ -33,11 +31,11 @@ public class UserRole extends IdModel {
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "name", nullable = false)
-    public UserRoleTypesEnum getRole() {
+    public com.example.demo.constants.Enums.Role getRole() {
         return role;
     }
 
-    public void setRole(UserRoleTypesEnum role) {
+    public void setRole(com.example.demo.constants.Enums.Role role) {
         this.role = role;
     }
 

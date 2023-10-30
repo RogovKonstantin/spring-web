@@ -64,6 +64,12 @@ public class ModelServiceImpl implements ModelService {
                 .stream().map((model) -> modelMapper.map(model, ModelDto.class)).collect(Collectors.toList());
     }
 
+    @Override
+    public ModelDto getModelDtoByName(String name) {
+        Model model = modelRepository.findByName(name);
+        return modelMapper.map(model,ModelDto.class);
+    }
+
     @Autowired
     public void setModelRepository(ModelRepository modelRepository) {
         this.modelRepository = modelRepository;

@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface ModelRepository extends JpaRepository<Model, UUID> {
-
+    Model findByName(String name);
 }
