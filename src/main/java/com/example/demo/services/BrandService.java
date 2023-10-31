@@ -1,7 +1,7 @@
 package com.example.demo.services;
 
-import com.example.demo.services.DTOS.defaultDTOS.BrandDto;
-import com.example.demo.services.DTOS.defaultDTOS.ModelDto;
+import com.example.demo.services.DTOS.BrandDto;
+import com.example.demo.services.DTOS.ModelDto;
 import com.example.demo.models.Brand;
 import com.example.demo.web.views.BrandCreationMW;
 import com.example.demo.web.views.BrandModelView;

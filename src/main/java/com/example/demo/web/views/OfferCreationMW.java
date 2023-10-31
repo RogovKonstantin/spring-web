@@ -1,6 +1,6 @@
 package com.example.demo.web.views;
 
-public class CreateOfferMW {
+public class OfferCreationMW {
     private final String seller;
     private final String brand;
     private final String model;
@@ -12,13 +12,7 @@ public class CreateOfferMW {
     private String description;
     private String imageUrl;
 
-    public CreateOfferMW(String seller,
-                         String brand,
-                         String model,
-                         int year, int price,
-                         int mileage,
-                         String transmissionType,
-                         String engineType,String imageUrl) {
+    public OfferCreationMW(String seller, String brand, String model, int year, int price, int mileage, String transmissionType, String engineType, String imageUrl) {
         this.seller = seller;
         this.brand = brand;
         this.model = model;

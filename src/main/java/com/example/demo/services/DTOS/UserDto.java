@@ -1,8 +1,4 @@
-package com.example.demo.services.DTOS.defaultDTOS;
-
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.Length;
+package com.example.demo.services.DTOS;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

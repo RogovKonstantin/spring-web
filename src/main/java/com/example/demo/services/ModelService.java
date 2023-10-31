@@ -1,6 +1,6 @@
 package com.example.demo.services;
 
-import com.example.demo.services.DTOS.defaultDTOS.ModelDto;
+import com.example.demo.services.DTOS.ModelDto;
 import com.example.demo.models.Model;
 
 import java.util.List;

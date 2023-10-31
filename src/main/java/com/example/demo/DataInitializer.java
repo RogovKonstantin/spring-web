@@ -10,7 +10,7 @@ import com.example.demo.models.User;
 import com.example.demo.models.UserRole;
 import com.example.demo.repos.*;
 import com.example.demo.services.*;
-import com.example.demo.services.DTOS.defaultDTOS.*;
+
 import com.github.javafaker.Faker;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +55,7 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Faker faker = new Faker();
+     /*   Faker faker = new Faker();
         Random random = new Random();
 
         UserRole userRole = new UserRole(Role.USER);
@@ -190,8 +190,8 @@ public class DataInitializer implements CommandLineRunner {
 
 
 
-    }
-}
+    }*/
+}}
 
 
 

@@ -1,8 +1,8 @@
 package com.example.demo.services;
 
 import com.example.demo.models.User;
-import com.example.demo.services.DTOS.ActiveUsersRolesDto;
-import com.example.demo.services.DTOS.defaultDTOS.UserDto;
+
+import com.example.demo.services.DTOS.UserDto;
 import com.example.demo.web.views.UserCreationMW;
 import com.example.demo.web.views.UserModelView;
 
@@ -17,7 +17,7 @@ public interface UserService {
 
     void addUser(UserDto userDto);
 
-    List<ActiveUsersRolesDto> getAllActiveClients();
+
 
     void deleteUser(UserDto userDto);
 
@@ -34,5 +34,5 @@ public interface UserService {
     List<UserModelView> getAllUsers();
     UserDto getByUsername(String username);
 
-    void addUser(UserCreationMW userCreationMW, String firstName, String lastName, String username, String password);
+    void addUser(String firstName, String lastName, String username, String password);
 }

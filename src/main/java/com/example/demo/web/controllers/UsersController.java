@@ -31,8 +31,8 @@ public class UsersController {
     }
 
     @PostMapping("")
-    public String createUser(UserCreationMW userCreationMW,@RequestParam String firstName,@RequestParam String lastName,@RequestParam String username,@RequestParam String password) {
-        userService.addUser(userCreationMW,firstName,lastName,username,password);
+    public String createUser(@RequestParam String firstName,@RequestParam String lastName,@RequestParam String username,@RequestParam String password) {
+        userService.addUser(firstName,lastName,username,password);
         return "all-users.html";
     }
 

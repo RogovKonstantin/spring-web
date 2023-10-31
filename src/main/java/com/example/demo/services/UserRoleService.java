@@ -4,7 +4,7 @@ package com.example.demo.services;
 import com.example.demo.constants.Enums.Role;
 import com.example.demo.models.User;
 import com.example.demo.models.UserRole;
-import com.example.demo.services.DTOS.defaultDTOS.UserRoleDto;
+import com.example.demo.services.DTOS.UserRoleDto;
 
 import java.util.List;
 

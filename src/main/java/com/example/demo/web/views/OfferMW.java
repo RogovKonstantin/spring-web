@@ -2,7 +2,7 @@ package com.example.demo.web.views;
 
 
 
-public class OfferModelView {
+public class OfferMW {
     private String description;
     private String engine;
     private int mileage;
@@ -15,7 +15,15 @@ public class OfferModelView {
     private String imageUrl;
 
 
-    public OfferModelView() {
+
+    public OfferMW() {
+    }
+
+    public OfferMW(String description, int mileage, int price, int year) {
+        this.description = description;
+        this.mileage = mileage;
+        this.price = price;
+        this.year = year;
     }
 
 
@@ -113,7 +121,7 @@ public class OfferModelView {
                 ", model='" + model + '\'' +
                 ", brand='" + brand + '\'' +
                 ", image='" + imageUrl +
-                '}';
+                '}'+"\n";
     }
 }
 

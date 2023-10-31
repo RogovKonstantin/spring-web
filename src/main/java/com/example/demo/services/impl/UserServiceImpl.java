@@ -3,9 +3,8 @@ package com.example.demo.services.impl;
 import com.example.demo.constants.Enums.Role;
 import com.example.demo.models.User;
 import com.example.demo.repos.UserRepository;
-import com.example.demo.services.DTOS.ActiveUsersRolesDto;
-import com.example.demo.services.DTOS.defaultDTOS.UserDto;
-import com.example.demo.services.UserRoleService;
+import com.example.demo.repos.UserRoleRepository;
+import com.example.demo.services.DTOS.UserDto;
 import com.example.demo.services.UserService;
 import com.example.demo.util.ValidationUtil;
 import com.example.demo.web.views.UserCreationMW;
@@ -25,7 +24,7 @@ public class UserServiceImpl implements UserService {
     private final ValidationUtil validationUtil;
     private final ModelMapper modelMapper;
     private UserRepository userRepository;
-    private UserRoleService userRoleService;
+    private UserRoleRepository userRoleRepository;
 
     @Autowired
     UserServiceImpl(ValidationUtil validationUtil, ModelMapper modelMapper) {
@@ -49,11 +48,6 @@ public class UserServiceImpl implements UserService {
         userRepository.saveAndFlush(user);
     }
 
-    @Override
-    public List<ActiveUsersRolesDto> getAllActiveClients() {
-        return userRepository.getAllActiveClients().stream().map((u) -> modelMapper.map(u, ActiveUsersRolesDto.class)).collect(Collectors.toList());
-    }
-
 
     @Override
     public void deleteUser(UserDto userDto) {
@@ -75,7 +69,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(UserDto userDto) {
-            this.userRepository.saveAndFlush(this.modelMapper.map(userDto, User.class));
+        this.userRepository.saveAndFlush(this.modelMapper.map(userDto, User.class));
 
     }
 
@@ -105,21 +99,27 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getByUsername(String username) {
         User user = userRepository.findByUsername(username);
-        return modelMapper.map(user,UserDto.class);
+        return modelMapper.map(user, UserDto.class);
     }
 
     @Override
-    public void addUser(UserCreationMW userCreationMW, String firstName, String lastName, String username, String password) {
-        UserDto userDto = modelMapper.map(userCreationMW, UserDto.class);
-        userDto.setFirstName(firstName);
-        userDto.setLastName(lastName);
-        userDto.setUsername(username);
-        userDto.setPassword(password);
-        userDto.setRole(userRoleService.getByRole(Role.USER));
-        userDto.setActive(true);
-        userDto.setImageUrl("blank");
-        this.addUser(userDto);
+    public void addUser(String firstName, String lastName, String username, String password) {
+        UserCreationMW userCreation = new UserCreationMW(firstName, lastName, username, password);
+        if (!this.validationUtil.isValid(userCreation)) {
 
+            this.validationUtil
+                    .violations(userCreation)
+                    .stream()
+                    .map(ConstraintViolation::getMessage)
+                    .forEach(System.out::println);
+        } else {
+            User user = modelMapper.map(userCreation, User.class);
+            user.setRole(userRoleRepository.findByRole(Role.USER));
+            user.setActive(true);
+            user.setImageUrl("blank");
+            userRepository.saveAndFlush(user);
+
+        }
     }
 
     @Autowired
@@ -128,7 +128,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Autowired
-    public void setRoleService(UserRoleService userRoleService) {
-        this.userRoleService = userRoleService;
+    public void setUserRoleRepository(UserRoleRepository userRoleRepository) {
+        this.userRoleRepository = userRoleRepository;
     }
 }

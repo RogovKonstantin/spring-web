@@ -1,32 +1,33 @@
-package com.example.demo.services.DTOS;
+package com.example.demo.web.views;
 
 import com.example.demo.constants.Enums.VehicleTypesEnum;
 
-public class OffersModelsByUserStateDto {
+public class OfferUserMW {
+
     private String username;
     private String description;
-    private Integer price;
-    private Integer mileage;
-    private Integer year;
+    private int price;
+    private int mileage;
+
+    private int year;
+
     private VehicleTypesEnum category;
-    private String name;
+    private String modelName;
 
 
-
-    public OffersModelsByUserStateDto(String username, String description, Integer price, Integer mileage, Integer year, VehicleTypesEnum category, String name) {
+    public OfferUserMW(String username, String description, int price, int mileage, int year, VehicleTypesEnum category, String modelName) {
         this.username = username;
         this.description = description;
         this.price = price;
         this.mileage = mileage;
         this.year = year;
         this.category = category;
-        this.name = name;
-
-
-
+        this.modelName = modelName;
     }
 
-    public OffersModelsByUserStateDto() {
+
+
+    public OfferUserMW() {
     }
 
     public String getUsername() {
@@ -45,27 +46,27 @@ public class OffersModelsByUserStateDto {
         this.description = description;
     }
 
-    public Integer getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
-    public Integer getMileage() {
+    public int getMileage() {
         return mileage;
     }
 
-    public void setMileage(Integer mileage) {
+    public void setMileage(int mileage) {
         this.mileage = mileage;
     }
 
-    public Integer getYear() {
+    public int getYear() {
         return year;
     }
 
-    public void setYear(Integer year) {
+    public void setYear(int year) {
         this.year = year;
     }
 
@@ -77,28 +78,24 @@ public class OffersModelsByUserStateDto {
         this.category = category;
     }
 
-    public String getName() {
-        return name;
+    public String getModelName() {
+        return modelName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
     }
-
-
-
-
 
     @Override
     public String toString() {
-        return "{" +
+        return "OfferUserMw{" +
                 "username='" + username + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
                 ", mileage=" + mileage +
                 ", year=" + year +
-                ", vehicle type=" + category +
-                ", name='" + name + '\'' +
-                '}' + "\n";
+                ", category=" + category +
+                ", modelName='" + modelName + '\'' +
+                '}';
     }
 }

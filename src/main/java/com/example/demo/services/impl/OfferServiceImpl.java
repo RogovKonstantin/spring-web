@@ -3,17 +3,17 @@ package com.example.demo.services.impl;
 import com.example.demo.constants.Enums.VehicleTypesEnum;
 import com.example.demo.models.Offer;
 import com.example.demo.repos.OfferRepository;
-import com.example.demo.services.DTOS.OffersByBrandAndVtypeDto;
-import com.example.demo.services.DTOS.OffersModelsByUserStateDto;
-import com.example.demo.services.DTOS.defaultDTOS.ModelDto;
-import com.example.demo.services.DTOS.defaultDTOS.OfferDto;
-import com.example.demo.services.DTOS.defaultDTOS.UserDto;
+import com.example.demo.services.DTOS.ModelDto;
+import com.example.demo.services.DTOS.OfferDto;
+import com.example.demo.services.DTOS.UserDto;
 import com.example.demo.services.ModelService;
 import com.example.demo.services.OfferService;
 import com.example.demo.services.UserService;
 import com.example.demo.util.ValidationUtil;
-import com.example.demo.web.views.CreateOfferMW;
-import com.example.demo.web.views.OfferModelView;
+import com.example.demo.web.views.OfferCreationMW;
+import com.example.demo.web.views.OfferMW;
+import com.example.demo.web.views.OfferModelMW;
+import com.example.demo.web.views.OfferUserMW;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,20 +54,12 @@ public class OfferServiceImpl implements OfferService {
         offerRepository.save(offer);
     }
 
-    @Override
-    public List<OffersByBrandAndVtypeDto> getAllOffersByBrandAndVtype(String brandName, VehicleTypesEnum vehicleType) {
-        return offerRepository.getAllOffersByBrand(brandName, vehicleType).stream().map((o) -> modelMapper.map(o, OffersByBrandAndVtypeDto.class)).collect(Collectors.toList());
-    }
 
     @Override
     public List<OfferDto> getOffersByPriceAndMileageLessDescYear(Integer price, Integer mileage) {
         return offerRepository.getOffersByPriceAndMileageLessDescYear(price, mileage).stream().map((o) -> modelMapper.map(o, OfferDto.class)).collect(Collectors.toList());
     }
 
-    @Override
-    public List<OffersModelsByUserStateDto> getAllOffersAndModelsByUserState(Boolean bool) {
-        return offerRepository.getAllOffersAndModelsByUserState(bool).stream().map((u) -> modelMapper.map(u, OffersModelsByUserStateDto.class)).collect(Collectors.toList());
-    }
 
     @Override
     public OfferDto createOffer(OfferDto offerDto) {
@@ -85,52 +77,51 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public List<OfferModelView> viewAllOffers() {
+    public List<OfferMW> viewAllOffers() {
         List<OfferDto> offerDtoList = offerRepository.findAll()
                 .stream()
                 .map(offer -> modelMapper.map(offer, OfferDto.class))
                 .toList();
 
-        List<OfferModelView> allOffersDemoView = new ArrayList<>();
+        List<OfferMW> allOffersDemoView = new ArrayList<>();
 
         for (OfferDto offerDto : offerDtoList) {
 
-            OfferModelView offerModelView = modelMapper.map(offerDto, OfferModelView.class);
+            OfferMW offerMW = modelMapper.map(offerDto, OfferMW.class);
 
-            offerModelView.setModel(offerDto.getModel().getName());
-            offerModelView.setBrand(offerDto.getModel().getBrand().getName());
-            offerModelView.setSeller(offerDto.getSeller().getUsername());
-            allOffersDemoView.add(offerModelView);
+            offerMW.setModel(offerDto.getModel().getName());
+            offerMW.setBrand(offerDto.getModel().getBrand().getName());
+            offerMW.setSeller(offerDto.getSeller().getUsername());
+            allOffersDemoView.add(offerMW);
         }
         return allOffersDemoView;
     }
 
     @Override
-    public List<OfferModelView> viewAllOffersByBrandAndVtype(String brandName, String vehicleType) {
-        return offerRepository.getAllOffersByBrand(brandName, VehicleTypesEnum.valueOf(vehicleType)).stream()
-                .map(offer -> modelMapper.map(offer, OfferModelView.class)).collect(Collectors.toList());
+    public List<OfferMW> viewOffersByPriceAndMileageLessDescYear(Integer price, Integer mileage) {
+        return offerRepository.getOffersByPriceAndMileageLessDescYear(price, mileage);
+    }
+
+
+    @Override
+    public List<OfferUserMW> viewOffersByActiveUsers() {
+        return offerRepository.getAllOffersAndModelsByUserState(true);
+
     }
 
     @Override
-    public List<OfferModelView> viewOffersByPriceAndMileageLessDescYear(Integer price, Integer mileage) {
-        return offerRepository.getOffersByPriceAndMileageLessDescYear(price, mileage).stream()
-                .map(offer -> modelMapper.map(offer, OfferModelView.class)).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<OfferModelView> viewOffersByActiveUsers() {
-        return offerRepository.getAllOffersAndModelsByUserState(true).stream()
-                .map(offer -> modelMapper.map(offer, OfferModelView.class)).collect(Collectors.toList());
-    }
-
-    @Override
-    public void createOffer(CreateOfferMW createOfferMW) {
-        OfferDto offerDto = modelMapper.map(createOfferMW, OfferDto.class);
-        ModelDto modelDto = modelService.getModelDtoByName(createOfferMW.getModel());
-        UserDto userDto = userService.getByUsername(createOfferMW.getSeller());
+    public void createOffer(OfferCreationMW offerCreationMW) {
+        OfferDto offerDto = modelMapper.map(offerCreationMW, OfferDto.class);
+        ModelDto modelDto = modelService.getModelDtoByName(offerCreationMW.getModel());
+        UserDto userDto = userService.getByUsername(offerCreationMW.getSeller());
         offerDto.setModel(modelDto);
         offerDto.setSeller(userDto);
         this.createOffer(offerDto);
+    }
+
+    @Override
+    public List<OfferModelMW> getAllOffersByBrandAndVtype(String brand, String type) {
+        return offerRepository.getAllOffersByBrandAndVtype(brand, VehicleTypesEnum.valueOf(type));
     }
 
 

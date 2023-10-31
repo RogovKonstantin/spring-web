@@ -1,4 +1,4 @@
-package com.example.demo.services.DTOS.defaultDTOS;
+package com.example.demo.services.DTOS;
 
 
 import java.util.List;

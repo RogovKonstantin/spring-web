@@ -5,7 +5,7 @@ import com.example.demo.models.User;
 import com.example.demo.models.UserRole;
 import com.example.demo.repos.UserRoleRepository;
 import com.example.demo.repos.UserRepository;
-import com.example.demo.services.DTOS.defaultDTOS.UserRoleDto;
+import com.example.demo.services.DTOS.UserRoleDto;
 import com.example.demo.services.UserRoleService;
 import com.example.demo.util.ValidationUtil;
 import org.modelmapper.ModelMapper;

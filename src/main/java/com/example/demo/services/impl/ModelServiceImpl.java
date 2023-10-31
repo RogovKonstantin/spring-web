@@ -2,7 +2,7 @@ package com.example.demo.services.impl;
 
 import com.example.demo.models.Model;
 import com.example.demo.repos.ModelRepository;
-import com.example.demo.services.DTOS.defaultDTOS.ModelDto;
+import com.example.demo.services.DTOS.ModelDto;
 import com.example.demo.services.ModelService;
 import com.example.demo.util.ValidationUtil;
 import org.modelmapper.ModelMapper;
