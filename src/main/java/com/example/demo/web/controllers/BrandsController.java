@@ -1,8 +1,9 @@
 package com.example.demo.web.controllers;
 
 import com.example.demo.services.BrandService;
-import com.example.demo.web.views.BrandCreationMW;
-import com.example.demo.web.views.BrandModelView;
+import com.example.demo.web.views.BrandCreationMV;
+import com.example.demo.web.views.BrandMV;
+import com.example.demo.web.views.BrandModelsMV;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,16 +17,25 @@ public class BrandsController {
 
 
     @GetMapping("")
-    public String AllBrands(Model model) {
-        List<BrandModelView> brandList = brandService.getAllBrands();
-        model.addAttribute("brandList", brandList);
-        brandList.forEach(System.out::println);
+    public String allBrands(Model model) {
+        List<BrandMV> allBrandsList = brandService.getAllBrands();
+        model.addAttribute("allBrandsList", allBrandsList);
+        allBrandsList.forEach(System.out::println);
         return "all-brands.html";
     }
 
+    @GetMapping("/{brand}/sort-models-by-category")
+    public String allBrandModelsSortedByCategory(@PathVariable String brand, Model model) {
+        List<BrandModelsMV> allBrandModelsSortedByCategoryList = brandService.getAllBrandModelsSortedByCategory(brand);
+        model.addAttribute("allBrandModelsSortedByCategory", allBrandModelsSortedByCategoryList);
+        allBrandModelsSortedByCategoryList.forEach(System.out::println);
+        return "all-models.html";
+
+    }
+
     @PostMapping("")
-    public String addBrand(BrandCreationMW brandCreationMW, @RequestParam String name) {
-        brandService.addBrand(brandCreationMW,name);
+    public String createBrand(@RequestParam String name) {
+        brandService.createBrand(name);
         return "all-brands.html";
     }
 

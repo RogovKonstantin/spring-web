@@ -2,11 +2,11 @@ package com.example.demo.services;
 
 import com.example.demo.models.Offer;
 import com.example.demo.services.DTOS.OfferDto;
-import com.example.demo.web.views.OfferCreationMW;
+import com.example.demo.web.views.OfferCreationMV;
 
-import com.example.demo.web.views.OfferMW;
-import com.example.demo.web.views.OfferModelMW;
-import com.example.demo.web.views.OfferUserMW;
+import com.example.demo.web.views.OfferMV;
+import com.example.demo.web.views.OfferModelMV;
+import com.example.demo.web.views.OfferUserMV;
 
 import java.util.List;
 import java.util.UUID;
@@ -30,13 +30,13 @@ public interface OfferService {
 
     void updatePrice(OfferDto offerDto, Integer price);
 
-    List<OfferMW> viewAllOffers();
-    List<OfferMW> viewOffersByPriceAndMileageLessDescYear(Integer price, Integer mileage);
+    List<OfferMV> viewAllOffers();
+    List<OfferMV> viewOffersByPriceAndMileageLessDescYear(Integer price, Integer mileage);
 
 
-    List<OfferUserMW> viewOffersByActiveUsers();
+    List<OfferUserMV> viewOffersByActiveUsers();
 
-    void createOffer(OfferCreationMW offerCreationMW);
-    List<OfferModelMW> getAllOffersByBrandAndVtype(String brand, String type);
+    void createOffer(OfferCreationMV offerCreationMV);
+    List<OfferModelMV> getAllOffersByBrandAndVtype(String brand, String type);
 
 }

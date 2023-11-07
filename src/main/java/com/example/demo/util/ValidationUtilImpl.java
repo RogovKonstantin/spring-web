@@ -20,7 +20,7 @@ public class ValidationUtilImpl implements ValidationUtil {
 
     @Override
     public <E> boolean isValid(E object) {
-        return this.validator.validate(object).size() == 0;
+        return this.validator.validate(object).isEmpty();
     }
 
     @Override

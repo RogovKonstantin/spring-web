@@ -1,7 +1,9 @@
 package com.example.demo.services.impl;
 
 import com.example.demo.constants.Enums.VehicleTypesEnum;
+import com.example.demo.models.Model;
 import com.example.demo.models.Offer;
+import com.example.demo.models.User;
 import com.example.demo.repos.OfferRepository;
 import com.example.demo.services.DTOS.ModelDto;
 import com.example.demo.services.DTOS.OfferDto;
@@ -10,10 +12,11 @@ import com.example.demo.services.ModelService;
 import com.example.demo.services.OfferService;
 import com.example.demo.services.UserService;
 import com.example.demo.util.ValidationUtil;
-import com.example.demo.web.views.OfferCreationMW;
-import com.example.demo.web.views.OfferMW;
-import com.example.demo.web.views.OfferModelMW;
-import com.example.demo.web.views.OfferUserMW;
+import com.example.demo.web.views.OfferCreationMV;
+import com.example.demo.web.views.OfferMV;
+import com.example.demo.web.views.OfferModelMV;
+import com.example.demo.web.views.OfferUserMV;
+import jakarta.validation.ConstraintViolation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -77,50 +80,60 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public List<OfferMW> viewAllOffers() {
+    public List<OfferMV> viewAllOffers() {
         List<OfferDto> offerDtoList = offerRepository.findAll()
                 .stream()
                 .map(offer -> modelMapper.map(offer, OfferDto.class))
                 .toList();
 
-        List<OfferMW> allOffersDemoView = new ArrayList<>();
+        List<OfferMV> allOffersDemoView = new ArrayList<>();
 
         for (OfferDto offerDto : offerDtoList) {
 
-            OfferMW offerMW = modelMapper.map(offerDto, OfferMW.class);
+            OfferMV offerMV = modelMapper.map(offerDto, OfferMV.class);
 
-            offerMW.setModel(offerDto.getModel().getName());
-            offerMW.setBrand(offerDto.getModel().getBrand().getName());
-            offerMW.setSeller(offerDto.getSeller().getUsername());
-            allOffersDemoView.add(offerMW);
+            offerMV.setModel(offerDto.getModel().getName());
+            offerMV.setBrand(offerDto.getModel().getBrand().getName());
+            offerMV.setSeller(offerDto.getSeller().getUsername());
+            allOffersDemoView.add(offerMV);
         }
         return allOffersDemoView;
     }
 
     @Override
-    public List<OfferMW> viewOffersByPriceAndMileageLessDescYear(Integer price, Integer mileage) {
+    public List<OfferMV> viewOffersByPriceAndMileageLessDescYear(Integer price, Integer mileage) {
         return offerRepository.getOffersByPriceAndMileageLessDescYear(price, mileage);
     }
 
 
     @Override
-    public List<OfferUserMW> viewOffersByActiveUsers() {
+    public List<OfferUserMV> viewOffersByActiveUsers() {
         return offerRepository.getAllOffersAndModelsByUserState(true);
 
     }
 
     @Override
-    public void createOffer(OfferCreationMW offerCreationMW) {
-        OfferDto offerDto = modelMapper.map(offerCreationMW, OfferDto.class);
-        ModelDto modelDto = modelService.getModelDtoByName(offerCreationMW.getModel());
-        UserDto userDto = userService.getByUsername(offerCreationMW.getSeller());
-        offerDto.setModel(modelDto);
-        offerDto.setSeller(userDto);
-        this.createOffer(offerDto);
+    public void createOffer(OfferCreationMV offerCreationMV) {
+        if (!this.validationUtil.isValid(offerCreationMV)) {
+            this.validationUtil
+                    .violations(offerCreationMV)
+                    .stream()
+                    .map(ConstraintViolation::getMessage)
+                    .forEach(System.out::println);
+        } else {
+            OfferDto offerDto = modelMapper.map(offerCreationMV, OfferDto.class);
+            ModelDto modelDto = modelService.getModelDtoByName(offerCreationMV.getModel());
+            UserDto userDto = userService.getByUsername(offerCreationMV.getSeller());
+            offerDto.setModel(modelDto);
+            offerDto.setSeller(userDto);
+            System.out.println(offerDto);
+            this.createOffer(offerDto);
+        }
+
     }
 
     @Override
-    public List<OfferModelMW> getAllOffersByBrandAndVtype(String brand, String type) {
+    public List<OfferModelMV> getAllOffersByBrandAndVtype(String brand, String type) {
         return offerRepository.getAllOffersByBrandAndVtype(brand, VehicleTypesEnum.valueOf(type));
     }
 

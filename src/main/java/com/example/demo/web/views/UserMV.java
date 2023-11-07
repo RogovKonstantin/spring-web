@@ -1,20 +1,28 @@
 package com.example.demo.web.views;
 
+import com.example.demo.constants.Enums.Role;
 import com.example.demo.models.Offer;
 
 import java.util.Set;
 
-public class UserModelView {
+public class UserMV {
     private String username;
-    private String password;
     private String firstName;
     private String lastName;
     private String imageUrl;
-    private Set<Offer> offers;
+    private Role role;
+
+    public UserMV(String username, String firstName, String lastName, String imageUrl,Role role) {
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.imageUrl = imageUrl;
+        this.role=role;
+    }
 
 
 
-    public UserModelView() {
+    public UserMV() {
     }
 
     public String getUsername() {
@@ -43,14 +51,6 @@ public class UserModelView {
 
 
 
-    public Set<Offer> getOffers() {
-        return offers;
-    }
-
-    public void setOffers(Set<Offer> offers) {
-        this.offers = offers;
-    }
-
     public String getImageUrl() {
         return imageUrl;
     }
@@ -59,22 +59,22 @@ public class UserModelView {
         this.imageUrl = imageUrl;
     }
 
-    public String getPassword() {
-        return password;
+    public Role getRole() {
+        return role;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @Override
     public String toString() {
-        return "UserModelView{" +
+        return "UserMV{" +
                 "username='" + username + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
-                ", offers=" + offers +
+                ", role=" + role +
                 '}';
     }
 }

@@ -5,10 +5,11 @@ import com.example.demo.models.User;
 import com.example.demo.repos.UserRepository;
 import com.example.demo.repos.UserRoleRepository;
 import com.example.demo.services.DTOS.UserDto;
+import com.example.demo.services.UserRoleService;
 import com.example.demo.services.UserService;
 import com.example.demo.util.ValidationUtil;
-import com.example.demo.web.views.UserCreationMW;
-import com.example.demo.web.views.UserModelView;
+import com.example.demo.web.views.UserCreationMV;
+import com.example.demo.web.views.UserMV;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolation;
 import org.modelmapper.ModelMapper;
@@ -16,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,18 +49,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    @Override
-    public void deleteUser(UserDto userDto) {
-        userRepository.deleteById(userDto.getId());
-        System.out.println("User " + userDto.getUsername() + " deleted");
-    }
-
-    @Override
-    public void deleteUserById(UUID id) {
-        userRepository.deleteById(id);
-        System.out.println("User (id= " + id + ") deleted ");
-    }
-
     @Transactional
     @Override
     public void deleteUserByUserName(String username) {
@@ -74,13 +62,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUsername(UserDto userDto, String newUsername) {
-        User user = modelMapper.map(userDto, User.class);
-        String oldUserName = user.getUsername();
-        user.setUsername(newUsername);
-        userRepository.save(user);
-        System.out.println(oldUserName + " changed to " + newUsername);
+    public void updateUsername(String currentUserName, String newUsername) {
+        UserDto userDto = this.getByUsername(currentUserName);
+       userDto.setUsername(newUsername);
+        if (!this.validationUtil.isValid(userDto)) {
+            this.validationUtil
+                    .violations(userDto)
+                    .stream()
+                    .map(ConstraintViolation::getMessage)
+                    .forEach(System.out::println);
+        } else {
 
+            System.out.println(userDto);
+            userRepository.saveAndFlush(modelMapper.map(userDto, User.class));
+        }
     }
 
 
@@ -92,8 +87,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserModelView> getAllUsers() {
-        return this.getAll().stream().map((user) -> modelMapper.map(user, UserModelView.class)).collect(Collectors.toList());
+    public List<UserMV> getAllUsers() {
+        return this.getAll().stream().map((user) -> modelMapper.map(user, UserMV.class)).collect(Collectors.toList());
     }
 
     @Override
@@ -104,7 +99,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addUser(String firstName, String lastName, String username, String password) {
-        UserCreationMW userCreation = new UserCreationMW(firstName, lastName, username, password);
+        UserCreationMV userCreation = new UserCreationMV(firstName, lastName, username, password);
         if (!this.validationUtil.isValid(userCreation)) {
 
             this.validationUtil
@@ -122,6 +117,16 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public List<UserMV> getAllActiveUsers() {
+        return userRepository.findAllActiveUsers();
+    }
+
+    @Override
+    public List<UserMV> getAllUnActiveUsers() {
+        return userRepository.findAllUnActiveUsers();
+    }
+
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -131,4 +136,6 @@ public class UserServiceImpl implements UserService {
     public void setUserRoleRepository(UserRoleRepository userRoleRepository) {
         this.userRoleRepository = userRoleRepository;
     }
+
+
 }

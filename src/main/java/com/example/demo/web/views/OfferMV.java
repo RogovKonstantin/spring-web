@@ -2,7 +2,7 @@ package com.example.demo.web.views;
 
 
 
-public class OfferMW {
+public class OfferMV {
     private String description;
     private String engine;
     private int mileage;
@@ -16,10 +16,23 @@ public class OfferMW {
 
 
 
-    public OfferMW() {
+    public OfferMV() {
     }
 
-    public OfferMW(String description, int mileage, int price, int year) {
+    public OfferMV(String description, String engine, int mileage, int price, String transmission, int year, String seller, String model, String brand, String imageUrl) {
+        this.description = description;
+        this.engine = engine;
+        this.mileage = mileage;
+        this.price = price;
+        this.transmission = transmission;
+        this.year = year;
+        this.seller = seller;
+        this.model = model;
+        this.brand = brand;
+        this.imageUrl = imageUrl;
+    }
+
+    public OfferMV(String description, int mileage, int price, int year) {
         this.description = description;
         this.mileage = mileage;
         this.price = price;

@@ -4,22 +4,19 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
-public class UserCreationMW {
+public class UserCreationMV {
     private String firstName;
     private String lastName;
     private String username;
     private String password;
 
-    public UserCreationMW(String firstName, String lastName, String username, String password) {
+    public UserCreationMV(String firstName, String lastName, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
     }
 
-    public UserCreationMW() {
-
-    }
     @NotNull
     @NotEmpty
     @Length(min = 2, message = "First name must be at least two characters!")
@@ -52,7 +49,7 @@ public class UserCreationMW {
     }
     @NotNull
     @NotEmpty
-    @Length(min = 6, message = "Password must at least than six characters!")
+    @Length(min = 6, message = "Password must at least six characters!")
     public String getPassword() {
         return password;
     }

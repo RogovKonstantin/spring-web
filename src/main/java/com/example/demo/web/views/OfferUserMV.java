@@ -2,8 +2,9 @@ package com.example.demo.web.views;
 
 import com.example.demo.constants.Enums.VehicleTypesEnum;
 
-public class OfferModelMW {
+public class OfferUserMV {
 
+    private String username;
     private String description;
     private int price;
     private int mileage;
@@ -13,7 +14,9 @@ public class OfferModelMW {
     private VehicleTypesEnum category;
     private String modelName;
 
-    public OfferModelMW(String description, int price, int mileage, int year, VehicleTypesEnum category, String modelName) {
+
+    public OfferUserMV(String username, String description, int price, int mileage, int year, VehicleTypesEnum category, String modelName) {
+        this.username = username;
         this.description = description;
         this.price = price;
         this.mileage = mileage;
@@ -22,7 +25,17 @@ public class OfferModelMW {
         this.modelName = modelName;
     }
 
-    public OfferModelMW() {
+
+
+    public OfferUserMV() {
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getDescription() {
@@ -75,8 +88,9 @@ public class OfferModelMW {
 
     @Override
     public String toString() {
-        return "OfferModelMW{" +
-                "description='" + description + '\'' +
+        return "OfferUserMw{" +
+                "username='" + username + '\'' +
+                ", description='" + description + '\'' +
                 ", price=" + price +
                 ", mileage=" + mileage +
                 ", year=" + year +

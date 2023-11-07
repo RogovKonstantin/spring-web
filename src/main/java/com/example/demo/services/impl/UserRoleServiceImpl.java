@@ -3,10 +3,12 @@ package com.example.demo.services.impl;
 import com.example.demo.constants.Enums.Role;
 import com.example.demo.models.User;
 import com.example.demo.models.UserRole;
-import com.example.demo.repos.UserRoleRepository;
 import com.example.demo.repos.UserRepository;
+import com.example.demo.repos.UserRoleRepository;
+import com.example.demo.services.DTOS.UserDto;
 import com.example.demo.services.DTOS.UserRoleDto;
 import com.example.demo.services.UserRoleService;
+import com.example.demo.services.UserService;
 import com.example.demo.util.ValidationUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ public class UserRoleServiceImpl implements UserRoleService {
     private final ModelMapper modelMapper;
     private UserRepository userRepository;
     private UserRoleRepository userRoleRepository;
+    private UserService userService;
+
 
     @Autowired
     UserRoleServiceImpl(ValidationUtil validationUtil, ModelMapper modelMapper) {
@@ -40,15 +44,27 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     @Override
-    public void updateUserRole(User user, UserRole userRole) {
-
-        if (user.getRole().getId().toString().equals(userRole.getId().toString())) {
-            System.out.println(user.getUsername() + " is already " + userRole);
+    public void updateUserRoleToUSER(String username) {
+        UserDto userDto = userService.getByUsername(username);
+        if (userDto.getRole().getId() == this.getByRole(Role.USER).getId()) {
+            System.out.println(username + " is already User");
         } else {
-            user.setRole(userRole);
-            userRepository.save(user);
-            userRoleRepository.save(userRole);
-            System.out.println(user.getUsername() + " is now " + user.getRole().toString());
+            userDto.setRole(this.getByRole(Role.USER));
+            User user = modelMapper.map(userDto, User.class);
+            userRepository.saveAndFlush(user);
+            System.out.println(username + " is now User");
+        }
+    }
+    @Override
+    public void updateUserRoleToADMIN(String username) {
+        UserDto userDto = userService.getByUsername(username);
+        if (userDto.getRole().getId() == this.getByRole(Role.ADMIN).getId()) {
+            System.out.println(username + " is already Admin");
+        } else {
+            userDto.setRole(this.getByRole(Role.ADMIN));
+            User user = modelMapper.map(userDto, User.class);
+            userRepository.saveAndFlush(user);
+            System.out.println(username + " is now Admin");
         }
     }
 
@@ -63,6 +79,8 @@ public class UserRoleServiceImpl implements UserRoleService {
         return userRoleRepository.findAll().stream().map((userUserRole) -> modelMapper.map(userUserRole, UserRoleDto.class)).collect(Collectors.toList());
     }
 
+
+
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -71,5 +89,10 @@ public class UserRoleServiceImpl implements UserRoleService {
     @Autowired
     public void setUserRoleRepository(UserRoleRepository userRoleRepository) {
         this.userRoleRepository = userRoleRepository;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 }

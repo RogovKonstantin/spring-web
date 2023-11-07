@@ -17,7 +17,8 @@ public interface UserRoleService {
 
     List<UserRoleDto> getAll();
 
-    void updateUserRole(User user, UserRole userRole);
+    void updateUserRoleToADMIN(String username);
+    void updateUserRoleToUSER(String username);
 
 
 

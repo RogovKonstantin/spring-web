@@ -1,5 +1,9 @@
 package com.example.demo.services.DTOS;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -43,7 +47,9 @@ public class UserDto {
         return id;
     }
 
-
+    @NotNull
+    @NotEmpty
+    @Length(min = 5, message = "Username name must be at least five characters!")
     public String getUsername() {
         return username;
     }

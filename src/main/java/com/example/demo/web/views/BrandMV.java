@@ -1,11 +1,7 @@
 package com.example.demo.web.views;
 
-public class BrandCreationMW {
+public class BrandMV {
     private String name;
-
-    public BrandCreationMW() {
-    }
-
 
     public String getName() {
         return name;
@@ -13,5 +9,13 @@ public class BrandCreationMW {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+
+    @Override
+    public String toString() {
+        return "BrandModelView{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }
