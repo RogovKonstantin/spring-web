@@ -1,3 +1,4 @@
+/*
 package com.example.demo;
 
 import com.example.demo.constants.Enums.EngineTypesEnum;
@@ -6,11 +7,13 @@ import com.example.demo.constants.Enums.TransmissionTypesEnum;
 import com.example.demo.constants.Enums.VehicleTypesEnum;
 import com.example.demo.models.Brand;
 import com.example.demo.models.Model;
-import com.example.demo.models.User;
 import com.example.demo.models.UserRole;
 import com.example.demo.repos.*;
 import com.example.demo.services.*;
-
+import com.example.demo.services.DTOS.ModelDto;
+import com.example.demo.services.DTOS.OfferDto;
+import com.example.demo.services.DTOS.UserDto;
+import com.example.demo.services.DTOS.UserRoleDto;
 import com.github.javafaker.Faker;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +23,6 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 @Component
 public class DataInitializer implements CommandLineRunner {
@@ -52,10 +54,9 @@ public class DataInitializer implements CommandLineRunner {
     private OfferService offerService;
 
 
-
     @Override
     public void run(String... args) throws Exception {
-     /*   Faker faker = new Faker();
+        Faker faker = new Faker();
         Random random = new Random();
 
         UserRole userRole = new UserRole(Role.USER);
@@ -78,7 +79,7 @@ public class DataInitializer implements CommandLineRunner {
         }
 
         List<UserDto> userListDto = userService.getAll();
-        String[] carBrands = {"Toyota", "BMW", "Mercedes-Benz", "Ford", "Volkswagen", "Audi"};
+        String[] carBrands = {"Toyota", "BMW", "Mercedes-Benz", "Ford", "Volkswagen", "Audi", "Honda", "Chevrolet", "Volvo"};
         for (String brand : carBrands) {
             Brand br = new Brand(brand);
             brandRepository.save(br);
@@ -125,6 +126,27 @@ public class DataInitializer implements CommandLineRunner {
                 Model model29 = new Model("Polo", VehicleTypesEnum.CAR, "https://example.com/vwpolo.jpg", 2018, 2022, br);
                 Model model30 = new Model("Arteon", VehicleTypesEnum.CAR, "https://example.com/vwarteon.jpg", 2019, 2022, br);
                 modelRepository.saveAll(Arrays.asList(model26, model27, model28, model29, model30));
+            } else if (brand.equals("Honda")) {
+                Model model31 = new Model("CBR500R", VehicleTypesEnum.MOTORCYCLE, "https://example.com/hondacbr500r.jpg", 2019, 2022, br);
+                Model model32 = new Model("CRF250L", VehicleTypesEnum.MOTORCYCLE, "https://example.com/hondacrf250l.jpg", 2018, 2022, br);
+                Model model33 = new Model("CB300R", VehicleTypesEnum.MOTORCYCLE, "https://example.com/hondacb300r.jpg", 2017, 2022, br);
+                Model model34 = new Model("Ridgeline", VehicleTypesEnum.TRUCK, "https://example.com/hondaridgeline.jpg", 2019, 2022, br);
+                Model model35 = new Model("CR-V", VehicleTypesEnum.CAR, "https://example.com/hondacrv.jpg", 2016, 2022, br);
+                modelRepository.saveAll(Arrays.asList(model31, model32, model33, model34, model35));
+            } else if (brand.equals("Chevrolet")) {
+                Model model36 = new Model("Silverado 1500", VehicleTypesEnum.TRUCK, "https://example.com/chevroletsilverado1500.jpg", 2017, 2022, br);
+                Model model37 = new Model("Cruze", VehicleTypesEnum.CAR, "https://example.com/chevroletcruze.jpg", 2018, 2022, br);
+                Model model38 = new Model("Equinox", VehicleTypesEnum.CAR, "https://example.com/chevroletequinox.jpg", 2016, 2022, br);
+                Model model39 = new Model("Spark", VehicleTypesEnum.CAR, "https://example.com/chevroletspark.jpg", 2019, 2022, br);
+                Model model40 = new Model("Trailblazer", VehicleTypesEnum.CAR, "https://example.com/chevrolettrailblazer.jpg", 2020, 2022, br);
+                modelRepository.saveAll(Arrays.asList(model36, model37, model38, model39, model40));
+            } else if (brand.equals("Volvo")) {
+                Model model41 = new Model("8700", VehicleTypesEnum.BUS, "https://example.com/volvo8700.jpg", 2018, 2022, br);
+                Model model42 = new Model("9700", VehicleTypesEnum.BUS, "https://example.com/volvo9700.jpg", 2019, 2022, br);
+                Model model43 = new Model("9900", VehicleTypesEnum.BUS, "https://example.com/volvo9900.jpg", 2017, 2022, br);
+                Model model44 = new Model("Sunsundegui Sideral", VehicleTypesEnum.BUS, "https://example.com/sunsundeguisideral.jpg", 2019, 2022, br);
+                Model model45 = new Model("Irizar i8", VehicleTypesEnum.BUS, "https://example.com/irizari8.jpg", 2020, 2022, br);
+                modelRepository.saveAll(Arrays.asList(model41, model42, model43, model44, model45));
             }
         }
         List<ModelDto> models = modelService.getAll();
@@ -189,9 +211,9 @@ public class DataInitializer implements CommandLineRunner {
 
 
 
-
-    }*/
-}}
-
+    }
+}
 
 
+
+*/

@@ -2,11 +2,7 @@ package com.example.demo.services;
 
 import com.example.demo.models.Offer;
 import com.example.demo.services.DTOS.OfferDto;
-import com.example.demo.web.views.OfferCreationMV;
-
-import com.example.demo.web.views.OfferMV;
-import com.example.demo.web.views.OfferModelMV;
-import com.example.demo.web.views.OfferUserMV;
+import com.example.demo.web.views.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -30,7 +26,11 @@ public interface OfferService {
 
     void updatePrice(OfferDto offerDto, Integer price);
 
-    List<OfferMV> viewAllOffers();
+  /*  List<MinimalOfferInfoMV> viewAllOffers();*/
+
+
+    List<MinimalOfferInfoMV> allOffers();
+
     List<OfferMV> viewOffersByPriceAndMileageLessDescYear(Integer price, Integer mileage);
 
 
@@ -38,5 +38,8 @@ public interface OfferService {
 
     void createOffer(OfferCreationMV offerCreationMV);
     List<OfferModelMV> getAllOffersByBrandAndVtype(String brand, String type);
+    List<MinimalOfferInfoMV> getOffersSortByDate();
+    List<MinimalOfferInfoMV> getAllOffersByVtype(String type);
+    List<MinimalOfferInfoMV> getAllOffersByBrand(String brandName);
 
 }

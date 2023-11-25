@@ -5,12 +5,13 @@ import com.example.demo.services.UserRoleService;
 import com.example.demo.services.UserService;
 import com.example.demo.web.views.UserMV;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/users")
 public class UsersController {
     private UserService userService;

@@ -5,12 +5,13 @@ import com.example.demo.web.views.BrandCreationMV;
 import com.example.demo.web.views.BrandMV;
 import com.example.demo.web.views.BrandModelsMV;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/brands")
 public class BrandsController {
     private BrandService brandService;
@@ -20,8 +21,7 @@ public class BrandsController {
     public String allBrands(Model model) {
         List<BrandMV> allBrandsList = brandService.getAllBrands();
         model.addAttribute("allBrandsList", allBrandsList);
-        allBrandsList.forEach(System.out::println);
-        return "all-brands.html";
+        return "brands-all";
     }
 
     @GetMapping("/{brand}/sort-models-by-category")

@@ -2,19 +2,16 @@ package com.example.demo.web.controllers;
 
 
 import com.example.demo.services.OfferService;
-import com.example.demo.web.views.OfferCreationMV;
-
-import com.example.demo.web.views.OfferMV;
-import com.example.demo.web.views.OfferModelMV;
-import com.example.demo.web.views.OfferUserMV;
+import com.example.demo.web.views.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
-@RestController
+@Controller
 @RequestMapping("/offers")
 public class OffersController {
     private OfferService offerService;
@@ -22,11 +19,33 @@ public class OffersController {
 
     @GetMapping("")
     public String allOffers(Model model) {
-        List<OfferMV> offerList = offerService.viewAllOffers();
-        model.addAttribute("offerList", offerList);
-        offerList.forEach(System.out::println);
-        return "all-offers.html";
+        List<MinimalOfferInfoMV> offerList = offerService.allOffers();
+        model.addAttribute("offers", offerList);
+        return "offers-all";
     }
+
+    @GetMapping("/type/{type}")
+    public String allOffersByType(@PathVariable String type, Model model) {
+        List<MinimalOfferInfoMV> offersByType = offerService.getAllOffersByVtype(type);
+        model.addAttribute("offers", offersByType);
+        return "offers-all";
+    }
+
+    @GetMapping("/brand/{brand}")
+    public String allOffersByBrand(@PathVariable String brand, Model model) {
+        List<MinimalOfferInfoMV> offersByBrand = offerService.getAllOffersByBrand(brand);
+        model.addAttribute("offers", offersByBrand);
+        return "offers-all";
+    }
+
+    @GetMapping("/latest")
+    public String allOffersSortedByDate(Model model) {
+        List<MinimalOfferInfoMV> offersSortedByDate = offerService.getOffersSortByDate();
+        model.addAttribute("offers", offersSortedByDate);
+        return "offers-all";
+    }
+
+
     @GetMapping("/less-than-price-and-mileage-desc-year")
     public String allOffersPriceAndMileageLess(@RequestParam Integer price, @RequestParam Integer mileage, Model model) {
         List<OfferMV> offersPriceAndMileageLess = offerService.viewOffersByPriceAndMileageLessDescYear(price, mileage);
@@ -34,6 +53,7 @@ public class OffersController {
         offersPriceAndMileageLess.forEach(System.out::println);
         return "all-offers.html";
     }
+
     @GetMapping("/by-brand-and-vtype/{brand}/{type}")
     public String allOffersByBrandAndVtype(@PathVariable String brand, @PathVariable String type, Model model) {
         List<OfferModelMV> offersByBrandAndVtype = offerService.getAllOffersByBrandAndVtype(brand, type);
@@ -50,8 +70,9 @@ public class OffersController {
         return "all-offers.html";
     }
 
+
     @PostMapping("")
-    public String createOffer(@RequestBody OfferCreationMV createOffer){
+    public String createOffer(@RequestBody OfferCreationMV createOffer) {
         offerService.createOffer(createOffer);
         return "all-offers.html";
     }

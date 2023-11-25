@@ -1,9 +1,7 @@
 package com.example.demo.services.impl;
 
 import com.example.demo.constants.Enums.VehicleTypesEnum;
-import com.example.demo.models.Model;
 import com.example.demo.models.Offer;
-import com.example.demo.models.User;
 import com.example.demo.repos.OfferRepository;
 import com.example.demo.services.DTOS.ModelDto;
 import com.example.demo.services.DTOS.OfferDto;
@@ -12,16 +10,12 @@ import com.example.demo.services.ModelService;
 import com.example.demo.services.OfferService;
 import com.example.demo.services.UserService;
 import com.example.demo.util.ValidationUtil;
-import com.example.demo.web.views.OfferCreationMV;
-import com.example.demo.web.views.OfferMV;
-import com.example.demo.web.views.OfferModelMV;
-import com.example.demo.web.views.OfferUserMV;
+import com.example.demo.web.views.*;
 import jakarta.validation.ConstraintViolation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -79,7 +73,33 @@ public class OfferServiceImpl implements OfferService {
         System.out.println(oldPrice + " changed to " + newPrice);
     }
 
+    /* @Override
+     public List<OfferMV> viewAllOffers() {
+         List<OfferDto> offerDtoList = offerRepository.findAll()
+                 .stream()
+                 .map(offer -> modelMapper.map(offer, OfferDto.class))
+                 .toList();
+
+         List<OfferMV> allOffersDemoView = new ArrayList<>();
+
+         for (OfferDto offerDto : offerDtoList) {
+
+             OfferMV offerMV = modelMapper.map(offerDto, OfferMV.class);
+
+             offerMV.setModel(offerDto.getModel().getName());
+             offerMV.setBrand(offerDto.getModel().getBrand().getName());
+             offerMV.setSeller(offerDto.getSeller().getUsername());
+             allOffersDemoView.add(offerMV);
+         }
+         return allOffersDemoView;
+     }*/
     @Override
+    public List<MinimalOfferInfoMV> allOffers() {
+        return offerRepository.getAllOffers();
+    }
+
+
+    /* @Override
     public List<OfferMV> viewAllOffers() {
         List<OfferDto> offerDtoList = offerRepository.findAll()
                 .stream()
@@ -98,12 +118,12 @@ public class OfferServiceImpl implements OfferService {
             allOffersDemoView.add(offerMV);
         }
         return allOffersDemoView;
-    }
-
+    }*/
     @Override
     public List<OfferMV> viewOffersByPriceAndMileageLessDescYear(Integer price, Integer mileage) {
         return offerRepository.getOffersByPriceAndMileageLessDescYear(price, mileage);
     }
+
 
 
     @Override
@@ -130,6 +150,21 @@ public class OfferServiceImpl implements OfferService {
             this.createOffer(offerDto);
         }
 
+    }
+
+    @Override
+    public List<MinimalOfferInfoMV> getOffersSortByDate() {
+        return offerRepository.getLatestOffers();
+    }
+
+    @Override
+    public List<MinimalOfferInfoMV> getAllOffersByVtype(String type) {
+        return offerRepository.getAllOffersByVtype(VehicleTypesEnum.valueOf(type));
+    }
+
+    @Override
+    public List<MinimalOfferInfoMV> getAllOffersByBrand(String brandName) {
+        return offerRepository.getAllOffersByBrand(brandName);
     }
 
     @Override

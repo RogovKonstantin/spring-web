@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head}"/>
 <body class="d-flex flex-column h-100">
 <div th:replace="~{fragments/navbar}"></div>
@@ -8,14 +8,12 @@
         <div class="row">
             <div class="col-md-2"></div>
             <div class="jumbotron text-center rounded col-md-8 align-self-center pt-5">
-                <div class="justify-content-center" style="margin-bottom: 200px;">
-                    <h1>Welcome to Dealership website</h1>
-                </div>
-                <div class="justify-content-center" style="margin-bottom: 30px;">
-                    <a href="/offers/latest" class="button-link">See most recent offers</a>
-                </div>
-                <div class="justify-content-center" style="margin-bottom: 30px;">
-                    <a href="/brands" class="button-link">See available brands</a>
+                <div class='row mb-4 d-flex justify-content-around'>
+                    <div th:each="b : ${allBrandsList}" class="col-md-4 d-flex flex-column bg-text mb-3 rounded offer-item" style="margin: 15px;">
+                        <a th:href="@{|/offers/brand/${b.name}|}" class="brand-link">
+                            <h2 th:text="${b.name}"></h2>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -26,7 +24,8 @@
 </html>
 
 <style>
-    .button-link {
+
+    .brand-link {
   display: inline-block;
   padding: 10px 20px;
   text-align: center;
@@ -38,8 +37,10 @@
   transition: all 0.3s ease-in-out;
 }
 
-.button-link:hover {
+.brand-link:hover {
   background-color: #000;  /* Change background color on hover to black */
   color: #fff;  /* Change text color on hover to white */
 }
 </style>
+
+

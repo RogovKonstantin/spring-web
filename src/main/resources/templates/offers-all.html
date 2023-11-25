@@ -8,14 +8,18 @@
         <div class="row">
             <div class="col-md-2"></div>
             <div class="jumbotron text-center rounded col-md-8 align-self-center pt-5">
-                <div class="justify-content-center" style="margin-bottom: 200px;">
-                    <h1>Welcome to Dealership website</h1>
-                </div>
-                <div class="justify-content-center" style="margin-bottom: 30px;">
-                    <a href="/offers/latest" class="button-link">See most recent offers</a>
-                </div>
-                <div class="justify-content-center" style="margin-bottom: 30px;">
-                    <a href="/brands" class="button-link">See available brands</a>
+                <div class='row mb-4 d-flex justify-content-around'>
+                    <div th:each="o : ${offers}" class="col-md-4 d-flex flex-column bg-text mb-3 rounded offer-item">
+                        <h2 th:text=" ${o.year} +' '+ ${o.modelName}"></h2>
+                        <h4 th:text="'Brand: ' + ${o.brandName}"></h4>
+                        <h4 th:text="'Price: ' + ${o.price}"></h4>
+                        <h4 th:text="'Mileage: ' + ${o.mileage}"></h4>
+                       <!-- <h4 th:text="'Description: ' + ${o.description}"></h4>
+                        <h4 th:text="'Published: ' + ${#temporals.format(o.created, 'yyyy-MM-dd HH:mm:ss')}+' by '+${o.username}"></h4>-->
+                        <h4><a class="btn-block"
+                                     > See details
+                            </a></h4>
+                    </div>
                 </div>
             </div>
         </div>
@@ -26,7 +30,12 @@
 </html>
 
 <style>
-    .button-link {
+    .offer-item {
+        border: 1px solid #000;
+        padding: 10px;
+        margin: 15px;
+    }
+    .btn-block {
   display: inline-block;
   padding: 10px 20px;
   text-align: center;
@@ -38,7 +47,7 @@
   transition: all 0.3s ease-in-out;
 }
 
-.button-link:hover {
+.btn-block:hover {
   background-color: #000;  /* Change background color on hover to black */
   color: #fff;  /* Change text color on hover to white */
 }

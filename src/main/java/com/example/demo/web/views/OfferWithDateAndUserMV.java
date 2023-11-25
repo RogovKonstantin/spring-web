@@ -2,40 +2,34 @@ package com.example.demo.web.views;
 
 import com.example.demo.constants.Enums.VehicleTypesEnum;
 
-public class OfferUserMV {
+import java.time.LocalDateTime;
 
-    private String username;
+public class OfferWithDateAndUserMV {
+
     private String description;
     private int price;
     private int mileage;
 
     private int year;
-    private String modelName;
+
     private VehicleTypesEnum category;
+    private String modelName;
+    private LocalDateTime created;
+    private String username;
 
 
-
-    public OfferUserMV(String username, String description, int price, int mileage, int year, VehicleTypesEnum category, String modelName) {
-        this.username = username;
+    public OfferWithDateAndUserMV(String description, int price, int mileage, int year, VehicleTypesEnum category, String modelName, LocalDateTime created,String username) {
         this.description = description;
         this.price = price;
         this.mileage = mileage;
         this.year = year;
         this.category = category;
         this.modelName = modelName;
+        this.created=created;
+        this.username=username;
     }
 
-
-
-    public OfferUserMV() {
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public OfferWithDateAndUserMV() {
     }
 
     public String getDescription() {
@@ -86,16 +80,33 @@ public class OfferUserMV {
         this.modelName = modelName;
     }
 
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     @Override
     public String toString() {
-        return "OfferUserMw{" +
-                "username='" + username + '\'' +
-                ", description='" + description + '\'' +
+        return "OfferWithDateAndUserMV{" +
+                "description='" + description + '\'' +
                 ", price=" + price +
                 ", mileage=" + mileage +
                 ", year=" + year +
                 ", category=" + category +
                 ", modelName='" + modelName + '\'' +
+                ", created=" + created +
+                ", username='" + username + '\'' +
                 '}';
     }
 }
