@@ -45,6 +45,13 @@ public class OffersController {
         return "offers-all";
     }
 
+    @GetMapping("/details/{offerId}")
+    public String offerDetails(@PathVariable UUID offerId, Model model) {
+        OfferDetailsMV offerDetails = offerService.getOfferDetails(offerId);
+        model.addAttribute("details", offerDetails);
+        return "offer-details";
+    }
+
 
     @GetMapping("/less-than-price-and-mileage-desc-year")
     public String allOffersPriceAndMileageLess(@RequestParam Integer price, @RequestParam Integer mileage, Model model) {
@@ -54,13 +61,6 @@ public class OffersController {
         return "all-offers.html";
     }
 
-    @GetMapping("/by-brand-and-vtype/{brand}/{type}")
-    public String allOffersByBrandAndVtype(@PathVariable String brand, @PathVariable String type, Model model) {
-        List<OfferModelMV> offersByBrandAndVtype = offerService.getAllOffersByBrandAndVtype(brand, type);
-        model.addAttribute("offersByBrandAndVtype", offersByBrandAndVtype);
-        offersByBrandAndVtype.forEach(System.out::println);
-        return "all-offers.html";
-    }
 
     @GetMapping("by-users-active")
     public String allOffersByActiveUsers(Model model) {

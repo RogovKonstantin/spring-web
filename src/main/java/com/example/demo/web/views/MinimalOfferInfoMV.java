@@ -1,19 +1,25 @@
 package com.example.demo.web.views;
 
+import java.util.UUID;
+
 public class MinimalOfferInfoMV {
     private int price;
     private int mileage;
     private int year;
     private String modelName;
     private String brandName;
+    private UUID id;
 
-    public MinimalOfferInfoMV(int price, int mileage, int year, String modelName,String brandName) {
+    public MinimalOfferInfoMV(int price, int mileage, int year, String modelName,String brandName,UUID id) {
         this.price = price;
         this.mileage = mileage;
         this.year = year;
         this.modelName = modelName;
         this.brandName=brandName;
+        this.id=id;
     }
+
+
 
     public MinimalOfferInfoMV() {
 
@@ -56,6 +62,14 @@ public class MinimalOfferInfoMV {
 
     public void setBrandName(String brandName) {
         this.brandName = brandName;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     @Override

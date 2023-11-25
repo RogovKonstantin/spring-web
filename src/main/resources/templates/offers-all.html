@@ -16,7 +16,7 @@
                         <h4 th:text="'Mileage: ' + ${o.mileage}"></h4>
                        <!-- <h4 th:text="'Description: ' + ${o.description}"></h4>
                         <h4 th:text="'Published: ' + ${#temporals.format(o.created, 'yyyy-MM-dd HH:mm:ss')}+' by '+${o.username}"></h4>-->
-                        <h4><a class="btn-block"
+                        <h4><a class="btn-block" th:href="@{/offers/details/{offer-id}(offer-id=${o.id})}"
                                      > See details
                             </a></h4>
                     </div>
@@ -40,15 +40,15 @@
   padding: 10px 20px;
   text-align: center;
   text-decoration: none;
-  border: 2px solid #000;  /* Change border color to black */
-  color: #000;  /* Change text color to black */
-  background-color: #fff;  /* Set background color to white */
+  border: 2px solid #000;
+  color: #000;
+  background-color: #fff;
   border-radius: 5px;
   transition: all 0.3s ease-in-out;
 }
 
 .btn-block:hover {
-  background-color: #000;  /* Change background color on hover to black */
-  color: #fff;  /* Change text color on hover to white */
+  background-color: #000;
+  color: #fff;
 }
 </style>

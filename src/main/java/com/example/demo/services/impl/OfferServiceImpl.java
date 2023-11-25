@@ -73,26 +73,7 @@ public class OfferServiceImpl implements OfferService {
         System.out.println(oldPrice + " changed to " + newPrice);
     }
 
-    /* @Override
-     public List<OfferMV> viewAllOffers() {
-         List<OfferDto> offerDtoList = offerRepository.findAll()
-                 .stream()
-                 .map(offer -> modelMapper.map(offer, OfferDto.class))
-                 .toList();
 
-         List<OfferMV> allOffersDemoView = new ArrayList<>();
-
-         for (OfferDto offerDto : offerDtoList) {
-
-             OfferMV offerMV = modelMapper.map(offerDto, OfferMV.class);
-
-             offerMV.setModel(offerDto.getModel().getName());
-             offerMV.setBrand(offerDto.getModel().getBrand().getName());
-             offerMV.setSeller(offerDto.getSeller().getUsername());
-             allOffersDemoView.add(offerMV);
-         }
-         return allOffersDemoView;
-     }*/
     @Override
     public List<MinimalOfferInfoMV> allOffers() {
         return offerRepository.getAllOffers();
@@ -168,8 +149,8 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public List<OfferModelMV> getAllOffersByBrandAndVtype(String brand, String type) {
-        return offerRepository.getAllOffersByBrandAndVtype(brand, VehicleTypesEnum.valueOf(type));
+    public OfferDetailsMV getOfferDetails(UUID id) {
+        return offerRepository.getOfferDetails(id);
     }
 
 

@@ -26,7 +26,7 @@ public interface OfferService {
 
     void updatePrice(OfferDto offerDto, Integer price);
 
-  /*  List<MinimalOfferInfoMV> viewAllOffers();*/
+    /*  List<MinimalOfferInfoMV> viewAllOffers();*/
 
 
     List<MinimalOfferInfoMV> allOffers();
@@ -37,9 +37,13 @@ public interface OfferService {
     List<OfferUserMV> viewOffersByActiveUsers();
 
     void createOffer(OfferCreationMV offerCreationMV);
-    List<OfferModelMV> getAllOffersByBrandAndVtype(String brand, String type);
+
     List<MinimalOfferInfoMV> getOffersSortByDate();
+
     List<MinimalOfferInfoMV> getAllOffersByVtype(String type);
+
     List<MinimalOfferInfoMV> getAllOffersByBrand(String brandName);
+
+    OfferDetailsMV getOfferDetails(UUID id);
 
 }
