@@ -25,6 +25,7 @@ public class UsersController {
         return "all-users.html";
     }
 
+
     @GetMapping("/active")
     public String allActiveUsers(Model model) {
         List<UserMV> allActiveUsersList = userService.getAllActiveUsers();

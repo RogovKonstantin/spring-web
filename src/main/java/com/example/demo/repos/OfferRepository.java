@@ -25,7 +25,7 @@ public interface OfferRepository extends JpaRepository<Offer, UUID> {
             "From Offer o JOIN o.model m JOIN o.seller u WHERE u.active=:bool")
     List<OfferUserMV> getAllOffersAndModelsByUserState(@Param(value = "bool") Boolean bool);
 
-    @Query(value = "SELECT new com.example.demo.web.views.MinimalOfferInfoMV(o.price, o.mileage, o.year,  m.name, b.name)" +
+    @Query(value = "SELECT new com.example.demo.web.views.MinimalOfferInfoMV(o.price, o.mileage, o.year,  m.name, b.name, o.id)" +
             "From Offer o JOIN o.model m JOIN o.seller u JOIN Brand b on m.brand.id=b.id ORDER by o.created DESC ")
     List<MinimalOfferInfoMV> getLatestOffers();
 
