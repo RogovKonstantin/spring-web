@@ -1,10 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}">
 </head>
-<body>
-
+<body class="d-flex flex-column h-100">
+<div th:replace="~{fragments/navbar}"></div>
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <main class="jumbotron text-center rounded col-md-12 align-self-center pt-5">
+                <div class="justify-content-center">
+                    <h1>User profile</h1>
+                </div>
+                <div class="row rounded">
+                    <div th:each="userDetails : ${userDetails}"
+                         class="col-md-4 d-flex flex-column bg-text mb-3 rounded user-item">
+                        <div class="user-details-container">
+                            <h2>
+                                <span th:text="'Username: '"></span>
+                                <span th:text="${userDetails.username}"
+                                      th:style="${userDetails.active} ? 'color: #608058' : 'color: black'"></span>
+                            </h2>
+                            <h4 th:text="'Full name: ' + ${userDetails.firstName}+' '+${userDetails.lastName}"></h4>
+                            <h4 th:text="'Role: ' + ${userDetails.role}"></h4>
+                            <h4 th:text="'Registered: ' + ${#temporals.format(userDetails.created, 'yyyy-MM-dd')}"></h4>
+                            <h4><a class="btn-block"
+                                   th:href="@{/offers/by-username/{username}(username=${userDetails.username})}">
+                                <h4 th:text="'See ' + ${userDetails.username}+' listings'"></h4></a></h4>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments/footer}"/>
 </body>
 </html>
+
+<style>
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .user-item {
+      border: 2px solid black;
+      padding: 10px;
+      margin: 10px;
+      width: 500px;
+    }
+
+    .user-details-container {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px;
+    }
+    .btn-block {
+  display: inline-block;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  border: 2px solid #000;
+  color: #000;
+  background-color: #fff;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-block:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+
+</style>

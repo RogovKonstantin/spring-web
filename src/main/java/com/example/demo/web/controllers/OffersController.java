@@ -24,17 +24,23 @@ public class OffersController {
         return "offers-all";
     }
 
-    @GetMapping("/type/{type}")
+    @GetMapping("/by-type/{type}")
     public String allOffersByType(@PathVariable String type, Model model) {
         List<MinimalOfferInfoMV> offersByType = offerService.getAllOffersByVtype(type);
         model.addAttribute("offers", offersByType);
         return "offers-all";
     }
 
-    @GetMapping("/brand/{brand}")
+    @GetMapping("/by-brand/{brand}")
     public String allOffersByBrand(@PathVariable String brand, Model model) {
         List<MinimalOfferInfoMV> offersByBrand = offerService.getAllOffersByBrand(brand);
         model.addAttribute("offers", offersByBrand);
+        return "offers-all";
+    }
+    @GetMapping("/by-username/{username}")
+    public String allOffersByUsername(@PathVariable String username, Model model) {
+        List<MinimalOfferInfoMV> offersByUsername = offerService.getAllOffersByUsername(username);
+        model.addAttribute("offers", offersByUsername);
         return "offers-all";
     }
 
@@ -48,7 +54,7 @@ public class OffersController {
     @GetMapping("/details/{offerId}")
     public String offerDetails(@PathVariable UUID offerId, Model model) {
         OfferDetailsMV offerDetails = offerService.getOfferDetails(offerId);
-        model.addAttribute("details", offerDetails);
+        model.addAttribute("offerDetails", offerDetails);
         return "offer-details";
     }
 

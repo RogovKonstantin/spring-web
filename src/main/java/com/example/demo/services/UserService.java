@@ -34,4 +34,5 @@ public interface UserService {
     void addUser(String firstName, String lastName, String username, String password);
     List<UserMV> getAllActiveUsers();
     List<UserMV> getAllUnActiveUsers();
+    UserMV getUserMVByUsername(String username);
 }

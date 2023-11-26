@@ -13,19 +13,19 @@
                 </div>
                 <div class="row rounded">
                     <div class="col-md-6 pt-3">
-                        <div th:each="d : ${details}"
+                        <div th:each="offerDetails : ${offerDetails}"
                              class="col-md-4 d-flex flex-column bg-text mb-3 rounded offer-item">
                             <div class="offer-details-container">
-                                <h2 th:text="${d.year} + ' ' + ${d.modelName}"></h2>
-                                <h4 th:text="'Brand: ' + ${d.brandName}"></h4>
-                                <h4 th:text="'Price: ' + ${d.price}"></h4>
-                                <h4 th:text="'Mileage: ' + ${d.mileage}"></h4>
-                                <h4 th:text="'Category: ' + ${d.category}"></h4>
-                                <h4 th:text="'Description: ' + ${d.description}"></h4>
-                                <h4 th:text="'Published: ' + ${#temporals.format(d.created, 'yyyy-MM-dd HH:mm:ss')} + ' by '"></h4>
-                                <a th:href="@{|/users/profile/${d.username}|}" class="user-link"
-                                   th:classappend="${d.active} ? 'active' : ''">
-                                    <h4 th:text="${d.username}"></h4>
+                                <h2 th:text="${offerDetails.year} + ' ' + ${offerDetails.modelName}"></h2>
+                                <h4 th:text="'Brand: ' + ${offerDetails.brandName}"></h4>
+                                <h4 th:text="'Price: ' + ${offerDetails.price}"></h4>
+                                <h4 th:text="'Mileage: ' + ${offerDetails.mileage}"></h4>
+                                <h4 th:text="'Category: ' + ${offerDetails.category}"></h4>
+                                <h4 th:text="'Description: ' + ${offerDetails.description}"></h4>
+                                <h4 th:text="'Published: ' + ${#temporals.format(offerDetails.created, 'yyyy-MM-dd HH:mm:ss')} + ' by '"></h4>
+                                <a th:href="@{|/users/profile/${offerDetails.username}|}" class="user-link"
+                                   th:classappend="${offerDetails.active} ? 'active' : ''">
+                                    <h4 th:text="${offerDetails.username}"></h4>
                                 </a>
 
 

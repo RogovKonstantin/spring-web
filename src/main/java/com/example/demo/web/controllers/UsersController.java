@@ -25,6 +25,12 @@ public class UsersController {
         return "all-users.html";
     }
 
+    @GetMapping("profile/{username}")
+    public String userInfo(@PathVariable String username, Model model) {
+        UserMV userDetails = userService.getUserMVByUsername(username);
+        model.addAttribute("userDetails",userDetails);
+        return "user-details";
+    }
 
     @GetMapping("/active")
     public String allActiveUsers(Model model) {

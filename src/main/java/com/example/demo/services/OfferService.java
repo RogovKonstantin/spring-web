@@ -46,4 +46,6 @@ public interface OfferService {
 
     OfferDetailsMV getOfferDetails(UUID id);
 
+    List<MinimalOfferInfoMV> getAllOffersByUsername(String username);
+
 }

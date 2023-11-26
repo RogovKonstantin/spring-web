@@ -153,6 +153,11 @@ public class OfferServiceImpl implements OfferService {
         return offerRepository.getOfferDetails(id);
     }
 
+    @Override
+    public List<MinimalOfferInfoMV> getAllOffersByUsername(String username) {
+        return offerRepository.getAllOffersByUsername(username);
+    }
+
 
     @Override
     public void deleteOffer(OfferDto offerDto) {

@@ -5,7 +5,6 @@ import com.example.demo.models.User;
 import com.example.demo.repos.UserRepository;
 import com.example.demo.repos.UserRoleRepository;
 import com.example.demo.services.DTOS.UserDto;
-import com.example.demo.services.UserRoleService;
 import com.example.demo.services.UserService;
 import com.example.demo.util.ValidationUtil;
 import com.example.demo.web.views.UserCreationMV;
@@ -64,7 +63,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUsername(String currentUserName, String newUsername) {
         UserDto userDto = this.getByUsername(currentUserName);
-       userDto.setUsername(newUsername);
+        userDto.setUsername(newUsername);
         if (!this.validationUtil.isValid(userDto)) {
             this.validationUtil
                     .violations(userDto)
@@ -125,6 +124,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserMV> getAllUnActiveUsers() {
         return userRepository.findAllUnActiveUsers();
+    }
+
+    @Override
+    public UserMV getUserMVByUsername(String username) {
+        return userRepository.findByUserName(username);
     }
 
     @Autowired
