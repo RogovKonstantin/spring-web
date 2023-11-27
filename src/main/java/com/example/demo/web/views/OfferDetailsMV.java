@@ -1,5 +1,7 @@
 package com.example.demo.web.views;
 
+import com.example.demo.constants.Enums.EngineTypesEnum;
+import com.example.demo.constants.Enums.TransmissionTypesEnum;
 import com.example.demo.constants.Enums.VehicleTypesEnum;
 
 import java.time.LocalDateTime;
@@ -16,9 +18,11 @@ public class OfferDetailsMV {
     private boolean active;
     private String description;
     private LocalDateTime created;
+    private TransmissionTypesEnum transmission;
+    private EngineTypesEnum engine;
 
 
-    public OfferDetailsMV(int price, int mileage, int year, String modelName, String brandName, VehicleTypesEnum category, String username, boolean active, String description, LocalDateTime created) {
+    public OfferDetailsMV(int price, int mileage, int year, String modelName, String brandName, VehicleTypesEnum category, String username, boolean active, String description, LocalDateTime created, TransmissionTypesEnum transmission, EngineTypesEnum engine) {
         this.price = price;
         this.mileage = mileage;
         this.year = year;
@@ -29,6 +33,8 @@ public class OfferDetailsMV {
         this.active = active;
         this.description = description;
         this.created = created;
+        this.transmission = transmission;
+        this.engine = engine;
     }
 
     public OfferDetailsMV() {
@@ -115,6 +121,22 @@ public class OfferDetailsMV {
         this.created = created;
     }
 
+    public TransmissionTypesEnum getTransmission() {
+        return transmission;
+    }
+
+    public void setTransmission(TransmissionTypesEnum transmission) {
+        this.transmission = transmission;
+    }
+
+    public EngineTypesEnum getEngine() {
+        return engine;
+    }
+
+    public void setEngine(EngineTypesEnum engine) {
+        this.engine = engine;
+    }
+
     @Override
     public String toString() {
         return "OfferDetailsMV{" +
@@ -128,6 +150,8 @@ public class OfferDetailsMV {
                 ", active=" + active +
                 ", description='" + description + '\'' +
                 ", created=" + created +
+                ", transmission=" + transmission +
+                ", engine=" + engine +
                 '}';
     }
 }

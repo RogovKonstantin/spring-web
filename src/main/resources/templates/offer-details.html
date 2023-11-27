@@ -21,6 +21,9 @@
                                 <h4 th:text="'Price: ' + ${offerDetails.price}"></h4>
                                 <h4 th:text="'Mileage: ' + ${offerDetails.mileage}"></h4>
                                 <h4 th:text="'Category: ' + ${offerDetails.category}"></h4>
+                                <h4 th:text="'Transmission: ' + ${offerDetails.transmission}"></h4>
+                                <h4 th:text="'Engine: ' + ${offerDetails.engine}"></h4>
+
                                 <h4 th:text="'Description: ' + ${offerDetails.description}"></h4>
                                 <h4 th:text="'Published: ' + ${#temporals.format(offerDetails.created, 'yyyy-MM-dd HH:mm:ss')} + ' by '"></h4>
                                 <a th:href="@{|/users/profile/${offerDetails.username}|}" class="user-link"

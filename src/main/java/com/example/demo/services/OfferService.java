@@ -5,6 +5,7 @@ import com.example.demo.services.DTOS.OfferDto;
 import com.example.demo.web.views.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface OfferService {
@@ -19,6 +20,8 @@ public interface OfferService {
 
 
     void deleteOffer(OfferDto offer);
+
+    List<MinimalOfferInfoMV> getFilteredOffers(FiltersInputMV filtersInputMV);
 
     void deleteOfferById(UUID id);
 

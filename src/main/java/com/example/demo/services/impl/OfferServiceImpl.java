@@ -1,5 +1,7 @@
 package com.example.demo.services.impl;
 
+import com.example.demo.constants.Enums.EngineTypesEnum;
+import com.example.demo.constants.Enums.TransmissionTypesEnum;
 import com.example.demo.constants.Enums.VehicleTypesEnum;
 import com.example.demo.models.Offer;
 import com.example.demo.repos.OfferRepository;
@@ -16,7 +18,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -106,7 +110,6 @@ public class OfferServiceImpl implements OfferService {
     }
 
 
-
     @Override
     public List<OfferUserMV> viewOffersByActiveUsers() {
         return offerRepository.getAllOffersAndModelsByUserState(true);
@@ -166,6 +169,50 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
+    public List<MinimalOfferInfoMV> getFilteredOffers(FiltersInputMV filtersInputMV) {
+        System.out.println(filtersInputMV);
+        List<EngineTypesEnum> enginesFilters = null;
+        List<TransmissionTypesEnum> transmissionFilters = null;
+        Optional<Integer> minYear = filtersInputMV.getMinYear();
+        Optional<Integer> minPrice = filtersInputMV.getMinPrice();
+        Optional<Integer> maxYear = filtersInputMV.getMaxYear();
+        Optional<Integer> maxPrice = filtersInputMV.getMaxPrice();
+
+
+        if (!this.validationUtil.isValid(filtersInputMV)) {
+            this.validationUtil
+                    .violations(filtersInputMV)
+                    .stream()
+                    .map(ConstraintViolation::getMessage)
+                    .forEach(System.out::println);
+        } else {
+            Optional<String> engines = filtersInputMV.getEngines();
+            Optional<String> transmissions = filtersInputMV.getTransmissions();
+
+
+            enginesFilters = new ArrayList<>();
+            if (engines.isPresent()) {
+                for (String engine : engines.get().split(";")) {
+                    enginesFilters.add(EngineTypesEnum.valueOf(engine));
+                }
+            } else {
+                enginesFilters = List.of(EngineTypesEnum.values());
+            }
+            transmissionFilters = new ArrayList<>();
+            if (transmissions.isPresent()) {
+                for (String transmission : transmissions.get().split(";")) {
+                    transmissionFilters.add(TransmissionTypesEnum.valueOf(transmission));
+                }
+            } else {
+                transmissionFilters = List.of(TransmissionTypesEnum.values());
+            }
+
+
+        }
+        return offerRepository.getAllOffersFiltered(enginesFilters, transmissionFilters, Integer.valueOf(minYear.get()), Integer.valueOf(maxYear.get()), Integer.valueOf(minPrice.get()), Integer.valueOf(maxPrice.get()));
+    }
+
+    @Override
     public void deleteOfferById(UUID id) {
         offerRepository.deleteById(id);
     }
@@ -184,4 +231,6 @@ public class OfferServiceImpl implements OfferService {
     public void setModelService(ModelService modelService) {
         this.modelService = modelService;
     }
+
+
 }

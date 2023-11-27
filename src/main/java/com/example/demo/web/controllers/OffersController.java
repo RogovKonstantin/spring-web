@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -37,11 +38,32 @@ public class OffersController {
         model.addAttribute("offers", offersByBrand);
         return "offers-all";
     }
+
     @GetMapping("/by-username/{username}")
     public String allOffersByUsername(@PathVariable String username, Model model) {
         List<MinimalOfferInfoMV> offersByUsername = offerService.getAllOffersByUsername(username);
         model.addAttribute("offers", offersByUsername);
         return "offers-all";
+    }
+
+    @GetMapping("/filtered")
+    public @ResponseBody String allOffersFiltered(@RequestParam Optional<String> engines, @RequestParam Optional<String> transmissions,
+                                                  @RequestParam Optional<Integer> minYear,@RequestParam Optional<Integer> maxYear,
+                                                  @RequestParam Optional<Integer> minPrice,@RequestParam Optional<Integer> maxPrice, Model model) {
+
+        FiltersInputMV filtersInputMV=new FiltersInputMV();
+        filtersInputMV.setEngines(engines);
+        filtersInputMV.setTransmissions(transmissions);
+        filtersInputMV.setMinPrice(minPrice);
+        filtersInputMV.setMaxPrice(maxPrice);
+        filtersInputMV.setMinYear(minYear);
+        filtersInputMV.setMaxYear(maxYear);
+
+        List<MinimalOfferInfoMV> offersFiltered = offerService.getFilteredOffers(filtersInputMV);
+        offersFiltered.forEach(System.out::println);
+        model.addAttribute("offers",offersFiltered );
+        return "offers-all";
+
     }
 
     @GetMapping("/latest")
