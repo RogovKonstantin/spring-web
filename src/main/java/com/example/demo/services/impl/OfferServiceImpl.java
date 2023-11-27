@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -173,10 +172,10 @@ public class OfferServiceImpl implements OfferService {
         System.out.println(filtersInputMV);
         List<EngineTypesEnum> enginesFilters = null;
         List<TransmissionTypesEnum> transmissionFilters = null;
-        Optional<Integer> minYear = filtersInputMV.getMinYear();
-        Optional<Integer> minPrice = filtersInputMV.getMinPrice();
-        Optional<Integer> maxYear = filtersInputMV.getMaxYear();
-        Optional<Integer> maxPrice = filtersInputMV.getMaxPrice();
+        Integer minYear = filtersInputMV.getMinYear();
+        Integer minPrice = filtersInputMV.getMinPrice();
+        Integer maxYear = filtersInputMV.getMaxYear();
+        Integer maxPrice = filtersInputMV.getMaxPrice();
 
 
         if (!this.validationUtil.isValid(filtersInputMV)) {
@@ -186,21 +185,21 @@ public class OfferServiceImpl implements OfferService {
                     .map(ConstraintViolation::getMessage)
                     .forEach(System.out::println);
         } else {
-            Optional<String> engines = filtersInputMV.getEngines();
-            Optional<String> transmissions = filtersInputMV.getTransmissions();
+            String engines = filtersInputMV.getEngines();
+            String transmissions = filtersInputMV.getTransmissions();
 
 
             enginesFilters = new ArrayList<>();
-            if (engines.isPresent()) {
-                for (String engine : engines.get().split(";")) {
+            if (!engines.isEmpty()) {
+                for (String engine : engines.split(";")) {
                     enginesFilters.add(EngineTypesEnum.valueOf(engine));
                 }
             } else {
                 enginesFilters = List.of(EngineTypesEnum.values());
             }
             transmissionFilters = new ArrayList<>();
-            if (transmissions.isPresent()) {
-                for (String transmission : transmissions.get().split(";")) {
+            if (!transmissions.isEmpty()) {
+                for (String transmission : transmissions.split(";")) {
                     transmissionFilters.add(TransmissionTypesEnum.valueOf(transmission));
                 }
             } else {
@@ -209,7 +208,7 @@ public class OfferServiceImpl implements OfferService {
 
 
         }
-        return offerRepository.getAllOffersFiltered(enginesFilters, transmissionFilters, Integer.valueOf(minYear.get()), Integer.valueOf(maxYear.get()), Integer.valueOf(minPrice.get()), Integer.valueOf(maxPrice.get()));
+        return offerRepository.getAllOffersFiltered(enginesFilters, transmissionFilters, minYear, maxYear, minPrice, maxPrice);
     }
 
     @Override

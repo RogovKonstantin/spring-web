@@ -1,6 +1,8 @@
 package com.example.demo.web.controllers;
 
 
+import com.example.demo.constants.Enums.EngineTypesEnum;
+import com.example.demo.constants.Enums.TransmissionTypesEnum;
 import com.example.demo.services.OfferService;
 import com.example.demo.web.views.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,10 +48,16 @@ public class OffersController {
         return "offers-all";
     }
 
-    @GetMapping("/filtered")
-    public @ResponseBody String allOffersFiltered(@RequestParam Optional<String> engines, @RequestParam Optional<String> transmissions,
-                                                  @RequestParam Optional<Integer> minYear,@RequestParam Optional<Integer> maxYear,
-                                                  @RequestParam Optional<Integer> minPrice,@RequestParam Optional<Integer> maxPrice, Model model) {
+    @GetMapping("/filtered1")
+    public String allOffersFiltered1(
+            @RequestParam(name = "engines", required = false) String engines,
+            @RequestParam(name = "transmissions", required = false) String transmissions,
+            @RequestParam(name = "minYear", required = false) Integer minYear,
+            @RequestParam(name = "maxYear", required = false) Integer maxYear,
+            @RequestParam(name = "minPrice", required = false) Integer minPrice,
+            @RequestParam(name = "maxPrice", required = false) Integer maxPrice,
+            Model model
+    ) {
 
         FiltersInputMV filtersInputMV=new FiltersInputMV();
         filtersInputMV.setEngines(engines);
@@ -64,6 +72,16 @@ public class OffersController {
         model.addAttribute("offers",offersFiltered );
         return "offers-all";
 
+    }
+    @GetMapping("/filtered2")
+    public String allOffersFiltered2(
+            @ModelAttribute("filtersInputMV") FiltersInputMV filtersInputMV,
+            Model model
+    ) {
+        List<MinimalOfferInfoMV> offersFiltered = offerService.getFilteredOffers(filtersInputMV);
+        offersFiltered.forEach(System.out::println);
+        model.addAttribute("offers", offersFiltered);
+        return "offers-all";
     }
 
     @GetMapping("/latest")

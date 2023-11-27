@@ -11,9 +11,9 @@
                 <h4>Transmission</h4>
                 <!-- Checkboxes for transmission -->
                 <li><input type="checkbox" id="manual" name="transmission" value="manual">
-                <label for="manual">Manual</label></li>
+                    <label for="manual">Manual</label></li>
                 <li><input type="checkbox" id="automatic" name="transmission" value="automatic">
-                <label for="automatic">Automatic</label></li>
+                    <label for="automatic">Automatic</label></li>
             </div>
             <div class="filter-item">
                 <h4>Engine</h4>
@@ -48,8 +48,7 @@
                 <input type="number" id="minPrice" name="minPrice" placeholder="from">
 
                 <input type="number" id="maxPrice" name="maxPrice" placeholder="up to">
-                <a class="btn-block" style="margin-top: 4.65%;" th:href="@{/offers/filtered(engines=${#arrays.join(';', engValues)}, transmissions=${#arrays.join(';', transValues)},
-                 minYear=${minYear}, maxYear=${maxYear}, minPrice=${minPrice}, maxPrice=${maxPrice})">Apply</a>
+                <a class="btn-block" style="margin-top: 4.65%;" href="/offers/filtered">Apply</a>
             </div>
         </div>
 
@@ -110,4 +109,4 @@
     }
 
 }
-    </style>
+</style>
