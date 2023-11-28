@@ -51,4 +51,6 @@ public interface OfferService {
 
     List<MinimalOfferInfoMV> getAllOffersByUsername(String username);
 
+    List<MinimalOfferInfoMV> getAllOffersByModel(String modelName);
+
 }

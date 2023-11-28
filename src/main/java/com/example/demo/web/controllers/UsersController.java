@@ -1,6 +1,5 @@
 package com.example.demo.web.controllers;
 
-
 import com.example.demo.services.UserRoleService;
 import com.example.demo.services.UserService;
 import com.example.demo.web.views.UserMV;
@@ -14,8 +13,13 @@ import java.util.List;
 @Controller
 @RequestMapping("/users")
 public class UsersController {
-    private UserService userService;
-    private UserRoleService userRoleService;
+
+    @GetMapping("profile/{username}")
+    public String userInfo(@PathVariable String username, Model model) {
+        UserMV userDetails = userService.getUserMVByUsername(username);
+        model.addAttribute("userDetails",userDetails);
+        return "user-details";
+    }
 
     @GetMapping("")
     public String allUsers(Model model) {
@@ -23,13 +27,6 @@ public class UsersController {
         model.addAttribute("allUsersList", allUsersList);
         allUsersList.forEach(System.out::println);
         return "all-users.html";
-    }
-
-    @GetMapping("profile/{username}")
-    public String userInfo(@PathVariable String username, Model model) {
-        UserMV userDetails = userService.getUserMVByUsername(username);
-        model.addAttribute("userDetails",userDetails);
-        return "user-details";
     }
 
     @GetMapping("/active")
@@ -78,12 +75,12 @@ public class UsersController {
         return "all-users.html";
     }
 
-
+    private UserService userService;
+    private UserRoleService userRoleService;
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
-
     @Autowired
     public void setUserRoleService(UserRoleService userRoleService) {
         this.userRoleService = userRoleService;

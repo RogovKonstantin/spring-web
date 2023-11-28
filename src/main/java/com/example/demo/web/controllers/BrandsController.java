@@ -1,7 +1,6 @@
 package com.example.demo.web.controllers;
 
 import com.example.demo.services.BrandService;
-import com.example.demo.web.views.BrandCreationMV;
 import com.example.demo.web.views.BrandMV;
 import com.example.demo.web.views.BrandModelsMV;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/brands")
 public class BrandsController {
-    private BrandService brandService;
-
 
     @GetMapping("")
     public String allBrands(Model model) {
@@ -40,6 +37,7 @@ public class BrandsController {
     }
 
 
+    private BrandService brandService;
     @Autowired
     public void setBrandService(BrandService brandService) {
         this.brandService = brandService;

@@ -48,6 +48,7 @@ public class MinimalOfferInfoMV {
     public void setYear(int year) {
         this.year = year;
     }
+
     public String getModelName() {
         return modelName;
     }

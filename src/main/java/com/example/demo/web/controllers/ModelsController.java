@@ -14,7 +14,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/models")
 public class ModelsController {
-    private ModelService modelService;
 
     @GetMapping("/by-brand/{brand}")
     public String allOffersByBrand(@PathVariable String brand, Model model) {
@@ -22,6 +21,8 @@ public class ModelsController {
         model.addAttribute("allModelsList", modelsByBrand);
         return "models-all";
     }
+
+    private ModelService modelService;
     @Autowired
     public void setModelService(ModelService modelService) {
         this.modelService = modelService;

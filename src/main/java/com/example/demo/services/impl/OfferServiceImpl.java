@@ -160,6 +160,11 @@ public class OfferServiceImpl implements OfferService {
         return offerRepository.getAllOffersByUsername(username);
     }
 
+    @Override
+    public List<MinimalOfferInfoMV> getAllOffersByModel(String modelName) {
+        return offerRepository.getAllOffersByModel(modelName);
+    }
+
 
     @Override
     public void deleteOffer(OfferDto offerDto) {
@@ -211,6 +216,7 @@ public class OfferServiceImpl implements OfferService {
         }
         return result;
     }
+
 
     @Override
     public void deleteOfferById(UUID id) {

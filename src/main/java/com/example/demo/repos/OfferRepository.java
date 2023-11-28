@@ -37,6 +37,10 @@ public interface OfferRepository extends JpaRepository<Offer, UUID> {
     @Query(value = "SELECT new com.example.demo.web.views.MinimalOfferInfoMV(o.price, o.mileage, o.year,  m.name, b.name,o.id ) FROM Offer o JOIN Model m ON o.model.id = m.id JOIN Brand b on m.brand.id=b.id WHERE b.name=:brandName ")
     List<MinimalOfferInfoMV> getAllOffersByBrand(@Param(value = "brandName") String brandName);
 
+    @Query(value = "SELECT new com.example.demo.web.views.MinimalOfferInfoMV(o.price, o.mileage, o.year,  m.name, b.name, o.id )" +
+            " FROM Offer o JOIN Model m ON o.model.id = m.id JOIN Brand b on m.brand.id=b.id WHERE m.name=:modelName ")
+    List<MinimalOfferInfoMV> getAllOffersByModel(@Param(value = "modelName") String modelName);
+
     @Query(value = "SELECT new com.example.demo.web.views.MinimalOfferInfoMV(o.price, o.mileage, o.year,  m.name, b.name,o.id ) From Offer o JOIN o.model m JOIN o.seller u JOIN Brand b on m.brand.id=b.id WHERE u.username=:username ")
     List<MinimalOfferInfoMV> getAllOffersByUsername(@Param(value = "username") String username);
 
