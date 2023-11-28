@@ -68,7 +68,7 @@ public class OffersController {
         filtersInputMV.setMaxYear(maxYear);
 
         List<MinimalOfferInfoMV> offersFiltered = offerService.getFilteredOffers(filtersInputMV);
-        offersFiltered.forEach(System.out::println);
+
         model.addAttribute("offers",offersFiltered );
         return "offers-all";
 

@@ -170,8 +170,9 @@ public class OfferServiceImpl implements OfferService {
     @Override
     public List<MinimalOfferInfoMV> getFilteredOffers(FiltersInputMV filtersInputMV) {
         System.out.println(filtersInputMV);
-        List<EngineTypesEnum> enginesFilters = null;
-        List<TransmissionTypesEnum> transmissionFilters = null;
+        List<MinimalOfferInfoMV> result;
+        List<EngineTypesEnum> enginesFilters;
+        List<TransmissionTypesEnum> transmissionsFilters;
         Integer minYear = filtersInputMV.getMinYear();
         Integer minPrice = filtersInputMV.getMinPrice();
         Integer maxYear = filtersInputMV.getMaxYear();
@@ -184,31 +185,31 @@ public class OfferServiceImpl implements OfferService {
                     .stream()
                     .map(ConstraintViolation::getMessage)
                     .forEach(System.out::println);
+            result=offerRepository.getAllOffers();
         } else {
             String engines = filtersInputMV.getEngines();
             String transmissions = filtersInputMV.getTransmissions();
 
 
             enginesFilters = new ArrayList<>();
-            if (!engines.isEmpty()) {
-                for (String engine : engines.split(";")) {
+            if (engines != null) {
+                for (String engine : engines.split(",")) {
                     enginesFilters.add(EngineTypesEnum.valueOf(engine));
                 }
             } else {
                 enginesFilters = List.of(EngineTypesEnum.values());
             }
-            transmissionFilters = new ArrayList<>();
-            if (!transmissions.isEmpty()) {
-                for (String transmission : transmissions.split(";")) {
-                    transmissionFilters.add(TransmissionTypesEnum.valueOf(transmission));
+            transmissionsFilters = new ArrayList<>();
+            if (transmissions != null) {
+                for (String transmission : transmissions.split(",")) {
+                    transmissionsFilters.add(TransmissionTypesEnum.valueOf(transmission));
                 }
             } else {
-                transmissionFilters = List.of(TransmissionTypesEnum.values());
+                transmissionsFilters = List.of(TransmissionTypesEnum.values());
             }
-
-
+        result=offerRepository.getAllOffersFiltered(enginesFilters, transmissionsFilters, minYear, maxYear, minPrice, maxPrice);
         }
-        return offerRepository.getAllOffersFiltered(enginesFilters, transmissionFilters, minYear, maxYear, minPrice, maxPrice);
+        return result;
     }
 
     @Override
