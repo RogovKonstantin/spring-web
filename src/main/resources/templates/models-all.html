@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"/>
+<body class="d-flex flex-column h-100">
+<div th:replace="~{fragments/navbar}"></div>
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="jumbotron text-center rounded col-md-8 align-self-center pt-5">
+                <div class='row mb-4 d-flex justify-content-around'>
+                    <div th:each="a : ${allModelsList}"
+                         class="col-md-4 d-flex flex-column bg-text mb-3 rounded model-item" style="margin: 15px;">
+                        <h4 th:text="'Name ' + ${a.name}"></h4>
+                        <h4 th:text="'Category ' + ${a.category}"></h4>
+                        <h2 th:text=" ${a.startYear} +' - '+ ${a.endYear}"></h2>
+                        <h4 th:text="'Brand: ' + ${a.brand}"></h4>
+                        <a th:href="@{|/offers/by-model/${a.name}|}" class="offer-link">
+                            <h2 th:text="'See offers'"></h2>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments/footer}"/>
+</body>
+</html>
+
+<style>
+    .model-item {
+            border: 1px solid #000;
+            padding: 10px;
+            margin: 15px;
+        }
+      .offer-link {
+      display: inline-block;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      border: 2px solid #000;  /* Change border color to black */
+      color: #000;  /* Change text color to black */
+      background-color: #fff;  /* Set background color to white */
+      border-radius: 5px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .offer-link:hover {
+      background-color: #000;  /* Change background color on hover to black */
+      color: #fff;  /* Change text color on hover to white */
+    }
+</style>
