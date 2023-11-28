@@ -5,6 +5,7 @@ import com.example.demo.repos.ModelRepository;
 import com.example.demo.services.DTOS.ModelDto;
 import com.example.demo.services.ModelService;
 import com.example.demo.util.ValidationUtil;
+import com.example.demo.web.views.MinimalModelInfoMV;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class ModelServiceImpl implements ModelService {
 
     @Autowired
     ModelServiceImpl(ValidationUtil validationUtil, ModelMapper modelMapper) {
-        this.validationUtil=validationUtil;
+        this.validationUtil = validationUtil;
         this.modelMapper = modelMapper;
     }
 
@@ -67,7 +68,12 @@ public class ModelServiceImpl implements ModelService {
     @Override
     public ModelDto getModelDtoByName(String name) {
         Model model = modelRepository.findByName(name);
-        return modelMapper.map(model,ModelDto.class);
+        return modelMapper.map(model, ModelDto.class);
+    }
+
+    @Override
+    public List<MinimalModelInfoMV> getAllModelsByBrand(String brand) {
+        return modelRepository.getModelsByBrand(brand);
     }
 
     @Autowired
