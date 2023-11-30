@@ -8,6 +8,7 @@
         <div class="col-md-3 d-flex flex-column bg-text mb-3 rounded filters-panel" style="margin-top: 4.65%; ">
             <h3>Filters</h3>
             <form th:action="@{/offers/filtered2}" method="get">
+                <input type="hidden" id="type" name="type" th:value="${type}"/>
                 <div class="filter-item">
                     <h4>Transmission</h4>
                     <li><input type="checkbox" id="manual" name="transmissions" value="MANUAL">

@@ -173,7 +173,7 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public List<MinimalOfferInfoMV> getFilteredOffers(FiltersInputMV filtersInputMV) {
+    public List<MinimalOfferInfoMV> getFilteredOffers(FiltersInputMV filtersInputMV,String type) {
         System.out.println(filtersInputMV);
         List<MinimalOfferInfoMV> result;
         List<EngineTypesEnum> enginesFilters;
@@ -182,6 +182,9 @@ public class OfferServiceImpl implements OfferService {
         Integer minPrice = filtersInputMV.getMinPrice();
         Integer maxYear = filtersInputMV.getMaxYear();
         Integer maxPrice = filtersInputMV.getMaxPrice();
+
+        List<MinimalOfferInfoMV> offers = (type != null && !type.isEmpty()) ? getAllOffersByVtype(type) : offerRepository.getAllOffers();
+
 
 
         if (!this.validationUtil.isValid(filtersInputMV)) {

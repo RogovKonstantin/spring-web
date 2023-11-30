@@ -14,31 +14,7 @@ import java.util.UUID;
 @RequestMapping("/offers")
 public class OffersController {
 
-    /*@GetMapping("/filtered1")
-    public String allOffersFiltered1(
-            @RequestParam(name = "engines", required = false) String engines,
-            @RequestParam(name = "transmissions", required = false) String transmissions,
-            @RequestParam(name = "minYear", required = false) Integer minYear,
-            @RequestParam(name = "maxYear", required = false) Integer maxYear,
-            @RequestParam(name = "minPrice", required = false) Integer minPrice,
-            @RequestParam(name = "maxPrice", required = false) Integer maxPrice,
-            Model model
-    ) {
 
-        FiltersInputMV filtersInputMV = new FiltersInputMV();
-        filtersInputMV.setEngines(engines);
-        filtersInputMV.setTransmissions(transmissions);
-        filtersInputMV.setMinPrice(minPrice);
-        filtersInputMV.setMaxPrice(maxPrice);
-        filtersInputMV.setMinYear(minYear);
-        filtersInputMV.setMaxYear(maxYear);
-
-        List<MinimalOfferInfoMV> offersFiltered = offerService.getFilteredOffers(filtersInputMV);
-
-        model.addAttribute("offers", offersFiltered);
-        return "offers-all";
-
-    }*/
 
     @GetMapping("")
     public String allOffers(Model model) {
@@ -53,6 +29,7 @@ public class OffersController {
         model.addAttribute("offers", offersByType);
         return "offers-all";
     }
+
 
     @GetMapping("/by-brand/{brand}")
     public String allOffersByBrand(@PathVariable String brand, Model model) {
@@ -76,15 +53,14 @@ public class OffersController {
     }
 
     @GetMapping("/filtered2")
-    public String allOffersFiltered2(
-            @ModelAttribute("filtersInputMV") FiltersInputMV filtersInputMV,
-            Model model
-    ) {
-        List<MinimalOfferInfoMV> offersFiltered = offerService.getFilteredOffers(filtersInputMV);
-        offersFiltered.forEach(System.out::println);
+    public String allOffersFiltered2(@ModelAttribute("filtersInputMV") FiltersInputMV filtersInputMV,
+                                     @RequestParam(required = false) String type,
+                                     Model model) {
+        List<MinimalOfferInfoMV> offersFiltered = offerService.getFilteredOffers(filtersInputMV, type);
         model.addAttribute("offers", offersFiltered);
         return "offers-all";
     }
+
 
     @GetMapping("/latest")
     public String allOffersSortedByDate(Model model) {

@@ -21,7 +21,7 @@ public interface OfferService {
 
     void deleteOffer(OfferDto offer);
 
-    List<MinimalOfferInfoMV> getFilteredOffers(FiltersInputMV filtersInputMV);
+    List<MinimalOfferInfoMV> getFilteredOffers(FiltersInputMV filtersInputMV,String type);
 
     void deleteOfferById(UUID id);
 
