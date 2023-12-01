@@ -7,8 +7,9 @@
     <div class="container d-flex align-items-start">
         <div class="col-md-3 d-flex flex-column bg-text mb-3 rounded filters-panel" style="margin-top: 4.65%; ">
             <h3>Filters</h3>
-            <form th:action="@{/offers/filtered2}" method="get">
-                <input type="hidden" id="type" name="type" th:value="${type}"/>
+            <form th:action="@{/offers/filtered2}" th:method="GET">
+                <input type="hidden" id="model" name="model" th:value="${param.model}" th:if="${param.model != null}"/>
+                <input type="hidden" id="brand" name="brand" th:value="${param.brand}" th:if="${param.brand != null}"/>
                 <div class="filter-item">
                     <h4>Transmission</h4>
                     <li><input type="checkbox" id="manual" name="transmissions" value="MANUAL">

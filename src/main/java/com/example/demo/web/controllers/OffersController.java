@@ -15,6 +15,7 @@ import java.util.UUID;
 public class OffersController {
 
 
+    private OfferService offerService;
 
     @GetMapping("")
     public String allOffers(Model model) {
@@ -29,7 +30,6 @@ public class OffersController {
         model.addAttribute("offers", offersByType);
         return "offers-all";
     }
-
 
     @GetMapping("/by-brand/{brand}")
     public String allOffersByBrand(@PathVariable String brand, Model model) {
@@ -54,13 +54,14 @@ public class OffersController {
 
     @GetMapping("/filtered2")
     public String allOffersFiltered2(@ModelAttribute("filtersInputMV") FiltersInputMV filtersInputMV,
-                                     @RequestParam(required = false) String type,
-                                     Model model) {
-        List<MinimalOfferInfoMV> offersFiltered = offerService.getFilteredOffers(filtersInputMV, type);
-        model.addAttribute("offers", offersFiltered);
+
+                                     @RequestParam(required = false) String model,
+                                     @RequestParam(required = false) String brand,
+                                     Model resultModel) {
+        List<MinimalOfferInfoMV> offersFiltered = offerService.getFilteredOffers(filtersInputMV, model, brand);
+        resultModel.addAttribute("offers", offersFiltered);
         return "offers-all";
     }
-
 
     @GetMapping("/latest")
     public String allOffersSortedByDate(Model model) {
@@ -76,8 +77,6 @@ public class OffersController {
         return "offer-details";
     }
 
-
-
     @GetMapping("/less-than-price-and-mileage-desc-year")
     public String allOffersPriceAndMileageLess(@RequestParam Integer price, @RequestParam Integer mileage, Model model) {
         List<OfferMV> offersPriceAndMileageLess = offerService.viewOffersByPriceAndMileageLessDescYear(price, mileage);
@@ -86,7 +85,6 @@ public class OffersController {
         return "all-offers.html";
     }
 
-
     @GetMapping("by-users-active")
     public String allOffersByActiveUsers(Model model) {
         List<OfferUserMV> offersByActiveUsers = offerService.viewOffersByActiveUsers();
@@ -94,7 +92,6 @@ public class OffersController {
         offersByActiveUsers.forEach(System.out::println);
         return "all-offers.html";
     }
-
 
     @PostMapping("")
     public String createOffer(@RequestBody OfferCreationMV createOffer) {
@@ -108,7 +105,6 @@ public class OffersController {
         return "all-offers.html";
     }
 
-    private OfferService offerService;
     @Autowired
     public void setOfferService(OfferService offerService) {
         this.offerService = offerService;

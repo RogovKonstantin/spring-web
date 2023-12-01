@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.constants.Enums.VehicleTypesEnum;
 import com.example.demo.models.Offer;
 import com.example.demo.services.DTOS.OfferDto;
 import com.example.demo.web.views.*;
@@ -21,7 +22,7 @@ public interface OfferService {
 
     void deleteOffer(OfferDto offer);
 
-    List<MinimalOfferInfoMV> getFilteredOffers(FiltersInputMV filtersInputMV,String type);
+    List<MinimalOfferInfoMV> getFilteredOffers(FiltersInputMV filtersInputMV,String model,String brand);
 
     void deleteOfferById(UUID id);
 

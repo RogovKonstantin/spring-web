@@ -15,7 +15,7 @@
                         <h4 th:text="'Category ' + ${a.category}"></h4>
                         <h2 th:text=" ${a.startYear} +' - '+ ${a.endYear}"></h2>
                         <h4 th:text="'Brand: ' + ${a.brand}"></h4>
-                        <a th:href="@{|/offers/by-model/${a.name}|}" class="offer-link">
+                        <a th:href="@{|/offers/filtered2?model=${a.name}&brand=&minYear=&maxYear=&minPrice=&maxPrice=|}" class="offer-link">
                             <h2 th:text="'See offers'"></h2>
                         </a>
                     </div>

@@ -9,10 +9,14 @@
             <div class="col-md-2"></div>
             <div class="jumbotron text-center rounded col-md-8 align-self-center pt-5">
                 <div class='row mb-4 d-flex justify-content-around'>
-                    <div th:each="a : ${allBrandsList}" class="col-md-4 d-flex flex-column bg-text mb-3 rounded offer-item" style="margin: 15px;">
-                        <a th:href="@{|/models/by-brand/${a.name}|}" class="brand-link">
-                            <h2 th:text="${a.name}"></h2>
-                        </a>
+                    <div th:each="a : ${allBrandsList}" class="col-md-4 d-flex flex-column bg-text mb-3 rounded brand-item" style="margin: 15px;">
+                        <h2 th:text="${a.name}"></h2>
+                        <div>
+                            <a th:href="@{|/offers/filtered2?model=&brand=${a.name}&minYear=&maxYear=&minPrice=&maxPrice=|}" class="btn">See offers</a>
+                        </div>
+                        <div>
+                            <a th:href="@{|/models/by-brand/${a.name}|}" class="btn btn-space">See models</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -24,8 +28,12 @@
 </html>
 
 <style>
-
-    .brand-link {
+    .brand-item {
+        border: 1px solid #000;
+        padding: 10px;
+        margin: 15px;
+    }
+    .btn {
   display: inline-block;
   padding: 10px 20px;
   text-align: center;
@@ -37,10 +45,13 @@
   transition: all 0.3s ease-in-out;
 }
 
-.brand-link:hover {
+.btn:hover {
   background-color: #000;
   color: #fff;
 }
+    .btn-space {
+        margin-top: 10px; /* Adjust the margin as needed */
+    }
 </style>
 
 

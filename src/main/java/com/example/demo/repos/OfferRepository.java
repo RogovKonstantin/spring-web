@@ -53,18 +53,16 @@ public interface OfferRepository extends JpaRepository<Offer, UUID> {
     @Query(value = "SELECT new com.example.demo.web.views.MinimalOfferInfoMV(o.price, o.mileage, o.year,  m.name, b.name,o.id )" +
             " FROM Offer o JOIN Model m ON o.model.id = m.id JOIN Brand b on m.brand.id=b.id" +
             " WHERE (o.engine IN :engineFilter) AND (o.transmission IN :transmissionFilter) " +
-            " AND (o.year BETWEEN :minYear AND :maxYear) AND (o.price BETWEEN :minPrice AND :maxPrice) ")
+            " AND (o.year BETWEEN :minYear AND :maxYear) AND (o.price BETWEEN :minPrice AND :maxPrice)" +
+            " AND ((:modelFilter IS NULL OR m.name = :modelFilter) OR (:brandFilter IS NULL OR b.name = :brandFilter))" )
     List<MinimalOfferInfoMV> getAllOffersFiltered(@Param("engineFilter") List<EngineTypesEnum> engineFilter,
                                                   @Param("transmissionFilter") List<TransmissionTypesEnum> transmissionFilter,
                                                   @Param("minYear") Integer minYear, @Param("maxYear") Integer maxYear,
-                                                  @Param("minPrice") Integer minPrice, @Param("maxPrice") Integer maxPrice);
-    @Query(value = "SELECT new com.example.demo.web.views.MinimalOfferInfoMV(o.price, o.mileage, o.year,  m.name, b.name, o.id )" +
-            " FROM Offer o JOIN Model m ON o.model.id = m.id JOIN Brand b on m.brand.id=b.id" +
-            " WHERE (o.engine IN :engineFilter) AND (o.transmission IN :transmissionFilter) " +
-            " AND (o.year BETWEEN :minYear AND :maxYear) AND (o.price BETWEEN :minPrice AND :maxPrice) ")
-    List<MinimalOfferInfoMV> getAllOffersFilteredWithType(@Param("engineFilter") List<EngineTypesEnum> engineFilter,
-                                                  @Param("transmissionFilter") List<TransmissionTypesEnum> transmissionFilter,
-                                                  @Param("minYear") Integer minYear, @Param("maxYear") Integer maxYear,
-                                                  @Param("minPrice") Integer minPrice, @Param("maxPrice") Integer maxPrice);
+                                                  @Param("minPrice") Integer minPrice, @Param("maxPrice") Integer maxPrice,
+                                                  @Param("modelFilter") String model,
+                                                  @Param("brandFilter") String brand
+
+    );
+
 
 }

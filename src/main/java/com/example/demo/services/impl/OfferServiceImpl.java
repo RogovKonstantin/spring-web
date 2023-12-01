@@ -173,7 +173,7 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public List<MinimalOfferInfoMV> getFilteredOffers(FiltersInputMV filtersInputMV,String type) {
+    public List<MinimalOfferInfoMV> getFilteredOffers(FiltersInputMV filtersInputMV, String model,String brand) {
         System.out.println(filtersInputMV);
         List<MinimalOfferInfoMV> result;
         List<EngineTypesEnum> enginesFilters;
@@ -183,9 +183,6 @@ public class OfferServiceImpl implements OfferService {
         Integer maxYear = filtersInputMV.getMaxYear();
         Integer maxPrice = filtersInputMV.getMaxPrice();
 
-        List<MinimalOfferInfoMV> offers = (type != null && !type.isEmpty()) ? getAllOffersByVtype(type) : offerRepository.getAllOffers();
-
-
 
         if (!this.validationUtil.isValid(filtersInputMV)) {
             this.validationUtil
@@ -193,10 +190,14 @@ public class OfferServiceImpl implements OfferService {
                     .stream()
                     .map(ConstraintViolation::getMessage)
                     .forEach(System.out::println);
-            result=offerRepository.getAllOffers();
+            result = offerRepository.getAllOffers();
         } else {
+
+
             String engines = filtersInputMV.getEngines();
             String transmissions = filtersInputMV.getTransmissions();
+
+
 
 
             enginesFilters = new ArrayList<>();
@@ -215,7 +216,7 @@ public class OfferServiceImpl implements OfferService {
             } else {
                 transmissionsFilters = List.of(TransmissionTypesEnum.values());
             }
-        result=offerRepository.getAllOffersFiltered(enginesFilters, transmissionsFilters, minYear, maxYear, minPrice, maxPrice);
+            result = offerRepository.getAllOffersFiltered(enginesFilters, transmissionsFilters, minYear, maxYear, minPrice, maxPrice, model,brand);
         }
         return result;
     }
