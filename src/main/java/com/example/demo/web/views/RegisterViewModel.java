@@ -3,7 +3,8 @@ package com.example.demo.web.views;
 
 
 
-import com.example.demo.util.UniqueUsername;
+
+import com.example.demo.util.validation.username.UniqueUsername;
 import org.hibernate.validator.constraints.Length;
 
 import jakarta.validation.constraints.NotEmpty;

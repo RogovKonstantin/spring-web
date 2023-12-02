@@ -4,7 +4,7 @@ import com.example.demo.models.Model;
 import com.example.demo.repos.ModelRepository;
 import com.example.demo.services.DTOS.ModelDto;
 import com.example.demo.services.ModelService;
-import com.example.demo.util.ValidationUtil;
+import com.example.demo.util.validation.ValidationUtil;
 import com.example.demo.web.views.MinimalModelInfoMV;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

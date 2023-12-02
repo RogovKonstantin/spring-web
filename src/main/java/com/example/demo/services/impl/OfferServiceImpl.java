@@ -11,7 +11,7 @@ import com.example.demo.services.DTOS.UserDto;
 import com.example.demo.services.ModelService;
 import com.example.demo.services.OfferService;
 import com.example.demo.services.UserService;
-import com.example.demo.util.ValidationUtil;
+import com.example.demo.util.validation.ValidationUtil;
 import com.example.demo.web.views.*;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Valid;

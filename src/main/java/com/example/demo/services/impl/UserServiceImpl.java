@@ -6,7 +6,7 @@ import com.example.demo.repos.UserRepository;
 import com.example.demo.repos.UserRoleRepository;
 import com.example.demo.services.DTOS.UserDto;
 import com.example.demo.services.UserService;
-import com.example.demo.util.ValidationUtil;
+import com.example.demo.util.validation.ValidationUtil;
 import com.example.demo.web.views.RegisterViewModel;
 import com.example.demo.web.views.UserCreationMV;
 import com.example.demo.web.views.UserMV;

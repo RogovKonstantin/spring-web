@@ -9,7 +9,7 @@ import com.example.demo.services.DTOS.UserDto;
 import com.example.demo.services.DTOS.UserRoleDto;
 import com.example.demo.services.UserRoleService;
 import com.example.demo.services.UserService;
-import com.example.demo.util.ValidationUtil;
+import com.example.demo.util.validation.ValidationUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

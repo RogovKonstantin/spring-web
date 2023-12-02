@@ -2,7 +2,7 @@ package com.example.demo.repos;
 
 
 import com.example.demo.constants.Enums.Role;
-import com.example.demo.models.User;
+
 import com.example.demo.models.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

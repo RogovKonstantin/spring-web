@@ -5,7 +5,7 @@ import com.example.demo.models.Brand;
 import com.example.demo.repos.BrandRepository;
 import com.example.demo.services.BrandService;
 import com.example.demo.services.DTOS.BrandDto;
-import com.example.demo.util.ValidationUtil;
+import com.example.demo.util.validation.ValidationUtil;
 import com.example.demo.web.views.BrandCreationMV;
 import com.example.demo.web.views.BrandMV;
 import com.example.demo.web.views.BrandModelsMV;
