@@ -7,6 +7,7 @@ import com.example.demo.repos.UserRoleRepository;
 import com.example.demo.services.DTOS.UserDto;
 import com.example.demo.services.UserService;
 import com.example.demo.util.ValidationUtil;
+import com.example.demo.web.views.RegisterViewModel;
 import com.example.demo.web.views.UserCreationMV;
 import com.example.demo.web.views.UserMV;
 import jakarta.transaction.Transactional;
@@ -24,6 +25,7 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
     private UserRepository userRepository;
     private UserRoleRepository userRoleRepository;
+    private ValidationUtil validation;
 
     @Autowired
     UserServiceImpl(ValidationUtil validationUtil, ModelMapper modelMapper) {
@@ -131,6 +133,24 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUserName(username);
     }
 
+    @Override
+    public void registerUser(RegisterViewModel newUser) {
+        if (!this.validation.isValid(newUser)) {
+            this.validation
+                    .violations(newUser)
+                    .stream()
+                    .map(ConstraintViolation::getMessage)
+                    .forEach(System.out::println);
+            throw new IllegalArgumentException("Illegal argument");
+        } else {
+            User newUserModel = modelMapper.map(newUser, User.class);
+            newUserModel.setRole(userRoleRepository.findByRole(Role.USER));
+            newUserModel.setActive(true);
+            userRepository.saveAndFlush(newUserModel);
+        }
+    }
+
+
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -140,6 +160,8 @@ public class UserServiceImpl implements UserService {
     public void setUserRoleRepository(UserRoleRepository userRoleRepository) {
         this.userRoleRepository = userRoleRepository;
     }
-
-
+    @Autowired
+    public void setValidation(ValidationUtil validation) {
+        this.validation = validation;
+    }
 }
