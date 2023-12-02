@@ -7,9 +7,10 @@
     <div class="container d-flex align-items-start">
         <div class="col-md-3 d-flex flex-column bg-text mb-3 rounded filters-panel" style="margin-top: 4.65%; ">
             <h3>Filters</h3>
-            <form th:action="@{/offers/filtered2}" th:method="GET">
+            <form th:action="@{/offers/filtered}" th:method="GET">
                 <input type="hidden" id="model" name="model" th:value="${param.model}" th:if="${param.model != null}"/>
                 <input type="hidden" id="brand" name="brand" th:value="${param.brand}" th:if="${param.brand != null}"/>
+                <input type="hidden" id="type" name="type" th:value="${param.type}" th:if="${param.type != null}"/>
                 <div class="filter-item">
                     <h4>Transmission</h4>
                     <li><input type="checkbox" id="manual" name="transmissions" value="MANUAL">
@@ -39,10 +40,12 @@
                     <input type="number" id="maxPrice" name="maxPrice" placeholder="up to">
                     <button type="submit" class="btn-block" style="margin-top: 4.65%;">Apply</button>
                 </div>
+
             </form>
         </div>
         <div class="col-md-9">
             <div class="jumbotron text-center" style="flex: 1;">
+
                 <div th:text="${offers.size() + ' found'}" style="font-size: 24px;"></div>
                 <div class='row mb-4 d-flex justify-content-around'>
                     <div th:each="o : ${offers}" class="col-md-4 d-flex flex-column bg-text mb-3 rounded offer-item">

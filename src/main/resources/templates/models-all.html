@@ -11,11 +11,11 @@
                 <div class='row mb-4 d-flex justify-content-around'>
                     <div th:each="a : ${allModelsList}"
                          class="col-md-4 d-flex flex-column bg-text mb-3 rounded model-item" style="margin: 15px;">
-                        <h4 th:text="'Name ' + ${a.name}"></h4>
-                        <h4 th:text="'Category ' + ${a.category}"></h4>
+                        <h4 th:text="'Name: ' + ${a.name}"></h4>
+                        <h4 th:text="'Category: ' + ${a.category}"></h4>
                         <h2 th:text=" ${a.startYear} +' - '+ ${a.endYear}"></h2>
                         <h4 th:text="'Brand: ' + ${a.brand}"></h4>
-                        <a th:href="@{|/offers/filtered2?model=${a.name}&brand=&minYear=&maxYear=&minPrice=&maxPrice=|}" class="offer-link">
+                        <a th:href="@{|/offers/filtered?model=${a.name}&brand=&minYear=&maxYear=&minPrice=&maxPrice=|}" class="offer-link">
                             <h2 th:text="'See offers'"></h2>
                         </a>
                     </div>

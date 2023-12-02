@@ -52,13 +52,13 @@ public class OffersController {
         return "offers-all";
     }
 
-    @GetMapping("/filtered2")
+    @GetMapping("/filtered")
     public String allOffersFiltered2(@ModelAttribute("filtersInputMV") FiltersInputMV filtersInputMV,
-
                                      @RequestParam(required = false) String model,
                                      @RequestParam(required = false) String brand,
+                                     @RequestParam(required = false) String type,
                                      Model resultModel) {
-        List<MinimalOfferInfoMV> offersFiltered = offerService.getFilteredOffers(filtersInputMV, model, brand);
+        List<MinimalOfferInfoMV> offersFiltered = offerService.getFilteredOffers(filtersInputMV, model, brand, type);
         resultModel.addAttribute("offers", offersFiltered);
         return "offers-all";
     }

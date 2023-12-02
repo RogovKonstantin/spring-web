@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-light">
+<nav class="navbar navbar-expand-lg bg-light" xmlns:th="http://www.thymeleaf.org">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">Home</a>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -7,16 +7,16 @@
                     <a class="nav-link text-dark" href="/offers">All Offers</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="/offers/by-type/CAR">Cars</a>
+                    <a class="nav-link text-dark" th:href="@{|/offers/filtered?type=CAR&minYear=&maxYear=&minPrice=&maxPrice=|}">Cars</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="/offers/by-type/BUS">Buses</a>
+                    <a class="nav-link text-dark" th:href="@{|/offers/filtered?type=BUS&minYear=&maxYear=&minPrice=&maxPrice=|}">Buses</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="/offers/by-type/TRUCK">Trucks</a>
+                    <a class="nav-link text-dark" th:href="@{|/offers/filtered?type=TRUCK&minYear=&maxYear=&minPrice=&maxPrice=|}">Trucks</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="/offers/by-type/MOTORCYCLE">Motorcycles</a>
+                    <a class="nav-link text-dark" th:href="@{|/offers/filtered?type=MOTORCYCLE&minYear=&maxYear=&minPrice=&maxPrice=|}">Motorcycles</a>
                 </li>
             </ul>
             <ul class="navbar-nav">

@@ -14,6 +14,7 @@ import com.example.demo.services.UserService;
 import com.example.demo.util.ValidationUtil;
 import com.example.demo.web.views.*;
 import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -173,11 +174,12 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public List<MinimalOfferInfoMV> getFilteredOffers(FiltersInputMV filtersInputMV, String model,String brand) {
+    public List<MinimalOfferInfoMV> getFilteredOffers(@Valid FiltersInputMV filtersInputMV, String model, String brand, String type) {
         System.out.println(filtersInputMV);
         List<MinimalOfferInfoMV> result;
         List<EngineTypesEnum> enginesFilters;
         List<TransmissionTypesEnum> transmissionsFilters;
+        List<VehicleTypesEnum> typesFilters;
         Integer minYear = filtersInputMV.getMinYear();
         Integer minPrice = filtersInputMV.getMinPrice();
         Integer maxYear = filtersInputMV.getMaxYear();
@@ -197,9 +199,15 @@ public class OfferServiceImpl implements OfferService {
             String engines = filtersInputMV.getEngines();
             String transmissions = filtersInputMV.getTransmissions();
 
-
-
-
+            typesFilters = new ArrayList<>();
+            if (type != null) {
+                for (String t : type.split(",")) {
+                    typesFilters.add(VehicleTypesEnum.valueOf(t));
+                }
+            } else {
+                typesFilters = List.of(VehicleTypesEnum.values());
+            }
+            System.out.println(typesFilters);
             enginesFilters = new ArrayList<>();
             if (engines != null) {
                 for (String engine : engines.split(",")) {
@@ -216,7 +224,7 @@ public class OfferServiceImpl implements OfferService {
             } else {
                 transmissionsFilters = List.of(TransmissionTypesEnum.values());
             }
-            result = offerRepository.getAllOffersFiltered(enginesFilters, transmissionsFilters, minYear, maxYear, minPrice, maxPrice, model,brand);
+            result = offerRepository.getAllOffersFiltered(enginesFilters, transmissionsFilters, minYear, maxYear, minPrice, maxPrice, model, brand,typesFilters);
         }
         return result;
     }

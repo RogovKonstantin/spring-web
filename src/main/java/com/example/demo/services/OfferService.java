@@ -22,7 +22,7 @@ public interface OfferService {
 
     void deleteOffer(OfferDto offer);
 
-    List<MinimalOfferInfoMV> getFilteredOffers(FiltersInputMV filtersInputMV,String model,String brand);
+    List<MinimalOfferInfoMV> getFilteredOffers(FiltersInputMV filtersInputMV,String model,String brand,String type);
 
     void deleteOfferById(UUID id);
 
