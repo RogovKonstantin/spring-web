@@ -10,57 +10,57 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class OfferCreationMV {
-    private String seller;
-    private String model;
+    private String username;
+    private String brandName;
+    private String modelName;
     private int year;
     private int price;
     private int mileage;
-    private String transmissionType;
-    private String engineType;
+    private String transmission;
+    private String engine;
     private String description;
     private String imageUrl;
 
-    public OfferCreationMV(String seller,  String model, int year, int price, int mileage, String transmissionType, String engineType, String imageUrl, String description) {
-        this.seller = seller;
-
-        this.model = model;
+    public OfferCreationMV(String username, String brandName, String modelName, int year, int price, int mileage, String transmission, String engine, String description, String imageUrl) {
+        this.username = username;
+        this.brandName = brandName;
+        this.modelName = modelName;
         this.year = year;
         this.price = price;
         this.mileage = mileage;
-        this.transmissionType = transmissionType;
-        this.engineType = engineType;
-        this.imageUrl = imageUrl;
+        this.transmission = transmission;
+        this.engine = engine;
         this.description = description;
+        this.imageUrl = imageUrl;
     }
 
     public OfferCreationMV() {
     }
 
-    @NotNull
-    @NotEmpty
-    public String getSeller() {
-        return seller;
+    public String getUsername() {
+        return username;
     }
 
-    public void setSeller(String seller) {
-        this.seller = seller;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-
-
-    @NotNull
-    @NotEmpty
-    public String getModel() {
-        return model;
+    public String getBrandName() {
+        return brandName;
     }
 
-    public void setModel(String model) {
-        this.model = model;
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
     }
 
-    @NotNull
-    @Min(1920)
-    @Max(value = 2023)
+    public String getModelName() {
+        return modelName;
+    }
+
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
+    }
+
     public int getYear() {
         return year;
     }
@@ -69,8 +69,6 @@ public class OfferCreationMV {
         this.year = year;
     }
 
-    @NotNull
-    @Min(1)
     public int getPrice() {
         return price;
     }
@@ -79,8 +77,6 @@ public class OfferCreationMV {
         this.price = price;
     }
 
-    @NotNull
-    @Min(1)
     public int getMileage() {
         return mileage;
     }
@@ -88,26 +84,23 @@ public class OfferCreationMV {
     public void setMileage(int mileage) {
         this.mileage = mileage;
     }
-    @NotNull
-    @NotEmpty
-    public String getTransmissionType() {
-        return transmissionType;
+
+    public String getTransmission() {
+        return transmission;
     }
 
-    public void setTransmissionType(String transmissionType) {
-        this.transmissionType = transmissionType;
-    }
-    @NotNull
-    @NotEmpty
-    public String getEngineType() {
-        return engineType;
+    public void setTransmission(String transmission) {
+        this.transmission = transmission;
     }
 
-    public void setEngineType(String engineType) {
-        this.engineType = engineType;
+    public String getEngine() {
+        return engine;
     }
-    @NotNull
-    @NotEmpty
+
+    public void setEngine(String engine) {
+        this.engine = engine;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -115,8 +108,7 @@ public class OfferCreationMV {
     public void setDescription(String description) {
         this.description = description;
     }
-    @NotNull
-    @NotEmpty
+
     public String getImageUrl() {
         return imageUrl;
     }

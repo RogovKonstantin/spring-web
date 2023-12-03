@@ -63,12 +63,6 @@ public class OfferServiceImpl implements OfferService {
 
 
     @Override
-    public OfferDto createOffer(OfferDto offerDto) {
-        Offer offer = modelMapper.map(offerDto, Offer.class);
-        return modelMapper.map(offerRepository.save(offer), OfferDto.class);
-    }
-
-    @Override
     public void updatePrice(OfferDto offerDto, Integer newPrice) {
         Offer offer = modelMapper.map(offerDto, Offer.class);
         Integer oldPrice = offer.getPrice();
@@ -83,27 +77,6 @@ public class OfferServiceImpl implements OfferService {
         return offerRepository.getAllOffers();
     }
 
-
-    /* @Override
-    public List<OfferMV> viewAllOffers() {
-        List<OfferDto> offerDtoList = offerRepository.findAll()
-                .stream()
-                .map(offer -> modelMapper.map(offer, OfferDto.class))
-                .toList();
-
-        List<OfferMV> allOffersDemoView = new ArrayList<>();
-
-        for (OfferDto offerDto : offerDtoList) {
-
-            OfferMV offerMV = modelMapper.map(offerDto, OfferMV.class);
-
-            offerMV.setModel(offerDto.getModel().getName());
-            offerMV.setBrand(offerDto.getModel().getBrand().getName());
-            offerMV.setSeller(offerDto.getSeller().getUsername());
-            allOffersDemoView.add(offerMV);
-        }
-        return allOffersDemoView;
-    }*/
     @Override
     public List<OfferMV> viewOffersByPriceAndMileageLessDescYear(Integer price, Integer mileage) {
         return offerRepository.getOffersByPriceAndMileageLessDescYear(price, mileage);
@@ -117,23 +90,27 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public void createOffer(OfferCreationMV offerCreationMV) {
-        if (!this.validationUtil.isValid(offerCreationMV)) {
+    public void createOffer(OfferCreationMV newOffer) {
+        if (!this.validationUtil.isValid(newOffer)) {
             this.validationUtil
-                    .violations(offerCreationMV)
+                    .violations(newOffer)
                     .stream()
                     .map(ConstraintViolation::getMessage)
                     .forEach(System.out::println);
         } else {
-            OfferDto offerDto = modelMapper.map(offerCreationMV, OfferDto.class);
-            ModelDto modelDto = modelService.getModelDtoByName(offerCreationMV.getModel());
-            UserDto userDto = userService.getByUsername(offerCreationMV.getSeller());
-            offerDto.setModel(modelDto);
+            OfferDto offerDto = modelMapper.map(newOffer, OfferDto.class);
+            UserDto userDto = userService.getByUsername("erminia.runolfsson");
+            ModelDto modelDto = modelService.getModelDtoByName(newOffer.getModelName());
             offerDto.setSeller(userDto);
-            System.out.println(offerDto);
+            offerDto.setModel(modelDto);
             this.createOffer(offerDto);
         }
+    }
 
+    @Override
+    public OfferDto createOffer(OfferDto offerDto) {
+        Offer offer = modelMapper.map(offerDto, Offer.class);
+        return modelMapper.map(offerRepository.saveAndFlush(offer), OfferDto.class);
     }
 
     @Override
@@ -224,7 +201,7 @@ public class OfferServiceImpl implements OfferService {
             } else {
                 transmissionsFilters = List.of(TransmissionTypesEnum.values());
             }
-            result = offerRepository.getAllOffersFiltered(enginesFilters, transmissionsFilters, minYear, maxYear, minPrice, maxPrice, model, brand,typesFilters);
+            result = offerRepository.getAllOffersFiltered(enginesFilters, transmissionsFilters, minYear, maxYear, minPrice, maxPrice, model, brand, typesFilters);
         }
         return result;
     }

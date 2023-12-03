@@ -15,14 +15,22 @@ import java.util.List;
 @RequestMapping("/models")
 public class ModelsController {
 
+    private ModelService modelService;
+
     @GetMapping("/by-brand/{brand}")
-    public String allOffersByBrand(@PathVariable String brand, Model model) {
+    public String allModelsByBrand(@PathVariable String brand, Model model) {
         List<MinimalModelInfoMV> modelsByBrand = modelService.getAllModelsByBrand(brand);
         model.addAttribute("allModelsList", modelsByBrand);
         return "models-all";
     }
 
-    private ModelService modelService;
+    @GetMapping("by-brand-name/{brand}")
+    public String allModelsByBrandName(@PathVariable String brand, Model model) {
+        List<com.example.demo.models.Model> modelsByBrandName = modelService.getModelByBrandName(brand);
+        model.addAttribute("allModelsList", modelsByBrandName);
+        return "models-all";
+    }
+
     @Autowired
     public void setModelService(ModelService modelService) {
         this.modelService = modelService;

@@ -1,0 +1,114 @@
+<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}">
+</head>
+<body class="d-flex flex-column h-100">
+<div th:replace="~{fragments/navbar}"></div>
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <main class="jumbotron text-center rounded col-md-4 align-self-center pt-5 rounded registration">
+                <div class="justify-content-center">
+                    <h1>Registration</h1>
+                </div>
+                <form th:action="@{/users/register}" th:method="post" th:object="${newUser}"
+                      class="m-md-auto w-60 pb-3">
+
+                    <div class="mb-3">
+                        <label class="form-label" for="firstName">First Name</label>
+                        <input th:field="*{firstName}" th:errorclass="is-invalid" type="text"
+                               class="form-control text-center" id="firstName" name="firstName"  autocomplete="off"/>
+                        <small th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
+                               class="text-danger">Error message</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="lastName">Last Name</label>
+                        <input th:field="*{lastName}" th:errorclass="is-invalid" type="text"
+                               class="form-control text-center" id="lastName" name="lastName" autocomplete="off"/>
+                        <small th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
+                               class="text-danger">Error message</small>
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label class="form-label" for="username">Username</label>
+                        <input th:field="*{username}" th:errorclass="is-invalid" type="text"
+                               class="form-control text-center" id="username"
+                               name="username" autocomplete="off"/>
+                        <small th:if="${#fields.hasErrors('username')}" th:errors="*{username}"
+                               class="text-danger">Error
+                            message</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="password">Password</label>
+                        <input th:field="*{password}" th:errorclass="is-invalid" type="text"
+                               class="form-control text-center" id="password"
+                               name="password"  autocomplete="off"/>
+                        <small th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                               class="text-danger">Error
+                            message</small>
+                    </div>
+
+                    <button type="submit" class="btn">Register</button>
+                </form>
+            </main>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments/footer}"/>
+</body>
+</html>
+
+<style>
+    body, html {
+    height: 75%;
+  }
+
+  .container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .registration {
+      border: 1px solid #000;
+      padding: 10px;
+      margin: 15px;
+  }
+
+
+      .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    border: 2px solid #000;
+    color: #000;
+    background-color: #fff;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .btn:hover {
+    background-color: #000;
+    color: #fff;
+  }
+
+    .form-control {
+  border: 1px solid #000; /* Black border for the input fields */
+  border-radius: 5px; /* Rounded corners for the input fields */
+  outline: none; /* Remove the default blue outline when clicked */
+  margin-bottom: 10px;
+  padding: 5px; /* Adjust as needed */
+}
+
+}
+
+
+
+
+</style>

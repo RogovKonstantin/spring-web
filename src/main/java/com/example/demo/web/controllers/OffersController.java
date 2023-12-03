@@ -1,11 +1,17 @@
 package com.example.demo.web.controllers;
 
+import com.example.demo.constants.Enums.EngineTypesEnum;
+import com.example.demo.constants.Enums.TransmissionTypesEnum;
+import com.example.demo.services.BrandService;
 import com.example.demo.services.OfferService;
 import com.example.demo.web.views.*;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,6 +22,8 @@ public class OffersController {
 
 
     private OfferService offerService;
+    private BrandService brandService;
+
 
     @GetMapping("")
     public String allOffers(Model model) {
@@ -77,6 +85,33 @@ public class OffersController {
         return "offer-details";
     }
 
+
+    @GetMapping("/create-offer")
+    public String createOffer(Model model) {
+        model.addAttribute("Brands", brandService.getAll());
+        model.addAttribute("Transmissions", List.of(TransmissionTypesEnum.values()));
+        model.addAttribute("Engines", List.of(EngineTypesEnum.values()));
+        return "offer-creation";
+    }
+
+    @ModelAttribute("newOffer")
+    public OfferCreationMV initOffer() {
+        return new OfferCreationMV();
+    }
+
+
+    @PostMapping("/create-offer")
+    public String registerUser(@Valid OfferCreationMV newOffer, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("newOffer", newOffer);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newOffer", bindingResult);
+            return "redirect:/offers/create-offer";
+        }
+        offerService.createOffer(newOffer);
+        return "redirect:/";
+    }
+
+
     @GetMapping("/less-than-price-and-mileage-desc-year")
     public String allOffersPriceAndMileageLess(@RequestParam Integer price, @RequestParam Integer mileage, Model model) {
         List<OfferMV> offersPriceAndMileageLess = offerService.viewOffersByPriceAndMileageLessDescYear(price, mileage);
@@ -110,5 +145,8 @@ public class OffersController {
         this.offerService = offerService;
     }
 
-
+    @Autowired
+    public void setBrandService(BrandService brandService) {
+        this.brandService = brandService;
+    }
 }

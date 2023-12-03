@@ -47,9 +47,7 @@ public class UserDto {
         return id;
     }
 
-    @NotNull
-    @NotEmpty
-    @Length(min = 5, message = "Username name must be at least five characters!")
+
     public String getUsername() {
         return username;
     }

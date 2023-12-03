@@ -76,6 +76,11 @@ public class ModelServiceImpl implements ModelService {
         return modelRepository.getModelsByBrand(brand);
     }
 
+    @Override
+    public List<Model> getModelByBrandName(String brandName) {
+        return modelRepository.getModelByBrandName();
+    }
+
     @Autowired
     public void setModelRepository(ModelRepository modelRepository) {
         this.modelRepository = modelRepository;

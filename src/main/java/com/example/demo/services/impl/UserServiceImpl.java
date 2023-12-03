@@ -7,8 +7,7 @@ import com.example.demo.repos.UserRoleRepository;
 import com.example.demo.services.DTOS.UserDto;
 import com.example.demo.services.UserService;
 import com.example.demo.util.validation.ValidationUtil;
-import com.example.demo.web.views.RegisterViewModel;
-import com.example.demo.web.views.UserCreationMV;
+import com.example.demo.web.views.UserRegistrationMV;
 import com.example.demo.web.views.UserMV;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolation;
@@ -98,25 +97,7 @@ public class UserServiceImpl implements UserService {
         return modelMapper.map(user, UserDto.class);
     }
 
-    @Override
-    public void addUser(String firstName, String lastName, String username, String password) {
-        UserCreationMV userCreation = new UserCreationMV(firstName, lastName, username, password);
-        if (!this.validationUtil.isValid(userCreation)) {
 
-            this.validationUtil
-                    .violations(userCreation)
-                    .stream()
-                    .map(ConstraintViolation::getMessage)
-                    .forEach(System.out::println);
-        } else {
-            User user = modelMapper.map(userCreation, User.class);
-            user.setRole(userRoleRepository.findByRole(Role.USER));
-            user.setActive(true);
-            user.setImageUrl("blank");
-            userRepository.saveAndFlush(user);
-
-        }
-    }
 
     @Override
     public List<UserMV> getAllActiveUsers() {
@@ -134,7 +115,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void registerUser(RegisterViewModel newUser) {
+    public void registerUser(UserRegistrationMV newUser) {
         if (!this.validation.isValid(newUser)) {
             this.validation
                     .violations(newUser)
@@ -146,6 +127,7 @@ public class UserServiceImpl implements UserService {
             User newUserModel = modelMapper.map(newUser, User.class);
             newUserModel.setRole(userRoleRepository.findByRole(Role.USER));
             newUserModel.setActive(true);
+            newUserModel.setImageUrl("blank");
             userRepository.saveAndFlush(newUserModel);
         }
     }

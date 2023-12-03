@@ -4,6 +4,7 @@ package com.example.demo.repos;
 import com.example.demo.constants.Enums.EngineTypesEnum;
 import com.example.demo.constants.Enums.TransmissionTypesEnum;
 import com.example.demo.constants.Enums.VehicleTypesEnum;
+import com.example.demo.models.Model;
 import com.example.demo.models.Offer;
 import com.example.demo.web.views.MinimalOfferInfoMV;
 import com.example.demo.web.views.OfferDetailsMV;
@@ -64,6 +65,7 @@ public interface OfferRepository extends JpaRepository<Offer, UUID> {
                                                   @Param("typeFilter")List<VehicleTypesEnum> typeFilter
 
     );
+
 
 
 }

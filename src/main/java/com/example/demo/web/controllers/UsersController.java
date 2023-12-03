@@ -2,7 +2,7 @@ package com.example.demo.web.controllers;
 
 import com.example.demo.services.UserRoleService;
 import com.example.demo.services.UserService;
-import com.example.demo.web.views.RegisterViewModel;
+import com.example.demo.web.views.UserRegistrationMV;
 import com.example.demo.web.views.UserMV;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,14 +34,14 @@ public class UsersController {
     }
     @GetMapping("/register")
     public String registerUser() {
-        return "register";
+        return "user-registration";
     }
     @ModelAttribute("newUser")
-    public RegisterViewModel initUser() {
-        return new RegisterViewModel();
+    public UserRegistrationMV initUser() {
+        return new UserRegistrationMV();
     }
     @PostMapping("/register")
-    public String registerUser(@Valid RegisterViewModel newUser, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String registerUser(@Valid UserRegistrationMV newUser, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("newUser", newUser);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newUser", bindingResult);
@@ -73,11 +73,7 @@ public class UsersController {
         return "all-users.html";
     }
 
-    @PostMapping("")
-    public String createUser(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String username, @RequestParam String password) {
-        userService.addUser(firstName, lastName, username, password);
-        return "all-users.html";
-    }
+
 
     @PutMapping("/username-update")
     public String updateUserName(@RequestParam String currentUsername, @RequestParam String newUsername) {

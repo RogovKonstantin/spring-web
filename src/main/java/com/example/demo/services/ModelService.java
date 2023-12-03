@@ -22,5 +22,6 @@ public interface ModelService {
     ModelDto getModelDtoByName(String name);
 
     List<MinimalModelInfoMV> getAllModelsByBrand(String brand);
+    List<Model> getModelByBrandName(String brandName);
 }
 

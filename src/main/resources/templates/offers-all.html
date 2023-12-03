@@ -5,43 +5,58 @@
 <div th:replace="~{fragments/navbar}"></div>
 <main class="flex-shrink-0 d-flex">
     <div class="container d-flex align-items-start">
-        <div class="col-md-3 d-flex flex-column bg-text mb-3 rounded filters-panel" style="margin-top: 4.65%; ">
-            <h3>Filters</h3>
-            <form th:action="@{/offers/filtered}" th:method="GET">
-                <input type="hidden" id="model" name="model" th:value="${param.model}" th:if="${param.model != null}"/>
-                <input type="hidden" id="brand" name="brand" th:value="${param.brand}" th:if="${param.brand != null}"/>
-                <input type="hidden" id="type" name="type" th:value="${param.type}" th:if="${param.type != null}"/>
-                <div class="filter-item">
-                    <h4>Transmission</h4>
-                    <li><input type="checkbox" id="manual" name="transmissions" value="MANUAL">
-                        <label for="manual">Manual</label></li>
-                    <li><input type="checkbox" id="automatic" name="transmissions" value="AUTOMATIC">
-                        <label for="automatic">Automatic</label></li>
-                </div>
-                <div class="filter-item">
-                    <h4>Engine</h4>
-                    <li><input type="checkbox" id="gasoline" name="engines" value="GASOLINE">
-                        <label for="gasoline">Gasoline</label></li>
-                    <li><input type="checkbox" id="diesel" name="engines" value="DIESEL">
-                        <label for="diesel">Diesel</label></li>
-                    <li><input type="checkbox" id="electric" name="engines" value="ELECTRIC">
-                        <label for="electric">Electric</label></li>
-                    <li><input type="checkbox" id="hybrid" name="engines" value="HYBRID">
-                        <label for="hybrid">Hybrid</label></li>
-                </div>
-                <div class="filter-item">
-                    <h4>Year range</h4>
-                    <input type="number" id="minYear" name="minYear" placeholder="from">
-                    <input type="number" id="maxYear" name="maxYear" placeholder="up to">
-                </div>
-                <div class="filter-item">
-                    <h4>Price range</h4>
-                    <input type="number" id="minPrice" name="minPrice" placeholder="from">
-                    <input type="number" id="maxPrice" name="maxPrice" placeholder="up to">
-                    <button type="submit" class="btn-block" style="margin-top: 4.65%;">Apply</button>
-                </div>
 
-            </form>
+
+        <div class="col-md-3 d-flex flex-column bg-text mb-3 rounded " style="margin-top: 4.65%; ">
+            <h4><a class="btn-block" th:href="@{/offers/create-offer}" style="width:223px">Create offer</a>
+            </h4>
+            <div class="col-md-3 d-flex flex-column bg-text mb-3 rounded filters-panel " style="margin-top: 5%; ">
+                <h3>Filters</h3>
+                <form th:action="@{/offers/filtered}" th:method="GET">
+                    <input type="hidden" id="model" name="model" th:value="${param.model}"
+                           th:if="${param.model != null}"/>
+                    <input type="hidden" id="brand" name="brand" th:value="${param.brand}"
+                           th:if="${param.brand != null}"/>
+                    <input type="hidden" id="type" name="type" th:value="${param.type}" th:if="${param.type != null}"/>
+                    <div class="filter-item">
+                        <h4>Transmission</h4>
+                        <li><input type="checkbox" id="manual" name="transmissions" value="MANUAL">
+                            <label for="manual">Manual</label></li>
+                        <li><input type="checkbox" id="automatic" name="transmissions" value="AUTOMATIC">
+                            <label for="automatic">Automatic</label></li>
+                    </div>
+                    <div class="filter-item">
+                        <h4>Engine</h4>
+                        <li><input type="checkbox" id="gasoline" name="engines" value="GASOLINE">
+                            <label for="gasoline">Gasoline</label></li>
+                        <li><input type="checkbox" id="diesel" name="engines" value="DIESEL">
+                            <label for="diesel">Diesel</label></li>
+                        <li><input type="checkbox" id="electric" name="engines" value="ELECTRIC">
+                            <label for="electric">Electric</label></li>
+                        <li><input type="checkbox" id="hybrid" name="engines" value="HYBRID">
+                            <label for="hybrid">Hybrid</label></li>
+                    </div>
+                    <div class="filter-item">
+                        <h4>Year range</h4>
+                        <input type="number" id="minYear" name="minYear" placeholder="from" onwheel="return false"
+                               class="no-spin">
+                        <input type="number" id="maxYear" name="maxYear" placeholder="up to" onwheel="return false"
+                               class="no-spin">
+                    </div>
+                    <div class="filter-item">
+                        <h4>Price range</h4>
+                        <input type="number" id="minPrice" name="minPrice" placeholder="from" onwheel="return false"
+                               class="no-spin">
+                        <input type="number" id="maxPrice" name="maxPrice" placeholder="up to" onwheel="return false"
+                               class="no-spin">
+                        <h4>
+                            <button type="submit" class="btn-block"  style="margin-top: 4.65%; width:190px">Apply</button>
+                        </h4>
+                    </div>
+
+
+                </form>
+            </div>
         </div>
         <div class="col-md-9">
             <div class="jumbotron text-center" style="flex: 1;">
@@ -94,11 +109,24 @@
         padding: 15px;
         padding-right: 30px;
         box-sizing: border-box;
-        width: 220px;
+        width: 80%;
 
     .filter-item li {
         list-style-type: none;
     }
+
+    .no-spin {
+    -moz-appearance: textfield;
+}
+.no-spin::-webkit-inner-spin-button,
+.no-spin::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+
+
 
 }
 </style>

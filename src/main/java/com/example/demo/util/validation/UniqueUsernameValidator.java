@@ -1,4 +1,4 @@
-package com.example.demo.util.validation.username;
+package com.example.demo.util.validation;
 
 import com.example.demo.repos.UserRepository;
 import jakarta.validation.ConstraintValidator;

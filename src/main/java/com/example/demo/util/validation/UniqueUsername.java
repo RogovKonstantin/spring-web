@@ -1,4 +1,4 @@
-package com.example.demo.util.validation.username;
+package com.example.demo.util.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Constraint(validatedBy = UniqueUsernameValidator.class)
 public @interface UniqueUsername {
-    String message() default "User already exists!";
+    String message() default "Username is already taken";
 
     Class<?>[] groups() default {};
 

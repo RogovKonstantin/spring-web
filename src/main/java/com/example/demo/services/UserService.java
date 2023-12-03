@@ -3,11 +3,10 @@ package com.example.demo.services;
 import com.example.demo.models.User;
 
 import com.example.demo.services.DTOS.UserDto;
-import com.example.demo.web.views.RegisterViewModel;
+import com.example.demo.web.views.UserRegistrationMV;
 import com.example.demo.web.views.UserMV;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface UserService {
 
@@ -32,10 +31,10 @@ public interface UserService {
     List<UserMV> getAllUsers();
     UserDto getByUsername(String username);
 
-    void addUser(String firstName, String lastName, String username, String password);
+
     List<UserMV> getAllActiveUsers();
     List<UserMV> getAllUnActiveUsers();
     UserMV getUserMVByUsername(String username);
 
-    void registerUser(RegisterViewModel newUser);
+    void registerUser(UserRegistrationMV newUser);
 }
