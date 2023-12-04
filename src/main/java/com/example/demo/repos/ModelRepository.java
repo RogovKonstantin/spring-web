@@ -3,6 +3,7 @@ package com.example.demo.repos;
 
 import com.example.demo.models.Model;
 import com.example.demo.web.views.MinimalModelInfoMV;
+import com.example.demo.web.views.OfferDetailsMV;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,7 +21,9 @@ public interface ModelRepository extends JpaRepository<Model, UUID> {
             "From Model m JOIN Brand b on m.brand.id=b.id WHERE b.name=:brandName ")
     List<MinimalModelInfoMV> getModelsByBrand(@Param(value = "brandName") String brandName);
 
-    @Query(value = "SELECT m FROM Model m JOIN m.brand b")
-    List<Model> getModelByBrandName();
+    @Query(value = "SELECT new com.example.demo.web.views.MinimalModelInfoMV" +
+            "(m.name) " +
+            "From Model m JOIN Brand b on m.brand.id=b.id WHERE b.name=:brandName ")
+    List<MinimalModelInfoMV> getModelByBrandName(@Param(value = "brandName")String brand);
 
 }

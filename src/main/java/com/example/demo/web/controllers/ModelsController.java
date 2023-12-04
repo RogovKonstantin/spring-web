@@ -1,13 +1,19 @@
 package com.example.demo.web.controllers;
 
+import com.example.demo.services.DTOS.ModelDto;
 import com.example.demo.services.ModelService;
 import com.example.demo.web.views.MinimalModelInfoMV;
+import com.example.demo.web.views.OfferDetailsMV;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -24,11 +30,10 @@ public class ModelsController {
         return "models-all";
     }
 
-    @GetMapping("by-brand-name/{brand}")
-    public String allModelsByBrandName(@PathVariable String brand, Model model) {
-        List<com.example.demo.models.Model> modelsByBrandName = modelService.getModelByBrandName(brand);
-        model.addAttribute("allModelsList", modelsByBrandName);
-        return "models-all";
+    @GetMapping("/by-brand-name/{brand}")
+    public ResponseEntity<List<MinimalModelInfoMV>> getAllModels(@PathVariable String brand){
+        List<MinimalModelInfoMV> models = modelService.getModelByBrandName(brand);
+        return ResponseEntity.status(200).body(models);
     }
 
     @Autowired

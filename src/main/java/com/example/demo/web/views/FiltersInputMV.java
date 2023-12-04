@@ -1,5 +1,6 @@
 package com.example.demo.web.views;
 
+import com.example.demo.util.validation.YearRange;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 
@@ -8,7 +9,9 @@ import java.util.Objects;
 public class FiltersInputMV {
     private String engines;
     private String transmissions;
+    @YearRange
     private Integer minYear;
+    @YearRange
     private Integer maxYear;
     private Integer minPrice;
     private Integer maxPrice;
@@ -45,7 +48,7 @@ public class FiltersInputMV {
         this.transmissions = transmissions;
     }
 
-    @Min(1900)
+
     public Integer getMinYear() {
         return minYear;
     }
@@ -54,8 +57,7 @@ public class FiltersInputMV {
         this.minYear = Objects.requireNonNullElse(minYear, 1900);
     }
 
-    @Min(1900)
-    @Max(2023)
+
     public Integer getMaxYear() {
         return maxYear;
     }
@@ -65,6 +67,7 @@ public class FiltersInputMV {
     }
 
     @Min(0)
+    @Max(1000000000)
     public Integer getMinPrice() {
         return minPrice;
     }
@@ -74,6 +77,7 @@ public class FiltersInputMV {
     }
 
     @Min(0)
+    @Max(1000000000)
     public Integer getMaxPrice() {
         return maxPrice;
     }

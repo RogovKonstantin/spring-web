@@ -3,6 +3,7 @@ package com.example.demo.services;
 import com.example.demo.services.DTOS.ModelDto;
 import com.example.demo.models.Model;
 import com.example.demo.web.views.MinimalModelInfoMV;
+import com.example.demo.web.views.OfferDetailsMV;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,6 +23,6 @@ public interface ModelService {
     ModelDto getModelDtoByName(String name);
 
     List<MinimalModelInfoMV> getAllModelsByBrand(String brand);
-    List<Model> getModelByBrandName(String brandName);
+    List<MinimalModelInfoMV> getModelByBrandName(String brandName);
 }
 

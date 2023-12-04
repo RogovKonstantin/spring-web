@@ -6,6 +6,7 @@ import com.example.demo.services.DTOS.ModelDto;
 import com.example.demo.services.ModelService;
 import com.example.demo.util.validation.ValidationUtil;
 import com.example.demo.web.views.MinimalModelInfoMV;
+import com.example.demo.web.views.OfferDetailsMV;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -77,8 +78,8 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    public List<Model> getModelByBrandName(String brandName) {
-        return modelRepository.getModelByBrandName();
+    public List<MinimalModelInfoMV> getModelByBrandName(String brandName) {
+        return modelRepository.getModelByBrandName(brandName);
     }
 
     @Autowired

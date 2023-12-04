@@ -1,18 +1,16 @@
 package com.example.demo.web.views;
 
+import com.example.demo.util.validation.YearRange;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-import java.time.Year;
-import java.util.Calendar;
-import java.util.Date;
-
 public class OfferCreationMV {
     private String username;
     private String brandName;
     private String modelName;
+    @YearRange
     private int year;
     private int price;
     private int mileage;
@@ -44,7 +42,8 @@ public class OfferCreationMV {
     public void setUsername(String username) {
         this.username = username;
     }
-
+    @NotNull
+    @NotEmpty
     public String getBrandName() {
         return brandName;
     }
@@ -52,7 +51,8 @@ public class OfferCreationMV {
     public void setBrandName(String brandName) {
         this.brandName = brandName;
     }
-
+    @NotNull
+    @NotEmpty
     public String getModelName() {
         return modelName;
     }
@@ -68,7 +68,9 @@ public class OfferCreationMV {
     public void setYear(int year) {
         this.year = year;
     }
-
+    @NotNull
+    @Min(value = 0)
+    @Max(value = 1000000000)
     public int getPrice() {
         return price;
     }
@@ -76,7 +78,9 @@ public class OfferCreationMV {
     public void setPrice(int price) {
         this.price = price;
     }
-
+    @NotNull
+    @Min(value = 0)
+    @Max(value=2000000)
     public int getMileage() {
         return mileage;
     }
@@ -85,6 +89,8 @@ public class OfferCreationMV {
         this.mileage = mileage;
     }
 
+    @NotNull
+    @NotEmpty
     public String getTransmission() {
         return transmission;
     }
@@ -93,6 +99,8 @@ public class OfferCreationMV {
         this.transmission = transmission;
     }
 
+    @NotNull
+    @NotEmpty
     public String getEngine() {
         return engine;
     }
@@ -109,6 +117,8 @@ public class OfferCreationMV {
         this.description = description;
     }
 
+    @NotNull
+    @NotEmpty
     public String getImageUrl() {
         return imageUrl;
     }

@@ -1,103 +1,194 @@
-<!DOCTYPE html>
 <html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head"/>
-<body class="d-flex flex-column h-100">
-<div th:replace="fragments/navbar">Navbar</div>
-<div class="flex-shrink-0">
+<head th:replace="~{fragments/head}">
+</head>
+<body class="d-flex flex-column d-flex ">
+<div th:replace="~{fragments/navbar}"></div>
+<main class="flex-shrink-0">
     <div class="container">
         <div class="row">
-            <div class="col-md-2"></div>
-            <div class="jumbotron text-center rounded col-md-12 align-self-center pt-5">
+            <div class="col-md-4"></div>
+            <main class="jumbotron text-center rounded col-md-4 align-self-center pt-5 rounded creation">
                 <div class="justify-content-center">
-                    <h1>Add Offer</h1>
+                    <h1>Offer creation</h1>
                 </div>
                 <form th:action="@{/offers/create-offer}"
                       th:method="post" th:object="${newOffer}"
                       class="m-md-auto w-50 pb-3">
 
                     <div class="mb-3">
-                        <label class="form-label" for="brandSelect">Brand:</label>
-                        <select id="brandSelect" name="brandName" th:field="*{brandName}" class="form-control text-center">
-                            <option value="" disabled selected hidden>select brand</option>
-                            <option th:each="brand : ${Brands}" th:value="${brand.name}" th:text="${brand.name}">Brand</option>
+                        <label class="form-label" for="brandName">Brand:</label>
+                        <select th:field="*{brandName}" id="brandName" name="brandName" th:onchange="fetchModels()"
+                                class="form-control text-center">
+                            <option th:each="brand : ${Brands}" th:value="${brand.name}" th:text="${brand.name}">
+                            </option>
                         </select>
-                        <!--                        <small th:if="${#fields.hasErrors('brandName')}" th:errors="*{brandName}" class="text-danger">Error-->
-                        <!--                            message</small>-->
+
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label" for="modelName">Model:</label>
-                        <input type="text" class="form-control text-center"
-                               id="modelName"  name="modelName" autocomplete="off"/>
+                        <label class="form-label" for="modelName">Model</label>
+                        <select th:field="*{modelName}" id="modelName" name="modelName" th:errorclass="is-invalid"
+                                type="text"
+                                class="form-control text-center">
+                        </select>
+
                     </div>
 
-                    <div class="mb-3">
-                        <label for="engine">Engine:</label>
-                        <select id="engine" name="engine" th:field="*{engine}" class="form-control text-center">
-                            <option value="" disabled selected hidden>select brand</option>
-                            <option th:each="engine : ${Engines}" th:value="${engine}" th:text="${engine}">Engine</option>
-                        </select>
-                        <!--                        <small th:if="${#fields.hasErrors('engine')}" th:errors="*{engine}" class="text-danger">Error-->
-                        <!--                            message</small>-->
-                    </div>
 
                     <div class="mb-3">
-                        <label for="transmission">Transmission:</label>
-                        <select id="transmission" name="transmission" class="form-control text-center">
-                            <!--                                th:errorclass="is-invalid">-->
-                            <option value="" disabled selected hidden>select transmission</option>
-                            <option th:each="t : ${Transmissions}" th:value="${t}" th:text="${t}">Transmission</option>
+                        <label for="engine">Engine</label>
+                        <select th:field="*{engine}" id="engine" name="engine" class="form-control text-center">
+                            <option th:each="engine : ${Engines}" th:value="${engine}" th:text="${engine}"
+                                    th:selected="${newOffer.engine == engine} ? 'selected' : ''"></option>
                         </select>
-                        <!--                        <small th:if="${#fields.hasErrors('transmission')}" th:errors="*{transmission}" class="text-danger">Error-->
-                        <!--                            message</small>-->
                     </div>
+
+
+                    <div class="mb-3">
+                        <label for="transmission">Transmission</label>
+                        <select th:field="*{transmission}" id="transmission" name="transmission"
+                                class="form-control text-center">
+                            <option th:each="transmission : ${Transmissions}" th:value="${transmission}"
+                                    th:text="${transmission}"
+                                    th:selected="${newOffer.transmission != null && newOffer.transmission == transmission} ? 'selected' : ''"></option>
+                        </select>
+                    </div>
+
 
                     <div class="mb-3">
                         <label class="form-label" for="year">Year</label>
-                        <input type="number" class="form-control text-center"
-                               id="year" aria-describedby="year" name="year" min="1900" max="2023" step="1"/>
-                        <!--                        <small th:if="${#fields.hasErrors('year')}" th:errors="*{year}" class="text-danger">Error-->
-                        <!--                            message</small>-->
+                        <input th:field="*{year}" th:errorclass="is-invalid" type="number" id="year" name="year"
+                               onwheel="return false" class="form-control text-center no-spin" required>
+                        <small th:if="${#fields.hasErrors('year')}" th:errors="*{year}"
+                               class="text-danger">Error message</small>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="mileage">Mileage</label>
-                        <input type="number" class="form-control text-center"
-                               id="mileage" aria-describedby="mileage" name="mileage" min="0" max="1000000" step="1"/>
-                        <!--                        <small th:if="${#fields.hasErrors('year')}" th:errors="*{year}" class="text-danger">Error-->
-                        <!--                            message</small>-->
+                        <input th:field="*{mileage}" th:errorclass="is-invalid" type="number" id="mileage"
+                               name="mileage" onwheel="return false" class="form-control text-center no-spin" required>
+                        <small th:if="${#fields.hasErrors('mileage')}" th:errors="*{mileage}"
+                               class="text-danger">Error message</small>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="price">Price</label>
-                        <input type="number" class="form-control text-center"
-                               id="price" aria-describedby="mileage" name="mileage" min="0" max="1000000" step="1"/>
-                        <!--                        <small th:if="${#fields.hasErrors('year')}" th:errors="*{year}" class="text-danger">Error-->
-                        <!--                            message</small>-->
+                        <input th:field="*{price}" th:errorclass="is-invalid" type="number" id="price" name="price"
+                               onwheel="return false" class="form-control text-center no-spin" required>
+                        <small th:if="${#fields.hasErrors('price')}" th:errors="*{price}"
+                               class="text-danger">Error message</small>
                     </div>
+
 
                     <div class="mb-3">
                         <label class="form-label" for="imageUrl">Image</label>
-                        <input type="file" class="form-control text-center"
-                               id="imageUrl" aria-describedby="imageUrl" name="imageUrl"/>
-                        <!--                        <small th:if="${#fields.hasErrors('year')}" th:errors="*{year}" class="text-danger">Error-->
-                        <!--                            message</small>-->
+                        <input th:field="*{imageUrl}" type="file" class="form-control text-center"
+                               id="imageUrl" name="imageUrl"/>
+                        <small th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}"
+                               class="text-danger">Error message</small>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="description">Description</label>
-                        <textarea class="form-control" placeholder='Enter description...' maxlength='1000'
-                                  id="description" aria-describedby="description" name="description"> </textarea>
-                        <!--                        <small th:if="${#fields.hasErrors('year')}" th:errors="*{year}" class="text-danger">Error-->
-                        <!--                            message</small>-->
+                        <textarea th:field="*{description}" class="form-control" id="description" name="description"
+                                  style="height: 200px;"></textarea>
+
                     </div>
-                    <button type="submit" class="btn">Register</button>
-                    </form>
-            </div>
+                    <h4>
+                        <button type="submit" class="btn">Post</button>
+                    </h4>
+                </form>
+            </main>
         </div>
     </div>
-</div>
-<footer th:replace="fragments/footer"/>
+    </div>
+</main>
+<footer th:replace="~{fragments/footer}"/>
+
 </body>
 </html>
+
+<style>
+    body, html {
+    height: 75%;
+  }
+
+  .container {
+      padding-right: 15px;
+      padding-left: 15px;
+      margin-right: auto;
+      margin-left: auto;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .creation {
+      border: 1px solid #000;
+      padding: 10px;
+      margin: 15px;
+      width: 70%; /* Adjust the width as per your requirement */
+      margin: 0 auto; /* Center the element horizontally */
+    }
+
+
+      .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    border: 2px solid #000;
+    color: #000;
+    background-color: #fff;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .btn:hover {
+    background-color: #000;
+    color: #fff;
+  }
+
+    .form-control {
+  border: 1px solid #000; /* Black border for the input fields */
+  border-radius: 5px; /* Rounded corners for the input fields */
+  outline: none; /* Remove the default blue outline when clicked */
+  margin-bottom: 10px;
+  padding: 5px; /* Adjust as needed */
+}
+.no-spin {
+    -moz-appearance: textfield;
+}
+.no-spin::-webkit-inner-spin-button,
+.no-spin::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+}
+
+
+</style>
+
+<script>
+    function fetchModels() {
+        var brand = document.getElementById('brandName').value;
+        var modelDropdown = document.getElementById('modelName');
+
+        modelDropdown.innerHTML = '';
+
+        fetch('/models/by-brand-name/' + brand)
+            .then(response => response.json())
+            .then(models => {
+                models.forEach(model => {
+                    var option = document.createElement('option');
+                    option.value = model.name;
+                    option.text = model.name;
+                    modelDropdown.appendChild(option);
+                });
+            });
+    }
+</script>
+
+
 

@@ -28,6 +28,10 @@ public class MinimalModelInfoMV {
         this.endYear = endYear;
     }
 
+    public MinimalModelInfoMV(String name) {
+        this.name = name;
+    }
+
     public MinimalModelInfoMV() {
     }
 
