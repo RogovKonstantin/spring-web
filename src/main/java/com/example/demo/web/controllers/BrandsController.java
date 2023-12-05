@@ -21,21 +21,6 @@ public class BrandsController {
         return "brands-all";
     }
 
-    @GetMapping("/{brand}/sort-models-by-category")
-    public String allBrandModelsSortedByCategory(@PathVariable String brand, Model model) {
-        List<BrandModelsMV> allBrandModelsSortedByCategoryList = brandService.getAllBrandModelsSortedByCategory(brand);
-        model.addAttribute("allBrandModelsSortedByCategory", allBrandModelsSortedByCategoryList);
-        allBrandModelsSortedByCategoryList.forEach(System.out::println);
-        return "all-models.html";
-
-    }
-
-    @PostMapping("")
-    public String createBrand(@RequestParam String name) {
-        brandService.createBrand(name);
-        return "all-brands.html";
-    }
-
 
     private BrandService brandService;
     @Autowired

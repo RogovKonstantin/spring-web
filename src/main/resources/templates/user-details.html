@@ -24,7 +24,7 @@
                             <h4 th:text="'Role: ' + ${userDetails.role}"></h4>
                             <h4 th:text="'Registered: ' + ${#temporals.format(userDetails.created, 'yyyy-MM-dd')}"></h4>
                             <h4><a class="btn-block"
-                                   th:href="@{/offers/by-username/{username}(username=${userDetails.username})}">
+                                   th:href="@{|/offers/filtered?model=&brand=&username=${userDetails.username}&minYear=&maxYear=&minPrice=&maxPrice=|}">
                                 <h4 th:text="'See ' + ${userDetails.username}+' listings'"></h4></a></h4>
                         </div>
                     </div>

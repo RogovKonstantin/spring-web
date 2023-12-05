@@ -12,7 +12,7 @@
                     <div th:each="a : ${allBrandsList}" class="col-md-4 d-flex flex-column bg-text mb-3 rounded brand-item" style="margin: 15px;">
                         <h2 th:text="${a.name}"></h2>
                         <div>
-                            <a th:href="@{|/offers/filtered?model=&brand=${a.name}&minYear=&maxYear=&minPrice=&maxPrice=|}" class="btn">See offers</a>
+                            <a th:href="@{|/offers/filtered?model=&brand=${a.name}&username=&minYear=&maxYear=&minPrice=&maxPrice=|}" class="btn">See offers</a>
                         </div>
                         <div>
                             <a th:href="@{|/models/by-brand/${a.name}|}" class="btn btn-space">See models</a>

@@ -12,7 +12,7 @@
                     <h1>Offer creation</h1>
                 </div>
                 <form th:action="@{/offers/create-offer}"
-                      th:method="post" th:object="${newOffer}"
+                      th:method="post" th:object="${offerCreationModelAttribute}"
                       class="m-md-auto w-50 pb-3">
 
                     <div class="mb-3">
@@ -39,7 +39,7 @@
                         <label for="engine">Engine</label>
                         <select th:field="*{engine}" id="engine" name="engine" class="form-control text-center">
                             <option th:each="engine : ${Engines}" th:value="${engine}" th:text="${engine}"
-                                    th:selected="${newOffer.engine == engine} ? 'selected' : ''"></option>
+                                    ></option>
                         </select>
                     </div>
 
@@ -50,7 +50,7 @@
                                 class="form-control text-center">
                             <option th:each="transmission : ${Transmissions}" th:value="${transmission}"
                                     th:text="${transmission}"
-                                    th:selected="${newOffer.transmission != null && newOffer.transmission == transmission} ? 'selected' : ''"></option>
+                                    ></option>
                         </select>
                     </div>
 
@@ -90,9 +90,7 @@
 
                     <div class="mb-3">
                         <label class="form-label" for="description">Description</label>
-                        <textarea th:field="*{description}" class="form-control" id="description" name="description"
-                                  style="height: 200px;"></textarea>
-
+                        <textarea th:field="*{description}" class="form-control" id="description" name="description" style="height: 200px; resize: none;"></textarea>
                     </div>
                     <h4>
                         <button type="submit" class="btn">Post</button>

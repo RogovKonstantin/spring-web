@@ -23,14 +23,13 @@ public class UserRoleServiceImpl implements UserRoleService {
     private final ModelMapper modelMapper;
     private UserRepository userRepository;
     private UserRoleRepository userRoleRepository;
-    private UserService userService;
+
 
 
     @Autowired
     UserRoleServiceImpl(ValidationUtil validationUtil, ModelMapper modelMapper) {
         this.validationUtil = validationUtil;
         this.modelMapper = modelMapper;
-
     }
 
     @Override
@@ -43,7 +42,7 @@ public class UserRoleServiceImpl implements UserRoleService {
         userRoleRepository.save(userRole);
     }
 
-    @Override
+    /*@Override
     public void updateUserRoleToUSER(String username) {
         UserDto userDto = userService.getByUsername(username);
         if (userDto.getRole().getId() == this.getByRole(Role.USER).getId()) {
@@ -66,7 +65,7 @@ public class UserRoleServiceImpl implements UserRoleService {
             userRepository.saveAndFlush(user);
             System.out.println(username + " is now Admin");
         }
-    }
+    }*/
 
     @Override
     public UserRoleDto getByRole(Role role) {
@@ -91,8 +90,5 @@ public class UserRoleServiceImpl implements UserRoleService {
         this.userRoleRepository = userRoleRepository;
     }
 
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
+
 }

@@ -4,12 +4,9 @@ package com.example.demo.repos;
 import com.example.demo.constants.Enums.EngineTypesEnum;
 import com.example.demo.constants.Enums.TransmissionTypesEnum;
 import com.example.demo.constants.Enums.VehicleTypesEnum;
-import com.example.demo.models.Model;
 import com.example.demo.models.Offer;
 import com.example.demo.web.views.MinimalOfferInfoMV;
 import com.example.demo.web.views.OfferDetailsMV;
-import com.example.demo.web.views.OfferMV;
-import com.example.demo.web.views.OfferUserMV;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,12 +18,9 @@ import java.util.UUID;
 @Repository
 public interface OfferRepository extends JpaRepository<Offer, UUID> {
 
-    @Query(value = "SELECT new com.example.demo.web.views.OfferMV(o.description,  o.price, o.mileage, o.year)FROM Offer o WHERE price <:price and mileage<:mileage ORDER by o.year DESC  ")
-    List<OfferMV> getOffersByPriceAndMileageLessDescYear(@Param(value = "price") Integer price, @Param(value = "mileage") Integer mileage);
 
-    @Query(value = "SELECT new com.example.demo.web.views.OfferUserMV(u.username, o.description,  o.price, o.mileage, o.year, m.category, m.name ) " +
-            "From Offer o JOIN o.model m JOIN o.seller u WHERE u.active=:bool")
-    List<OfferUserMV> getAllOffersAndModelsByUserState(@Param(value = "bool") Boolean bool);
+
+
 
     @Query(value = "SELECT new com.example.demo.web.views.MinimalOfferInfoMV(o.price, o.mileage, o.year,  m.name, b.name, o.id)" +
             "From Offer o JOIN o.model m JOIN o.seller u JOIN Brand b on m.brand.id=b.id ORDER by o.created DESC ")
@@ -52,17 +46,18 @@ public interface OfferRepository extends JpaRepository<Offer, UUID> {
     OfferDetailsMV getOfferDetails(@Param(value = "id") UUID id);
 
     @Query(value = "SELECT new com.example.demo.web.views.MinimalOfferInfoMV(o.price, o.mileage, o.year,  m.name, b.name,o.id )" +
-            " FROM Offer o JOIN Model m ON o.model.id = m.id JOIN Brand b on m.brand.id=b.id" +
+            " FROM Offer o JOIN User u ON o.seller.id=u.id JOIN Model m ON o.model.id = m.id JOIN Brand b on m.brand.id=b.id" +
             " WHERE (o.engine IN :engineFilter) AND (o.transmission IN :transmissionFilter) AND (m.category IN :typeFilter) " +
             " AND (o.year BETWEEN :minYear AND :maxYear) AND (o.price BETWEEN :minPrice AND :maxPrice)" +
-            " AND ((:modelFilter IS NULL OR m.name = :modelFilter) OR (:brandFilter IS NULL OR b.name = :brandFilter))" )
+            " AND ((:modelFilter IS NULL OR m.name = :modelFilter) OR (:brandFilter IS NULL OR b.name = :brandFilter) OR (:usernameFilter IS NULL OR u.username = :usernameFilter))" )
     List<MinimalOfferInfoMV> getAllOffersFiltered(@Param("engineFilter") List<EngineTypesEnum> engineFilter,
                                                   @Param("transmissionFilter") List<TransmissionTypesEnum> transmissionFilter,
                                                   @Param("minYear") Integer minYear, @Param("maxYear") Integer maxYear,
                                                   @Param("minPrice") Integer minPrice, @Param("maxPrice") Integer maxPrice,
                                                   @Param("modelFilter") String model,
                                                   @Param("brandFilter") String brand,
-                                                  @Param("typeFilter")List<VehicleTypesEnum> typeFilter
+                                                  @Param("typeFilter")List<VehicleTypesEnum> typeFilter,
+                                                  @Param("usernameFilter")String username
 
     );
 

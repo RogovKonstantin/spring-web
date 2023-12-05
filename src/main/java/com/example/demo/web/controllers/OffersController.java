@@ -65,8 +65,9 @@ public class OffersController {
                                      @RequestParam(required = false) String model,
                                      @RequestParam(required = false) String brand,
                                      @RequestParam(required = false) String type,
+                                     @RequestParam(required = false) String username,
                                      Model resultModel) {
-        List<MinimalOfferInfoMV> offersFiltered = offerService.getFilteredOffers(filtersInputMV, model, brand, type);
+        List<MinimalOfferInfoMV> offersFiltered = offerService.getFilteredOffers(filtersInputMV, model, brand, type, username);
         resultModel.addAttribute("offers", offersFiltered);
         return "offers-all";
     }
@@ -94,51 +95,28 @@ public class OffersController {
         return "offer-creation";
     }
 
-    @ModelAttribute("newOffer")
-    public OfferCreationMV initOffer() {
+    @ModelAttribute("offerCreationModelAttribute")
+    public OfferCreationMV offerCreationMV() {
         return new OfferCreationMV();
     }
 
 
     @PostMapping("/create-offer")
-    public String registerUser(@Valid OfferCreationMV newOffer, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String registerUser(@Valid OfferCreationMV offerCreationMV, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("newOffer", newOffer);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newOffer", bindingResult);
+            redirectAttributes.addFlashAttribute("offerCreationModelAttribute", offerCreationMV);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.offerCreationModelAttribute", bindingResult);
             return "redirect:/offers/create-offer";
         }
-        offerService.createOffer(newOffer);
+        offerService.createOffer(offerCreationMV);
         return "redirect:/";
     }
 
 
-    @GetMapping("/less-than-price-and-mileage-desc-year")
-    public String allOffersPriceAndMileageLess(@RequestParam Integer price, @RequestParam Integer mileage, Model model) {
-        List<OfferMV> offersPriceAndMileageLess = offerService.viewOffersByPriceAndMileageLessDescYear(price, mileage);
-        model.addAttribute("offersPriceAndMileageLess", offersPriceAndMileageLess);
-        offersPriceAndMileageLess.forEach(System.out::println);
-        return "all-offers.html";
-    }
 
-    @GetMapping("by-users-active")
-    public String allOffersByActiveUsers(Model model) {
-        List<OfferUserMV> offersByActiveUsers = offerService.viewOffersByActiveUsers();
-        model.addAttribute("offersByActiveUsers", offersByActiveUsers);
-        offersByActiveUsers.forEach(System.out::println);
-        return "all-offers.html";
-    }
 
-    @PostMapping("")
-    public String createOffer(@RequestBody OfferCreationMV createOffer) {
-        offerService.createOffer(createOffer);
-        return "all-offers.html";
-    }
 
-    @DeleteMapping("")
-    public String deleteOffer(@RequestParam String uuid) {
-        offerService.deleteOfferById(UUID.fromString(uuid));
-        return "all-offers.html";
-    }
+
 
     @Autowired
     public void setOfferService(OfferService offerService) {
