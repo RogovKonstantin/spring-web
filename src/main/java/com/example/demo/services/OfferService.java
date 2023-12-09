@@ -30,4 +30,6 @@ public interface OfferService {
 
     List<MinimalOfferInfoMV> getAllOffersByModel(String modelName);
 
+    void deleteOfferByID(UUID id);
+
 }

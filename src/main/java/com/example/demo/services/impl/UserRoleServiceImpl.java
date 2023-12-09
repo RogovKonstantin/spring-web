@@ -68,8 +68,8 @@ public class UserRoleServiceImpl implements UserRoleService {
     }*/
 
     @Override
-    public UserRoleDto getByRole(Role role) {
-        return modelMapper.map(userRoleRepository.findByRole(role), UserRoleDto.class);
+    public UserRole getByRole(Role role) {
+        return userRoleRepository.findByRole(role);
     }
 
 

@@ -22,7 +22,6 @@
                             <option th:each="brand : ${Brands}" th:value="${brand.name}" th:text="${brand.name}">
                             </option>
                         </select>
-
                     </div>
 
                     <div class="mb-3">
@@ -93,7 +92,7 @@
                         <textarea th:field="*{description}" class="form-control" id="description" name="description" style="height: 200px; resize: none;"></textarea>
                     </div>
                     <h4>
-                        <button type="submit" class="btn">Post</button>
+                        <button type="submit" class="btnPostOffer">Post</button>
                     </h4>
                 </form>
             </main>
@@ -129,7 +128,7 @@
     }
 
 
-      .btn {
+      .btnPostOffer {
     display: inline-block;
     padding: 10px 20px;
     text-align: center;
@@ -141,7 +140,7 @@
     transition: all 0.3s ease-in-out;
   }
 
-  .btn:hover {
+  .btnPostOffer:hover {
     background-color: #000;
     color: #fff;
   }

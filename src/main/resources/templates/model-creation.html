@@ -1,0 +1,68 @@
+<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}">
+</head>
+<body class="d-flex flex-column d-flex ">
+<div th:replace="~{fragments/navbar}"></div>
+<main class="flex-shrink-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <main class="jumbotron text-center rounded col-md-4 align-self-center pt-5 rounded creation">
+                <div class="justify-content-center">
+                    <h1>Brand creation</h1>
+                </div>
+                <form th:action="@{/models/create-model}"
+                      th:method="post" th:object="${modelCreationModelAttribute}"
+                      class="m-md-auto w-50 pb-3">
+
+                    <div class="mb-3">
+                        <label class="form-label" for="name">Name:</label>
+                        <input th:field="*{name}" type="text" class="form-control text-center"
+                               id="name" name="name"/>
+                        <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+                               class="text-danger">Error message</small>
+                    </div>
+                    <div class="mb-3">
+                        <label for="category">Category</label>
+                        <select th:field="*{category}" id="category" name="category"
+                                class="form-control text-center">
+                            <option th:each="category : ${Categories}" th:value="${category}"
+                                    th:text="${category}"
+                            ></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="startYear">Start year</label>
+                        <input th:field="*{startYear}" th:errorclass="is-invalid" type="number" id="startYear" name="startYear"
+                               onwheel="return false" class="form-control text-center no-spin" required>
+                        <small th:if="${#fields.hasErrors('startYear')}" th:errors="*{startYear}"
+                               class="text-danger">Error message</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="endYear">End year</label>
+                        <input th:field="*{endYear}" th:errorclass="is-invalid" type="number" id="endYear" name="endYear"
+                               onwheel="return false" class="form-control text-center no-spin" required>
+                        <small th:if="${#fields.hasErrors('endYear')}" th:errors="*{endYear}"
+                               class="text-danger">Error message</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="brandName">Brand:</label>
+                        <select th:field="*{brandName}" id="brandName" name="brandName" th:onchange="fetchModels()"
+                                class="form-control text-center">
+                            <option th:each="brand : ${Brands}" th:value="${brand.name}" th:text="${brand.name}">
+                            </option>
+                        </select>
+                    </div>
+                    <h4>
+                        <button type="submit" class="btnPostOffer">Post</button>
+                    </h4>
+                </form>
+            </main>
+        </div>
+    </div>
+    </div>
+</main>
+<footer th:replace="~{fragments/footer}"/>
+
+</body>
+</html>

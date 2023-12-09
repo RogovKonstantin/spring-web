@@ -24,11 +24,7 @@ public class UserServiceImpl implements UserService {
         this.modelMapper = modelMapper;
     }
 
-    @Override
-    public UserDto getByUsername(String username) {
-        User user = userRepository.findByUsername(username);
-        return modelMapper.map(user, UserDto.class);
-    }
+
 
 
     @Override
@@ -36,19 +32,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUserName(username);
     }
 
-    @Override
-    public void registerUser(UserRegistrationMV userRegistrationMV) {
-        UserDto userDto = modelMapper.map(userRegistrationMV, UserDto.class);
-        userDto.setRole(userRoleService.getByRole(Role.USER));
-        userDto.setActive(true);
-        userDto.setImageUrl("blank");
-        this.createUser(userDto);
-    }
 
-    @Override
-    public void createUser(UserDto userDto) {
-        this.userRepository.saveAndFlush(this.modelMapper.map(userDto, User.class));
-    }
 
 
     @Autowired

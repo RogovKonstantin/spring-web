@@ -5,11 +5,12 @@ import com.example.demo.models.BaseModels.IdDateTimeUrlModel;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
 
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User extends IdDateTimeUrlModel {
+public class User extends IdDateTimeUrlModel implements Serializable {
 
     private String username;
     private String password;

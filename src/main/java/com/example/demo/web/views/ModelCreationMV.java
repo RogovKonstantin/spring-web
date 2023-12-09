@@ -1,38 +1,32 @@
 package com.example.demo.web.views;
 
 import com.example.demo.constants.Enums.VehicleTypesEnum;
+import com.example.demo.util.validation.YearRange;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
-import java.util.UUID;
-
-public class MinimalModelInfoMV {
+public class ModelCreationMV {
     private String name;
     private VehicleTypesEnum category;
+    @YearRange
     private int startYear;
+    @YearRange
     private int endYear;
-    private String brand;
+    private String brandName;
 
-    public MinimalModelInfoMV(String name, VehicleTypesEnum category, int startYear, int endYear, String brand) {
+    public ModelCreationMV(String name, VehicleTypesEnum category, int startYear, int endYear, String brandName) {
         this.name = name;
         this.category = category;
         this.startYear = startYear;
         this.endYear = endYear;
-        this.brand = brand;
+        this.brandName = brandName;
     }
 
-    public MinimalModelInfoMV(String name, VehicleTypesEnum category, int startYear, int endYear, UUID id) {
-        this.name = name;
-        this.category = category;
-        this.startYear = startYear;
-        this.endYear = endYear;
+    public ModelCreationMV() {
     }
-
-    public MinimalModelInfoMV(String name) {
-        this.name = name;
-    }
-
-    public MinimalModelInfoMV() {
-    }
-
+    @NotNull
+    @NotEmpty
     public String getName() {
         return name;
     }
@@ -40,6 +34,7 @@ public class MinimalModelInfoMV {
     public void setName(String name) {
         this.name = name;
     }
+    @NotNull
 
     public VehicleTypesEnum getCategory() {
         return category;
@@ -48,7 +43,7 @@ public class MinimalModelInfoMV {
     public void setCategory(VehicleTypesEnum category) {
         this.category = category;
     }
-
+    @NotNull
     public int getStartYear() {
         return startYear;
     }
@@ -57,6 +52,7 @@ public class MinimalModelInfoMV {
         this.startYear = startYear;
     }
 
+    @NotNull
     public int getEndYear() {
         return endYear;
     }
@@ -65,12 +61,14 @@ public class MinimalModelInfoMV {
         this.endYear = endYear;
     }
 
-    public String getBrand() {
-        return brand;
+    @NotNull
+    @NotEmpty
+    public String getBrandName() {
+        return brandName;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
     }
 
 }

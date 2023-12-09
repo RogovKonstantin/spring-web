@@ -5,7 +5,9 @@ import com.example.demo.models.Brand;
 import com.example.demo.repos.BrandRepository;
 import com.example.demo.services.BrandService;
 import com.example.demo.services.DTOS.BrandDto;
+import com.example.demo.web.views.BrandCreationMV;
 import com.example.demo.web.views.BrandMV;
+import com.example.demo.web.views.ModelCreationMV;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +26,8 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public void addBrand(BrandDto brandDto) {
-        brandRepository.saveAndFlush(modelMapper.map(brandDto, Brand.class));
+    public void createBrand(BrandCreationMV brandCreationMV) {
+        brandRepository.saveAndFlush(modelMapper.map(brandCreationMV, Brand.class));
     }
 
     @Override

@@ -2,17 +2,23 @@ package com.example.demo.web.controllers;
 
 import com.example.demo.constants.Enums.EngineTypesEnum;
 import com.example.demo.constants.Enums.TransmissionTypesEnum;
+import com.example.demo.models.Offer;
+import com.example.demo.models.User;
 import com.example.demo.services.BrandService;
 import com.example.demo.services.OfferService;
 import com.example.demo.web.views.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -80,10 +86,31 @@ public class OffersController {
     }
 
     @GetMapping("/details/{offerId}")
-    public String offerDetails(@PathVariable UUID offerId, Model model) {
+    public String offerDetails(@PathVariable UUID offerId, Model model, Principal principal) {
         OfferDetailsMV offerDetails = offerService.getOfferDetails(offerId);
         model.addAttribute("offerDetails", offerDetails);
+        model.addAttribute("principal", principal);
         return "offer-details";
+    }
+    @GetMapping("/delete/{offerId}")
+    public String deleteOffer(@PathVariable UUID offerId, Principal principal) {
+
+        String username=principal.getName();
+        OfferDetailsMV offerDetails = offerService.getOfferDetails(offerId);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
+
+        if (offerDetails.getUsername().equals(username)) {
+            offerService.deleteOfferByID(offerId);
+            return "redirect:/offers/by-username/" + username;
+        }else if(isAdmin){
+            offerService.deleteOfferByID(offerId);
+            return  "redirect:/offers";
+        }
+
+        return "redirect:/error";
     }
 
 

@@ -15,6 +15,7 @@ public class Brand extends IdDateTimeModel {
     private String name;
     private Set<Model> models;
 
+
     public Brand(String name) {
         this.name = name;
     }

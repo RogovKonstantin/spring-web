@@ -1,12 +1,13 @@
 package com.example.demo.services.impl;
 
 import com.example.demo.models.Model;
+import com.example.demo.repos.BrandRepository;
 import com.example.demo.repos.ModelRepository;
 import com.example.demo.services.DTOS.ModelDto;
 import com.example.demo.services.ModelService;
 import com.example.demo.util.validation.ValidationUtil;
 import com.example.demo.web.views.MinimalModelInfoMV;
-import com.example.demo.web.views.OfferDetailsMV;
+import com.example.demo.web.views.ModelCreationMV;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,12 +21,14 @@ public class ModelServiceImpl implements ModelService {
     private final ValidationUtil validationUtil;
     private final ModelMapper modelMapper;
     private ModelRepository modelRepository;
+    private BrandRepository brandRepository;
 
     @Autowired
     ModelServiceImpl(ValidationUtil validationUtil, ModelMapper modelMapper) {
         this.validationUtil = validationUtil;
         this.modelMapper = modelMapper;
     }
+
 
     @Override
     public void saveAllModels(List<Model> models) {
@@ -67,10 +70,10 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    public ModelDto getModelDtoByName(String name) {
-        Model model = modelRepository.findByName(name);
-        return modelMapper.map(model, ModelDto.class);
+    public List<MinimalModelInfoMV> getAllModels() {
+        return modelRepository.getAllModels();
     }
+
 
     @Override
     public List<MinimalModelInfoMV> getAllModelsByBrand(String brand) {
@@ -82,8 +85,21 @@ public class ModelServiceImpl implements ModelService {
         return modelRepository.getModelByBrandName(brandName);
     }
 
+    @Override
+    public void createModel(ModelCreationMV modelCreationMV) {
+        Model model = modelMapper.map(modelCreationMV, Model.class);
+        model.setBrand(brandRepository.getBrandByName(modelCreationMV.getBrandName()));
+        model.setImageUrl("blank");
+        modelRepository.saveAndFlush(model);
+    }
+
     @Autowired
     public void setModelRepository(ModelRepository modelRepository) {
         this.modelRepository = modelRepository;
+    }
+
+    @Autowired
+    public void setBrandRepository(BrandRepository brandRepository) {
+        this.brandRepository = brandRepository;
     }
 }

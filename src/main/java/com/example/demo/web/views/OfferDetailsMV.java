@@ -20,9 +20,10 @@ public class OfferDetailsMV {
     private LocalDateTime created;
     private TransmissionTypesEnum transmission;
     private EngineTypesEnum engine;
+    private UUID id;
 
 
-    public OfferDetailsMV(int price, int mileage, int year, String modelName, String brandName, VehicleTypesEnum category, String username, boolean active, String description, LocalDateTime created, TransmissionTypesEnum transmission, EngineTypesEnum engine) {
+    public OfferDetailsMV(int price, int mileage, int year, String modelName, String brandName, VehicleTypesEnum category, String username, boolean active, String description, LocalDateTime created, TransmissionTypesEnum transmission, EngineTypesEnum engine, UUID id) {
         this.price = price;
         this.mileage = mileage;
         this.year = year;
@@ -35,6 +36,7 @@ public class OfferDetailsMV {
         this.created = created;
         this.transmission = transmission;
         this.engine = engine;
+        this.id = id;
     }
 
     public OfferDetailsMV() {
@@ -135,6 +137,14 @@ public class OfferDetailsMV {
 
     public void setEngine(EngineTypesEnum engine) {
         this.engine = engine;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     @Override

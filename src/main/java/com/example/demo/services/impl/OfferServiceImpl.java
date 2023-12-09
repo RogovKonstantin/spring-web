@@ -4,10 +4,10 @@ import com.example.demo.constants.Enums.EngineTypesEnum;
 import com.example.demo.constants.Enums.TransmissionTypesEnum;
 import com.example.demo.constants.Enums.VehicleTypesEnum;
 import com.example.demo.models.Offer;
+import com.example.demo.repos.ModelRepository;
 import com.example.demo.repos.OfferRepository;
-import com.example.demo.services.DTOS.ModelDto;
+import com.example.demo.repos.UserRepository;
 import com.example.demo.services.DTOS.OfferDto;
-import com.example.demo.services.DTOS.UserDto;
 import com.example.demo.services.ModelService;
 import com.example.demo.services.OfferService;
 import com.example.demo.services.UserService;
@@ -15,9 +15,12 @@ import com.example.demo.web.views.FiltersInputMV;
 import com.example.demo.web.views.MinimalOfferInfoMV;
 import com.example.demo.web.views.OfferCreationMV;
 import com.example.demo.web.views.OfferDetailsMV;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,6 +34,8 @@ public class OfferServiceImpl implements OfferService {
     private OfferRepository offerRepository;
     private UserService userService;
     private ModelService modelService;
+    private UserRepository userRepository;
+    private ModelRepository modelRepository;
 
     @Autowired
     OfferServiceImpl(ModelMapper modelMapper) {
@@ -46,13 +51,12 @@ public class OfferServiceImpl implements OfferService {
 
     @Override
     public void createOffer(OfferCreationMV newOffer) {
-
-        OfferDto offerDto = modelMapper.map(newOffer, OfferDto.class);
-        UserDto userDto = userService.getByUsername("erminia.runolfsson");
-        ModelDto modelDto = modelService.getModelDtoByName(newOffer.getModelName());
-        offerDto.setSeller(userDto);
-        offerDto.setModel(modelDto);
-        this.createOffer(offerDto);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        Offer offer = modelMapper.map(newOffer, Offer.class);
+        offer.setSeller(userRepository.findByUsername(currentPrincipalName));
+        offer.setModel(modelRepository.findByName(newOffer.getModelName()));
+        offerRepository.saveAndFlush(offer);
 
     }
 
@@ -89,6 +93,12 @@ public class OfferServiceImpl implements OfferService {
     @Override
     public List<MinimalOfferInfoMV> getAllOffersByModel(String modelName) {
         return offerRepository.getAllOffersByModel(modelName);
+    }
+
+    @Override
+    @Transactional
+    public void deleteOfferByID(UUID id) {
+        offerRepository.deleteOfferById(id);
     }
 
 
@@ -132,7 +142,7 @@ public class OfferServiceImpl implements OfferService {
         } else {
             transmissionsFilters = List.of(TransmissionTypesEnum.values());
         }
-        return offerRepository.getAllOffersFiltered(enginesFilters, transmissionsFilters, minYear, maxYear, minPrice, maxPrice, model, brand, typesFilters,username);
+        return offerRepository.getAllOffersFiltered(enginesFilters, transmissionsFilters, minYear, maxYear, minPrice, maxPrice, model, brand, typesFilters, username);
 
 
     }
@@ -144,14 +154,11 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
-
     @Autowired
-    public void setModelService(ModelService modelService) {
-        this.modelService = modelService;
+    public void setModelRepository(ModelRepository modelRepository) {
+        this.modelRepository = modelRepository;
     }
-
-
 }

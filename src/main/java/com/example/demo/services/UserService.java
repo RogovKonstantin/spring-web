@@ -8,12 +8,11 @@ import java.util.List;
 
 public interface UserService {
 
-    void createUser(UserDto userDto);
+
 
     UserMV getUserMVByUsername(String username);
 
-    void registerUser(UserRegistrationMV userRegistrationMV);
-    UserDto getByUsername(String username);
+
 
 
 }

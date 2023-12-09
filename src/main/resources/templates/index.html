@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity">
 <head th:replace="~{fragments/head}"/>
 <body class="d-flex flex-column h-100">
 <div th:replace="~{fragments/navbar}"></div>
@@ -8,8 +8,14 @@
         <div class="row">
             <div class="col-md-2"></div>
             <div class="jumbotron text-center rounded col-md-8 align-self-center pt-5">
-                <div class="justify-content-center" style="margin-bottom: 200px;">
+                <div class="justify-content-center" style="margin-bottom: 120px;">
                     <h1>Welcome to Dealership website</h1>
+                </div>
+                <div class="justify-content-center" sec:authorize="hasRole('ADMIN')" style="margin-bottom: 30px;">
+                    <a href="/brands/create-brand" class="button">Create Brand</a>
+                </div>
+                <div class="justify-content-center" sec:authorize="hasRole('ADMIN')" style="margin-bottom: 30px;">
+                    <a href="/models/create-model" class="button">Create Model</a>
                 </div>
                 <div class="justify-content-center" style="margin-bottom: 30px;">
                     <a href="/offers/latest" class="button-link">See most recent listings</a>
@@ -27,19 +33,19 @@
 
 <style>
     .button-link {
-  display: inline-block;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  border: 2px solid #000;
-  color: #000;
-  background-color: #fff;
-  border-radius: 5px;
-  transition: all 0.3s ease-in-out;
-}
+        display: inline-block;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        border: 2px solid #000;
+        color: #000;
+        background-color: #fff;
+        border-radius: 5px;
+        transition: all 0.3s ease-in-out;
+    }
 
-.button-link:hover {
-  background-color: #000;
-  color: #fff;
-}
+    .button-link:hover {
+        background-color: #000;
+        color: #fff;
+    }
 </style>

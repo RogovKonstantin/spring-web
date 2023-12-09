@@ -30,8 +30,9 @@
                                    th:classappend="${offerDetails.active} ? 'active' : ''">
                                     <h4 th:text="${offerDetails.username}"></h4>
                                 </a>
-
-
+                                <div class="btn-block" th:if="${#strings.equals(offerDetails.username, principal.name)}" style="margin-top: 20px;">
+                                    <a class="btn btn-danger align-bottom" th:href="@{/offers/delete/{offer-id}(offer-id=${offerDetails.id})}">Delete listing</a>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -19,9 +19,6 @@ import java.util.UUID;
 public interface OfferRepository extends JpaRepository<Offer, UUID> {
 
 
-
-
-
     @Query(value = "SELECT new com.example.demo.web.views.MinimalOfferInfoMV(o.price, o.mileage, o.year,  m.name, b.name, o.id)" +
             "From Offer o JOIN o.model m JOIN o.seller u JOIN Brand b on m.brand.id=b.id ORDER by o.created DESC ")
     List<MinimalOfferInfoMV> getLatestOffers();
@@ -42,25 +39,26 @@ public interface OfferRepository extends JpaRepository<Offer, UUID> {
     @Query(value = "SELECT new com.example.demo.web.views.MinimalOfferInfoMV(o.price, o.mileage, o.year,  m.name, b.name,o.id ) FROM Offer o JOIN Model m ON o.model.id = m.id JOIN Brand b on m.brand.id=b.id ")
     List<MinimalOfferInfoMV> getAllOffers();
 
-    @Query(value = "SELECT new com.example.demo.web.views.OfferDetailsMV(o.price, o.mileage, o.year,  m.name, b.name, m.category, u.username, u.active, o.description, o.created, o.transmission, o.engine) From Offer o JOIN o.model m JOIN o.seller u JOIN Brand b on m.brand.id=b.id WHERE o.id=:id ")
+    @Query(value = "SELECT new com.example.demo.web.views.OfferDetailsMV(o.price, o.mileage, o.year,  m.name, b.name, m.category, u.username, u.active, o.description, o.created, o.transmission, o.engine, o.id) From Offer o JOIN o.model m JOIN o.seller u JOIN Brand b on m.brand.id=b.id WHERE o.id=:id ")
     OfferDetailsMV getOfferDetails(@Param(value = "id") UUID id);
 
     @Query(value = "SELECT new com.example.demo.web.views.MinimalOfferInfoMV(o.price, o.mileage, o.year,  m.name, b.name,o.id )" +
             " FROM Offer o JOIN User u ON o.seller.id=u.id JOIN Model m ON o.model.id = m.id JOIN Brand b on m.brand.id=b.id" +
             " WHERE (o.engine IN :engineFilter) AND (o.transmission IN :transmissionFilter) AND (m.category IN :typeFilter) " +
             " AND (o.year BETWEEN :minYear AND :maxYear) AND (o.price BETWEEN :minPrice AND :maxPrice)" +
-            " AND ((:modelFilter IS NULL OR m.name = :modelFilter) OR (:brandFilter IS NULL OR b.name = :brandFilter) OR (:usernameFilter IS NULL OR u.username = :usernameFilter))" )
+            " AND ((:modelFilter IS NULL OR m.name = :modelFilter) OR (:brandFilter IS NULL OR b.name = :brandFilter) OR (:usernameFilter IS NULL OR u.username = :usernameFilter))")
     List<MinimalOfferInfoMV> getAllOffersFiltered(@Param("engineFilter") List<EngineTypesEnum> engineFilter,
                                                   @Param("transmissionFilter") List<TransmissionTypesEnum> transmissionFilter,
                                                   @Param("minYear") Integer minYear, @Param("maxYear") Integer maxYear,
                                                   @Param("minPrice") Integer minPrice, @Param("maxPrice") Integer maxPrice,
                                                   @Param("modelFilter") String model,
                                                   @Param("brandFilter") String brand,
-                                                  @Param("typeFilter")List<VehicleTypesEnum> typeFilter,
-                                                  @Param("usernameFilter")String username
+                                                  @Param("typeFilter") List<VehicleTypesEnum> typeFilter,
+                                                  @Param("usernameFilter") String username
 
     );
 
+    void deleteOfferById(UUID id);
 
 
 }
