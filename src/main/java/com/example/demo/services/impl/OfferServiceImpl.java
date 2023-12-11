@@ -19,15 +19,19 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StopWatch;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 @Service
+@EnableCaching
 public class OfferServiceImpl implements OfferService {
 
     private final ModelMapper modelMapper;
@@ -42,15 +46,18 @@ public class OfferServiceImpl implements OfferService {
         this.modelMapper = modelMapper;
     }
 
-
+    @Cacheable(value = "offers",key = "#root.methodName")
     @Override
     public List<MinimalOfferInfoMV> allOffers() {
+
         return offerRepository.getAllOffers();
+
     }
 
-
+    @CacheEvict(cacheNames = "offers", allEntries = true)
     @Override
     public void createOffer(OfferCreationMV newOffer) {
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         Offer offer = modelMapper.map(newOffer, Offer.class);
@@ -69,12 +76,12 @@ public class OfferServiceImpl implements OfferService {
     public List<MinimalOfferInfoMV> getOffersSortByDate() {
         return offerRepository.getLatestOffers();
     }
-
+    @Cacheable(value = "offers",key = "#root.methodName")
     @Override
     public List<MinimalOfferInfoMV> getAllOffersByVtype(String type) {
         return offerRepository.getAllOffersByVtype(VehicleTypesEnum.valueOf(type));
     }
-
+    @Cacheable(value = "offers",key = "#root.methodName")
     @Override
     public List<MinimalOfferInfoMV> getAllOffersByBrand(String brandName) {
         return offerRepository.getAllOffersByBrand(brandName);
@@ -89,12 +96,12 @@ public class OfferServiceImpl implements OfferService {
     public List<MinimalOfferInfoMV> getAllOffersByUsername(String username) {
         return offerRepository.getAllOffersByUsername(username);
     }
-
+    @Cacheable(value = "offers",key = "#root.methodName")
     @Override
     public List<MinimalOfferInfoMV> getAllOffersByModel(String modelName) {
         return offerRepository.getAllOffersByModel(modelName);
     }
-
+    @CacheEvict(cacheNames = "offers", allEntries = true)
     @Override
     @Transactional
     public void deleteOfferByID(UUID id) {
@@ -125,7 +132,7 @@ public class OfferServiceImpl implements OfferService {
         } else {
             typesFilters = List.of(VehicleTypesEnum.values());
         }
-        System.out.println(typesFilters);
+
         enginesFilters = new ArrayList<>();
         if (engines != null) {
             for (String engine : engines.split(",")) {
@@ -161,4 +168,5 @@ public class OfferServiceImpl implements OfferService {
     public void setModelRepository(ModelRepository modelRepository) {
         this.modelRepository = modelRepository;
     }
+
 }

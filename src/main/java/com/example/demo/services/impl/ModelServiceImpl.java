@@ -10,12 +10,15 @@ import com.example.demo.web.views.MinimalModelInfoMV;
 import com.example.demo.web.views.ModelCreationMV;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
+@EnableCaching
 @Service
 public class ModelServiceImpl implements ModelService {
     private final ValidationUtil validationUtil;
@@ -45,7 +48,7 @@ public class ModelServiceImpl implements ModelService {
         modelRepository.deleteById(modelDto.getId());
         System.out.println("Model " + modelDto.getId() + " deleted");
     }
-
+    @CacheEvict(cacheNames = "models", allEntries = true)
     @Override
     public void deleteModelById(UUID id) {
         modelRepository.deleteById(id);
@@ -68,13 +71,13 @@ public class ModelServiceImpl implements ModelService {
         return modelRepository.findAll()
                 .stream().map((model) -> modelMapper.map(model, ModelDto.class)).collect(Collectors.toList());
     }
-
+    @Cacheable(value = "models",key = "#root.methodName")
     @Override
     public List<MinimalModelInfoMV> getAllModels() {
         return modelRepository.getAllModels();
     }
 
-
+    @Cacheable(value = "models",key = "#root.methodName")
     @Override
     public List<MinimalModelInfoMV> getAllModelsByBrand(String brand) {
         return modelRepository.getModelsByBrand(brand);
@@ -84,7 +87,7 @@ public class ModelServiceImpl implements ModelService {
     public List<MinimalModelInfoMV> getModelByBrandName(String brandName) {
         return modelRepository.getModelByBrandName(brandName);
     }
-
+    @CacheEvict(cacheNames = "models", allEntries = true)
     @Override
     public void createModel(ModelCreationMV modelCreationMV) {
         Model model = modelMapper.map(modelCreationMV, Model.class);

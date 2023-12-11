@@ -1,4 +1,4 @@
-<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{fragments/head}">
 </head>
 <body class="d-flex flex-column h-100">
@@ -26,6 +26,23 @@
                             <h4><a class="btn-block"
                                    th:href="@{|/offers/filtered?model=&brand=&username=${userDetails.username}&minYear=&maxYear=&minPrice=&maxPrice=|}">
                                 <h4 th:text="'See ' + ${userDetails.username}+' listings'"></h4></a></h4>
+                            <div class="update-password" sec:authorize="isAuthenticated()" th:if="${#strings.equals(user.username, principal.name)}" style="margin: 10px; padding: 5px;">
+                                <form th:action="@{/users/update-password}"  th:method="PUT" th:object="${passwordUpdateModelAttribute}">
+                                    <input type="hidden" th:name="username" th:value="${user.username}">
+                                    <input
+                                            type="password" class="form-control"
+                                            id="oldPassword" th:name="oldPassword" />
+                                    <small th:if="${#fields.hasErrors('oldPassword')}" th:errors="*{oldPassword}"
+                                           class="text-danger">Error message</small>
+
+                                    <input
+                                            type="password" class="form-control"
+                                            id="newPassword" th:name="newPassword" />
+                                    <small th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}"
+                                           class="text-danger">Error message</small>
+                                    <button type="submit" class="btn btn-secondary">Change password</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

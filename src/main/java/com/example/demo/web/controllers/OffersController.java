@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StopWatch;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -33,8 +34,12 @@ public class OffersController {
 
     @GetMapping("")
     public String allOffers(Model model) {
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
         List<MinimalOfferInfoMV> offerList = offerService.allOffers();
         model.addAttribute("offers", offerList);
+        stopWatch.stop();
+        System.out.println(stopWatch.getTotalTimeMillis());
         return "offers-all";
     }
 
@@ -92,10 +97,11 @@ public class OffersController {
         model.addAttribute("principal", principal);
         return "offer-details";
     }
+
     @GetMapping("/delete/{offerId}")
     public String deleteOffer(@PathVariable UUID offerId, Principal principal) {
 
-        String username=principal.getName();
+        String username = principal.getName();
         OfferDetailsMV offerDetails = offerService.getOfferDetails(offerId);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -105,9 +111,9 @@ public class OffersController {
         if (offerDetails.getUsername().equals(username)) {
             offerService.deleteOfferByID(offerId);
             return "redirect:/offers/by-username/" + username;
-        }else if(isAdmin){
+        } else if (isAdmin) {
             offerService.deleteOfferByID(offerId);
-            return  "redirect:/offers";
+            return "redirect:/offers";
         }
 
         return "redirect:/error";
@@ -140,11 +146,6 @@ public class OffersController {
     }
 
 
-
-
-
-
-
     @Autowired
     public void setOfferService(OfferService offerService) {
         this.offerService = offerService;
@@ -154,4 +155,6 @@ public class OffersController {
     public void setBrandService(BrandService brandService) {
         this.brandService = brandService;
     }
+
+
 }

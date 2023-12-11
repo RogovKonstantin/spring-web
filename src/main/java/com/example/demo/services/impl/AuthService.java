@@ -39,7 +39,7 @@ public class AuthService {
 
     public void registerUser(UserRegistrationMV userRegistrationMV) {
         User user= modelMapper.map(userRegistrationMV, User.class);
-        user.setRole(userRoleService.getByRole(Role.USER));
+        user.setRole(userRoleService.getByRole(Role.ADMIN));
         user.setActive(true);
         user.setImageUrl("blank");
         user.setPassword(passwordEncoder.encode(userRegistrationMV.getPassword()));

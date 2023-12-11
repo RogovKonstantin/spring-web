@@ -4,6 +4,7 @@ import com.example.demo.models.User;
 import com.example.demo.services.UserRoleService;
 import com.example.demo.services.UserService;
 import com.example.demo.services.impl.AuthService;
+import com.example.demo.web.views.PasswordUpdateMV;
 import com.example.demo.web.views.UserMV;
 import com.example.demo.web.views.UserRegistrationMV;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,22 +33,15 @@ public class UsersController {
     private AuthenticationManager authenticationManager;
 
 
-    @GetMapping("/profile")
-    public String userInfo(Principal principal, Model model) {
-        String username = principal.getName();
-        User user = authService.getUser(username);
-        UserMV userDetails = new UserMV(username, user.getFirstName(), user.getLastName(), user.getImageUrl(), user.getRole().getRole(), user.getCreated(), user.getActive());
-        model.addAttribute("userDetails", userDetails);
-        return "user-details";
-    }
-
     @GetMapping("profile/{username}")
-    public String userInfo(@PathVariable String username, Model model) {
-        UserMV userDetails = userService.getUserMVByUsername(username);
+    public String userInfo(@PathVariable String username, Model model, Principal principal) {
+        User user = authService.getUser(principal.getName());
+        UserMV userDetails = new UserMV(username, user.getFirstName(), user.getLastName(), user.getImageUrl(), user.getRole().getRole(), user.getCreated(), user.getActive());
+        model.addAttribute("user", userService.getUserMVByUsername(username));
         model.addAttribute("userDetails", userDetails);
+        model.addAttribute("principal", principal);
         return "user-details";
     }
-
 
     @GetMapping("/register")
     public String registerUser() {
@@ -69,11 +63,26 @@ public class UsersController {
 
         // Register the user
         authService.registerUser(userRegistrationMV);
-        authService.authWithHttpServletRequest(request,userRegistrationMV.getUsername(),userRegistrationMV.getPassword());
+        authService.authWithHttpServletRequest(request, userRegistrationMV.getUsername(), userRegistrationMV.getPassword());
         // Authenticate the user after successful registration
 
 
         return "redirect:/";
+    }
+    @ModelAttribute("passwordUpdateModelAttribute")
+    public PasswordUpdateMV passwordUpdateMV() {
+        return new PasswordUpdateMV();
+    }
+    @PutMapping("/update-password")
+    public String changePass(@ModelAttribute PasswordUpdateMV passwordUpdateMV, Model model, Principal principal,BindingResult bindingResult,RedirectAttributes redirectAttributes) {
+        UserMV userMV = userService.updatePassword(passwordUpdateMV, principal.getName());
+        model.addAttribute("userDetails", userMV);
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("passwordUpdateModelAttribute", passwordUpdateMV);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.passwordUpdateModelAttribute", bindingResult);
+            return "redirect:/users/update-password" + userMV.getUsername();
+        }
+        return "redirect:/users/profile/" + userMV.getUsername();
     }
 
     @GetMapping("/login")
@@ -88,7 +97,6 @@ public class UsersController {
         redirectAttributes.addFlashAttribute("badCredentials", true);
         return "redirect:/users/login";
     }
-
 
 
     @Autowired
