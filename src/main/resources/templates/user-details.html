@@ -26,9 +26,9 @@
                             <h4><a class="btn-block"
                                    th:href="@{|/offers/filtered?model=&brand=&username=${userDetails.username}&minYear=&maxYear=&minPrice=&maxPrice=|}">
                                 <h4 th:text="'See ' + ${userDetails.username}+' listings'"></h4></a></h4>
-                            <div class="update-password" sec:authorize="isAuthenticated()" th:if="${#strings.equals(user.username, principal.name)}" style="margin: 10px; padding: 5px;">
+                            <div class="update-password" sec:authorize="isAuthenticated()" th:if="${#strings.equals(userDetails.username, principal.name)}" style="margin: 10px; padding: 5px;">
                                 <form th:action="@{/users/update-password}"  th:method="PUT" th:object="${passwordUpdateModelAttribute}">
-                                    <input type="hidden" th:name="username" th:value="${user.username}">
+                                    <input type="hidden" th:name="username" th:value="${userDetails.username}">
                                     <input
                                             type="password" class="form-control"
                                             id="oldPassword" th:name="oldPassword" />

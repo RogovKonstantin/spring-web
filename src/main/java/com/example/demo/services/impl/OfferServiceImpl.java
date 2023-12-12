@@ -22,11 +22,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
 
+import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -106,6 +108,12 @@ public class OfferServiceImpl implements OfferService {
     @Transactional
     public void deleteOfferByID(UUID id) {
         offerRepository.deleteOfferById(id);
+    }
+
+    @Override
+    public List<MinimalOfferInfoMV> getTop10RarestOffers() {
+
+        return offerRepository.getTop10OffersWithRarestModelOccurrence();
     }
 
 

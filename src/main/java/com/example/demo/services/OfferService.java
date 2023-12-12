@@ -3,6 +3,7 @@ package com.example.demo.services;
 import com.example.demo.services.DTOS.OfferDto;
 import com.example.demo.web.views.*;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,5 +32,6 @@ public interface OfferService {
     List<MinimalOfferInfoMV> getAllOffersByModel(String modelName);
 
     void deleteOfferByID(UUID id);
+    List <MinimalOfferInfoMV> getTop10RarestOffers();
 
 }

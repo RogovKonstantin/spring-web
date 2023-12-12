@@ -6,6 +6,9 @@ import com.example.demo.services.ModelService;
 import com.example.demo.web.views.MinimalModelInfoMV;
 import com.example.demo.web.views.ModelCreationMV;
 import jakarta.validation.Valid;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,13 +24,14 @@ import java.util.List;
 @RequestMapping("/models")
 public class ModelsController {
 
-
+    private static final Logger LOG = LogManager.getLogger(Controller.class);
     private ModelService modelService;
     private BrandService brandService;
 
 
     @GetMapping("/all")
     public String allModels(Model model) {
+        LOG.log(Level.INFO, "Show all models");
         StopWatch stopWatch1 = new StopWatch();
         stopWatch1.start();
         List<MinimalModelInfoMV> modelsAll = modelService.getAllModels();
@@ -39,6 +43,7 @@ public class ModelsController {
 
     @GetMapping("/by-brand/{brand}")
     public String allModelsByBrand(@PathVariable String brand, Model model) {
+        LOG.log(Level.INFO, "all models by brand"+brand );
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         List<MinimalModelInfoMV> modelsByBrand = modelService.getAllModelsByBrand(brand);
@@ -56,6 +61,7 @@ public class ModelsController {
 
     @GetMapping("/create-model")
     public String createModel(Model model) {
+
         model.addAttribute("Brands", brandService.getAll());
         model.addAttribute("Categories", VehicleTypesEnum.values());
         return "model-creation";
@@ -68,6 +74,7 @@ public class ModelsController {
 
     @PostMapping("/create-model")
     public String addBrand(@Valid ModelCreationMV modelCreationMV, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        LOG.log(Level.INFO, "Create model "+modelCreationMV.getName()+" "+modelCreationMV.getBrandName() );
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("modelCreationModelAttribute", modelCreationMV);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.modelCreationModelAttribute", bindingResult);

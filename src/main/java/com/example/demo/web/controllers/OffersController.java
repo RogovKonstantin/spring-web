@@ -2,12 +2,14 @@ package com.example.demo.web.controllers;
 
 import com.example.demo.constants.Enums.EngineTypesEnum;
 import com.example.demo.constants.Enums.TransmissionTypesEnum;
-import com.example.demo.models.Offer;
-import com.example.demo.models.User;
+
 import com.example.demo.services.BrandService;
 import com.example.demo.services.OfferService;
 import com.example.demo.web.views.*;
 import jakarta.validation.Valid;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,17 +25,19 @@ import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
+
 @Controller
 @RequestMapping("/offers")
 public class OffersController {
-
+    private static final Logger LOG = LogManager.getLogger(Controller.class);
 
     private OfferService offerService;
     private BrandService brandService;
 
 
     @GetMapping("")
-    public String allOffers(Model model) {
+    public String allOffers(Model model, Principal principal) {
+        LOG.log(Level.INFO, "Show all offers for " + principal.getName());
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         List<MinimalOfferInfoMV> offerList = offerService.allOffers();
@@ -45,6 +49,7 @@ public class OffersController {
 
     @GetMapping("/by-type/{type}")
     public String allOffersByType(@PathVariable String type, Model model) {
+        LOG.log(Level.INFO, "Show all offers by specific type:" + type);
         List<MinimalOfferInfoMV> offersByType = offerService.getAllOffersByVtype(type);
         model.addAttribute("offers", offersByType);
         return "offers-all";
@@ -52,20 +57,32 @@ public class OffersController {
 
     @GetMapping("/by-brand/{brand}")
     public String allOffersByBrand(@PathVariable String brand, Model model) {
+        LOG.log(Level.INFO, "Show all offers by specific brand:" + brand);
         List<MinimalOfferInfoMV> offersByBrand = offerService.getAllOffersByBrand(brand);
         model.addAttribute("offers", offersByBrand);
         return "offers-all";
     }
 
+    @GetMapping("/rarest")
+    public String rarestOffers(Model model) {
+        LOG.log(Level.INFO, "Show top 10 rarest offers");
+        List<MinimalOfferInfoMV> rarest = offerService.getTop10RarestOffers();
+        model.addAttribute("offers", rarest);
+        model.addAttribute("offersRedirected", true);
+        return "offers-all";
+    }
+
     @GetMapping("/by-model/{modelName}")
     public String allOffersByModel(@PathVariable String modelName, Model model) {
+        LOG.log(Level.INFO, "Show all offers by specific model:" + modelName);
         List<MinimalOfferInfoMV> offersByModel = offerService.getAllOffersByModel(modelName);
         model.addAttribute("offers", offersByModel);
         return "offers-all";
     }
 
     @GetMapping("/by-username/{username}")
-    public String allOffersByUsername(@PathVariable String username, Model model) {
+    public String allOffersByUsername(@PathVariable String username, Model model, Principal principal) {
+        LOG.log(Level.INFO, "Show all offers by " + username + " to " + principal.getName());
         List<MinimalOfferInfoMV> offersByUsername = offerService.getAllOffersByUsername(username);
         model.addAttribute("offers", offersByUsername);
         return "offers-all";
@@ -78,6 +95,8 @@ public class OffersController {
                                      @RequestParam(required = false) String type,
                                      @RequestParam(required = false) String username,
                                      Model resultModel) {
+        LOG.log(Level.INFO, "Show all offers filtered by " + filtersInputMV.getEngines() + " " + filtersInputMV.getTransmissions() + " " + model + " "
+                + brand + " " + type + " " + username);
         List<MinimalOfferInfoMV> offersFiltered = offerService.getFilteredOffers(filtersInputMV, model, brand, type, username);
         resultModel.addAttribute("offers", offersFiltered);
         return "offers-all";
@@ -92,6 +111,7 @@ public class OffersController {
 
     @GetMapping("/details/{offerId}")
     public String offerDetails(@PathVariable UUID offerId, Model model, Principal principal) {
+        LOG.log(Level.INFO, "Show details for offer " + offerId + " to " + principal.getName());
         OfferDetailsMV offerDetails = offerService.getOfferDetails(offerId);
         model.addAttribute("offerDetails", offerDetails);
         model.addAttribute("principal", principal);
@@ -100,7 +120,7 @@ public class OffersController {
 
     @GetMapping("/delete/{offerId}")
     public String deleteOffer(@PathVariable UUID offerId, Principal principal) {
-
+        LOG.log(Level.INFO, "delete offer " + offerId + " by " + principal.getName());
         String username = principal.getName();
         OfferDetailsMV offerDetails = offerService.getOfferDetails(offerId);
 
@@ -136,6 +156,7 @@ public class OffersController {
 
     @PostMapping("/create-offer")
     public String registerUser(@Valid OfferCreationMV offerCreationMV, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        LOG.log(Level.INFO, "Create offer by" + offerCreationMV.getUsername());
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("offerCreationModelAttribute", offerCreationMV);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.offerCreationModelAttribute", bindingResult);

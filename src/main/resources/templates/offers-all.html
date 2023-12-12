@@ -8,9 +8,9 @@
 
 
         <div class="col-md-3 d-flex flex-column bg-text mb-3 rounded " style="margin-top: 4.65%; ">
-            <h4><a class="btn-block" th:href="@{/offers/create-offer}" style="width:223px">Create offer</a>
-            </h4>
-            <div class="col-md-3 d-flex flex-column bg-text mb-3 rounded filters-panel " style="margin-top: 5%; ">
+            <h4 th:unless="${offersRedirected}" ><a class="btn-block" th:href="@{/offers/create-offer}" style="width:223px">Create offer</a></h4>
+            <div class="col-md-3 d-flex flex-column bg-text mb-3 rounded filters-panel" style="margin-top: 5%;"
+                 th:unless="${offersRedirected}">
                 <h3>Filters</h3>
                 <form th:action="@{|/offers/filtered|}" th:method="GET">
                     <input type="hidden" id="model" name="model" th:value="${param.model}"

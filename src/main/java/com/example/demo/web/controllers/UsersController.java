@@ -9,6 +9,9 @@ import com.example.demo.web.views.UserMV;
 import com.example.demo.web.views.UserRegistrationMV;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,14 +35,15 @@ public class UsersController {
     private AuthService authService;
     private AuthenticationManager authenticationManager;
 
+    private static final Logger LOG = LogManager.getLogger(Controller.class);
+
+
 
     @GetMapping("profile/{username}")
-    public String userInfo(@PathVariable String username, Model model, Principal principal) {
-        User user = authService.getUser(principal.getName());
-        UserMV userDetails = new UserMV(username, user.getFirstName(), user.getLastName(), user.getImageUrl(), user.getRole().getRole(), user.getCreated(), user.getActive());
-        model.addAttribute("user", userService.getUserMVByUsername(username));
+    public String userInfo(@PathVariable String username, Principal principal, Model model) {
+        UserMV userDetails = userService.getUserMVByUsername(username);
         model.addAttribute("userDetails", userDetails);
-        model.addAttribute("principal", principal);
+        model.addAttribute("principal",principal);
         return "user-details";
     }
 
@@ -55,26 +59,28 @@ public class UsersController {
 
     @PostMapping("/register")
     public String registerUser(@Valid UserRegistrationMV userRegistrationMV, BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+        LOG.log(Level.INFO, "Register " + userRegistrationMV.getUsername() + " " + userRegistrationMV.getFirstName() + " " + userRegistrationMV.getLastName());
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("userRegistrationModelAttribute", userRegistrationMV);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRegistrationModelAttribute", bindingResult);
             return "redirect:/users/register";
         }
 
-        // Register the user
+
         authService.registerUser(userRegistrationMV);
         authService.authWithHttpServletRequest(request, userRegistrationMV.getUsername(), userRegistrationMV.getPassword());
-        // Authenticate the user after successful registration
 
 
         return "redirect:/";
     }
+
     @ModelAttribute("passwordUpdateModelAttribute")
     public PasswordUpdateMV passwordUpdateMV() {
         return new PasswordUpdateMV();
     }
+
     @PutMapping("/update-password")
-    public String changePass(@ModelAttribute PasswordUpdateMV passwordUpdateMV, Model model, Principal principal,BindingResult bindingResult,RedirectAttributes redirectAttributes) {
+    public String changePass(@ModelAttribute PasswordUpdateMV passwordUpdateMV, Model model, Principal principal, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         UserMV userMV = userService.updatePassword(passwordUpdateMV, principal.getName());
         model.addAttribute("userDetails", userMV);
         if (bindingResult.hasErrors()) {

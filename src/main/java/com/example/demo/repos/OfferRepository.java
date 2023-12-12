@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.UUID;
 
@@ -60,5 +61,14 @@ public interface OfferRepository extends JpaRepository<Offer, UUID> {
 
     void deleteOfferById(UUID id);
 
+    @Query("SELECT new com.example.demo.web.views.MinimalOfferInfoMV(o.price, o.mileage, o.year,  m.name, m.brand.name, o.id) FROM Offer o " +
+            "JOIN o.model m " +
+            "WHERE m.id IN (SELECT m.id FROM Offer o " +
+            "JOIN o.model m " +
+            "GROUP BY m.id " +
+            "ORDER BY COUNT(o) ASC) " +
+            "ORDER BY m.name, o.id " +
+            "LIMIT 10")
+    List<MinimalOfferInfoMV> getTop10OffersWithRarestModelOccurrence();
 
 }
